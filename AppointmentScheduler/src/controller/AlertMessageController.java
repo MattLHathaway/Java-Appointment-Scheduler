@@ -13,7 +13,7 @@ public class AlertMessageController {
 
         switch (code) {
             case 1: {
-                alert.setContentText("Field is empty!");
+                alert.setContentText("Username and/or Password are incorrect");
                 break;
             }
             case 2: {

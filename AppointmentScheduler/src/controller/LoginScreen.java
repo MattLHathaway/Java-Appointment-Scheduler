@@ -1,5 +1,6 @@
 package controller;
 
+import helper.UsersQuery;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -13,6 +14,8 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class LoginScreen implements Initializable {
@@ -32,16 +35,33 @@ public class LoginScreen implements Initializable {
         System.out.println("I am initialized Woooo!");
     }
 
-    public void loginPressed(ActionEvent event) throws IOException {
+    public void loginPressed(ActionEvent event) throws IOException, SQLException {
 
-        if (usernameField.getText() == userName && passwordField.getText() == password) {
+        if (Objects.equals(usernameField.getText(), userName) && Objects.equals(passwordField.getText(), password)) {
+            //Check UN/PW Logic
+            UsersQuery.select(1);
+
+            //Switch Screen Logic
             Parent root = FXMLLoader.load(getClass().getResource("/view/MainMenu.fxml"));
             stage = (Stage)((Node)event.getSource()).getScene().getWindow();
             scene = new Scene(root);
             stage.setScene(scene);
             stage.show();
         } else {
-
+            //Show Alert if UN/PW was incorrect
+            AlertMessageController.partError(1, null);
+            return;
         };
     }
 }
+
+//        int rowsAffected;
+//        try {
+//            rowsAffected = UsersQuery.delete(3);
+//        } catch (SQLException e) {
+//            throw new RuntimeException(e);
+//        }
+//        if (rowsAffected > 0) {
+//            System.out.println("Insert Successful");
+//        }
+//        ;
