@@ -10,6 +10,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
@@ -26,6 +27,13 @@ public class LoginScreen implements Initializable {
     public TextField usernameField;
     public Button resetButton;
     public Button loginButton;
+    public Label UsernameLabel;
+    public Label PasswordLabel;
+    public Label LanguageLabel;
+    public Label TimeZoneLabel;
+    public Label TimeZoneText;
+    public Label LoginLabel;
+    public Button languageChangeButton;
     private Stage stage;
     private Scene scene;
     private Parent root;
@@ -36,6 +44,8 @@ public class LoginScreen implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         System.out.println("I am initialized Woooo!");
+        languageDropDown.getItems().add("English");
+        languageDropDown.getItems().add("French");
         setAppLanguage();
     }
 
@@ -45,10 +55,20 @@ public class LoginScreen implements Initializable {
         String localeLanguage = currentLocale.getDisplayLanguage();
         if (Objects.equals(localeLanguage, "English")) {
             isEnglish = true;
+            languageDropDown.setValue("English");
         }
         if(!isEnglish) {
-            System.out.println("not English");
+            languageDropDown.setValue("French");
         }
+    }
+
+//    public void applyLanguage() {
+//
+//    }
+
+    public void resetButtonPressed(ActionEvent event) throws IOException {
+        usernameField.setText("");
+        passwordField.setText("");
     }
 
     public void loginPressed(ActionEvent event) throws IOException, SQLException {

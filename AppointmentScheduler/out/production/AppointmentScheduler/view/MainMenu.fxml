@@ -56,7 +56,7 @@
             <Font size="14.0" />
          </font>
       </Button>
-      <Button layoutX="1204.0" layoutY="461.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="148.0" text="Logout">
+      <Button fx:id="logoutButton" layoutX="1204.0" layoutY="461.0" mnemonicParsing="false" onAction="#logoutPressed" prefHeight="30.0" prefWidth="148.0" text="Logout">
          <font>
             <Font size="14.0" />
          </font>
