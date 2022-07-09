@@ -47,24 +47,51 @@ public class LoginScreen implements Initializable {
         languageDropDown.getItems().add("English");
         languageDropDown.getItems().add("French");
         setAppLanguage();
+
+        ResourceBundle rb = ResourceBundle.getBundle("en_lang");
+    }
+
+    public void applyLanguageButtonPressed() {
+        ResourceBundle rb = ResourceBundle.getBundle("en_lang");
+
+        if(languageDropDown.getValue() == "English") {
+            applyLanguageValues(rb);
+            Locale.setDefault(new Locale("en"));
+        } else {
+            rb = ResourceBundle.getBundle("fr_lang");
+            applyLanguageValues(rb);
+            Locale.setDefault(new Locale("fr"));
+        }
     }
 
     public void setAppLanguage() {
+        //Checking for users Language
         boolean isEnglish = false;
+        ResourceBundle rb = ResourceBundle.getBundle("en_lang");
         Locale currentLocale = Locale.getDefault();
         String localeLanguage = currentLocale.getDisplayLanguage();
+        //Setting the Dropdown and Resource Bundle
         if (Objects.equals(localeLanguage, "English")) {
             isEnglish = true;
             languageDropDown.setValue("English");
         }
         if(!isEnglish) {
             languageDropDown.setValue("French");
+            rb = ResourceBundle.getBundle("fr_lang");
         }
+        //Changing the Text Values
+        applyLanguageValues(rb);
     }
 
-//    public void applyLanguage() {
-//
-//    }
+    public void applyLanguageValues(ResourceBundle rb) {
+        LoginLabel.setText(rb.getString("LoginTitle"));
+        UsernameLabel.setText(rb.getString("UsernameLabel"));
+        LanguageLabel.setText(rb.getString("LanguageLabel"));
+        PasswordLabel.setText(rb.getString("PasswordLabel"));
+        TimeZoneLabel.setText(rb.getString("TimeZoneLabel"));
+        loginButton.setText(rb.getString("LoginButton"));
+        resetButton.setText(rb.getString("ResetButton"));
+    }
 
     public void resetButtonPressed(ActionEvent event) throws IOException {
         usernameField.setText("");
@@ -73,6 +100,8 @@ public class LoginScreen implements Initializable {
 
     public void loginPressed(ActionEvent event) throws IOException, SQLException {
         boolean correctCredentials = false;
+        Locale currentLocale = Locale.getDefault();
+        String localeLanguage = currentLocale.getDisplayLanguage();
         //Store current Usernames & Passwords
         allUN = UsersQuery.returnUserNames();
         allPW = UsersQuery.returnUserPasswords();
@@ -91,7 +120,11 @@ public class LoginScreen implements Initializable {
             stage.show();
         } else {
             //Show Alert if UN/PW was incorrect
-            AlertMessageController.partError(1, null);
+            if (Objects.equals(localeLanguage, "English")) {
+                AlertMessageController.partError(1, null);
+            } else {
+                AlertMessageController.partError(2, null);
+            }
             return;
         };
     }

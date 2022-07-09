@@ -17,7 +17,7 @@ public class AlertMessageController {
                 break;
             }
             case 2: {
-                alert.setContentText("Part is already is associated with this product!");
+                alert.setContentText("Le nom d'utilisateur et/ou le mot de passe sont incorrects");
                 break;
             }
             case 3: {
