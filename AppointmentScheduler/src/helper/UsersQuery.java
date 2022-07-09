@@ -1,5 +1,8 @@
 package helper;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.*;
@@ -60,4 +63,30 @@ public abstract class UsersQuery {
             System.out.println(userIdFK);
         }
     }
+
+    public static ObservableList<String> returnUserNames() throws SQLException {
+        ObservableList<String> allUserNames = FXCollections.observableArrayList();
+        String sql = "SELECT User_Name FROM users";
+        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+        ResultSet rs = ps.executeQuery();
+        while(rs.next()) {
+            String usersName = rs.getString("User_Name");
+            allUserNames.add(usersName);
+        }
+        return allUserNames;
+    }
+
+    public static ObservableList<String> returnUserPasswords() throws SQLException {
+        ObservableList<String> allUserPasswords = FXCollections.observableArrayList();
+        String sql = "SELECT Password FROM users ORDER BY Password ASC";
+        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+        ResultSet rs = ps.executeQuery();
+        while(rs.next()) {
+            String usersPassword = rs.getString("Password");
+            allUserPasswords.add(usersPassword);
+        }
+        return allUserPasswords;
+    }
+
+
 }

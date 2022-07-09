@@ -7,8 +7,6 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<?import javafx.collections.FXCollections?>
-<?import java.lang.String?>
 <AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.LoginScreen">
    <children>
       <Button fx:id="loginButton" layoutX="195.0" layoutY="353.0" mnemonicParsing="false" onAction="#loginPressed" prefHeight="39.0" prefWidth="150.0" text="Login">
@@ -21,12 +19,9 @@
             <Font size="18.0" />
          </font>
       </Button>
-      <ChoiceBox fx:id="languageDropDown" layoutX="597.0" layoutY="209.0" prefWidth="150.0" >
+      <ChoiceBox fx:id="languageDropDown" layoutX="597.0" layoutY="209.0" prefWidth="150.0">
          <items>
-            <FXCollections fx:factory="observableArrayList">
-               <String fx:value="English" />
-               <String fx:value="French" />
-            </FXCollections>
+            
          </items>
       </ChoiceBox>
       <TextField fx:id="passwordField" layoutX="196.0" layoutY="280.0" />

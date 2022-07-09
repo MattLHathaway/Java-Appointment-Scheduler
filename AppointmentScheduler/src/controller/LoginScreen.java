@@ -1,6 +1,7 @@
 package controller;
 
 import helper.UsersQuery;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -15,6 +16,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.util.Locale;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
@@ -27,20 +29,40 @@ public class LoginScreen implements Initializable {
     private Stage stage;
     private Scene scene;
     private Parent root;
-    private String userName = "Test";
-    private String password = "1234";
+
+    private ObservableList<String> allPW;
+    private ObservableList<String> allUN;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         System.out.println("I am initialized Woooo!");
+        setAppLanguage();
+    }
+
+    public void setAppLanguage() {
+        boolean isEnglish = false;
+        Locale currentLocale = Locale.getDefault();
+        String localeLanguage = currentLocale.getDisplayLanguage();
+        if (Objects.equals(localeLanguage, "English")) {
+            isEnglish = true;
+        }
+        if(!isEnglish) {
+            System.out.println("not English");
+        }
     }
 
     public void loginPressed(ActionEvent event) throws IOException, SQLException {
-
-        if (Objects.equals(usernameField.getText(), userName) && Objects.equals(passwordField.getText(), password)) {
-            //Check UN/PW Logic
-            UsersQuery.select(1);
-
+        boolean correctCredentials = false;
+        //Store current Usernames & Passwords
+        allUN = UsersQuery.returnUserNames();
+        allPW = UsersQuery.returnUserPasswords();
+        //Checks if Username & Pass combination is correct from DB
+        for (int i = 0; i < allUN.toArray().length; i++) {
+            if (Objects.equals(usernameField.getText(), allUN.get(i)) && Objects.equals(passwordField.getText(), allPW.get(i))) {
+                correctCredentials = true;
+            };
+        }
+        if (correctCredentials) {
             //Switch Screen Logic
             Parent root = FXMLLoader.load(getClass().getResource("/view/MainMenu.fxml"));
             stage = (Stage)((Node)event.getSource()).getScene().getWindow();
@@ -52,6 +74,10 @@ public class LoginScreen implements Initializable {
             AlertMessageController.partError(1, null);
             return;
         };
+    }
+
+    public void resetPressed() {
+
     }
 }
 
