@@ -22,7 +22,7 @@ public class Main extends Application {
     public static void main(String[] args) {
         //write your code here
         JDBC.openConnection();
-//        Locale.setDefault(new Locale("fr"));
+        Locale.setDefault(new Locale("fr"));
         launch(args);
         JDBC.closeConnection();
     }

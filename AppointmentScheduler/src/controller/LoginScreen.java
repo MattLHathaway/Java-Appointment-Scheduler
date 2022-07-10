@@ -20,6 +20,7 @@ import java.sql.SQLException;
 import java.util.Locale;
 import java.util.Objects;
 import java.util.ResourceBundle;
+import java.util.TimeZone;
 
 public class LoginScreen implements Initializable {
     public ChoiceBox languageDropDown;
@@ -47,8 +48,13 @@ public class LoginScreen implements Initializable {
         languageDropDown.getItems().add("English");
         languageDropDown.getItems().add("French");
         setAppLanguage();
-
+        applyTimeZone();
         ResourceBundle rb = ResourceBundle.getBundle("en_lang");
+    }
+
+    public void applyTimeZone() {
+        TimeZone tz = TimeZone.getDefault();
+        TimeZoneText.setText(tz.getID());
     }
 
     public void applyLanguageButtonPressed() {
@@ -79,7 +85,7 @@ public class LoginScreen implements Initializable {
             languageDropDown.setValue("French");
             rb = ResourceBundle.getBundle("fr_lang");
         }
-        //Changing the Text Values
+        //Changing the Text Values of Labels, Buttons, and Error Messages
         applyLanguageValues(rb);
     }
 

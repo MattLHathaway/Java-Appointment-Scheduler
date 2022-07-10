@@ -10,48 +10,48 @@
 
 <AnchorPane prefHeight="530" prefWidth="1400.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MainMenu">
    <children>
-      <Label layoutX="43.0" layoutY="18.0" text="Appointment Schedule">
+      <Label fx:id="AppointmentScheduleLabel" layoutX="43.0" layoutY="18.0" text="Appointment Schedule">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
       </Label>
-      <RadioButton layoutX="274.0" layoutY="24.0" mnemonicParsing="false" text="View Customers" />
-      <RadioButton layoutX="274.0" layoutY="49.0" mnemonicParsing="false" text="View by Week" />
-      <RadioButton layoutX="396.0" layoutY="24.0" mnemonicParsing="false" text="View by Month" />
-      <RadioButton layoutX="396.0" layoutY="49.0" mnemonicParsing="false" text="View All" />
-      <TableView layoutX="43.0" layoutY="91.0" prefHeight="343.0" prefWidth="1309.0">
+      <RadioButton fx:id="ViewCustomerRadio" layoutX="319.0" layoutY="24.0" mnemonicParsing="false" text="View Customers" />
+      <RadioButton fx:id="viewByWeekRadio" layoutX="571.0" layoutY="24.0" mnemonicParsing="false" text="View by Week" />
+      <RadioButton fx:id="viewByMonthRadio" layoutX="709.0" layoutY="24.0" mnemonicParsing="false" text="View by Month" />
+      <RadioButton fx:id="viewAllRadio" layoutX="474.0" layoutY="24.0" mnemonicParsing="false" text="View All" />
+      <TableView fx:id="table" layoutX="43.0" layoutY="91.0" prefHeight="343.0" prefWidth="1309.0">
         <columns>
-          <TableColumn prefWidth="75.0" text="Appt ID" />
-          <TableColumn prefWidth="75.0" text="Title" />
-            <TableColumn prefWidth="75.0" text="Description" />
-            <TableColumn prefWidth="75.0" text="Location" />
-            <TableColumn prefWidth="75.0" text="Contact" />
-            <TableColumn prefWidth="75.0" text="Type" />
-            <TableColumn prefWidth="75.0" text="Start Time" />
-            <TableColumn prefWidth="75.0" text="End Time" />
-            <TableColumn prefWidth="75.0" text="Start Date" />
-            <TableColumn prefWidth="75.0" text="End Date" />
-            <TableColumn prefWidth="75.0" text="Customer ID" />
-            <TableColumn prefWidth="75.0" text="User ID" />
+          <TableColumn fx:id="apptIDCol" prefWidth="75.0" text="Appt ID" />
+          <TableColumn fx:id="titleCol" prefWidth="75.0" text="Title" />
+            <TableColumn fx:id="descriptionCol" prefWidth="75.0" text="Description" />
+            <TableColumn fx:id="locationCol" prefWidth="75.0" text="Location" />
+            <TableColumn fx:id="contactCol" prefWidth="75.0" text="Contact" />
+            <TableColumn fx:id="typeCol" prefWidth="75.0" text="Type" />
+            <TableColumn fx:id="startTimeCol" prefWidth="75.0" text="Start Time" />
+            <TableColumn fx:id="endTimeCol" prefWidth="75.0" text="End Time" />
+            <TableColumn fx:id="startDateCol" prefWidth="75.0" text="Start Date" />
+            <TableColumn fx:id="endDateCol" prefWidth="75.0" text="End Date" />
+            <TableColumn fx:id="customerIDCol" prefWidth="75.0" text="Customer ID" />
+            <TableColumn fx:id="userIDCol" prefWidth="75.0" text="User ID" />
         </columns>
       </TableView>
-      <Label layoutX="50.0" layoutY="56.0" text="Your Time Zone: America/Chicago" />
-      <Button layoutX="43.0" layoutY="461.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="148.0" text="Reports">
+      <Label fx:id="timeZoneLabel" layoutX="50.0" layoutY="56.0" text="Your Time Zone:" />
+      <Button fx:id="reportsButton" layoutX="43.0" layoutY="461.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="148.0" text="Reports">
          <font>
             <Font size="14.0" />
          </font>
       </Button>
-      <Button layoutX="238.0" layoutY="461.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="148.0" text="Add Appointment">
+      <Button fx:id="addAppointmentButton" layoutX="238.0" layoutY="461.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="148.0" text="Add Appointment">
          <font>
             <Font size="14.0" />
          </font>
       </Button>
-      <Button layoutX="432.0" layoutY="461.0" mnemonicParsing="false" text="Modify Appointment">
+      <Button fx:id="modifyAppointmentButton" layoutX="432.0" layoutY="461.0" mnemonicParsing="false" text="Modify Appointment">
          <font>
             <Font size="14.0" />
          </font>
       </Button>
-      <Button layoutX="626.0" layoutY="461.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="148.0" text="Delete Appointment">
+      <Button fx:id="deleteAppointmentButton" layoutX="626.0" layoutY="461.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="148.0" text="Delete Appointment">
          <font>
             <Font size="14.0" />
          </font>
@@ -61,5 +61,6 @@
             <Font size="14.0" />
          </font>
       </Button>
+      <Label fx:id="timeZoneText" layoutX="161.0" layoutY="56.0" text="TimeZoneHere" />
    </children>
 </AnchorPane>
