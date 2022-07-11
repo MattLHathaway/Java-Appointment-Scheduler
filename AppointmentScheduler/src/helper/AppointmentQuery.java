@@ -86,7 +86,7 @@ public abstract class AppointmentQuery {
         return AppointmentList;
     }
 
-    public static void selectByID(int apptID) throws SQLException {
+    public static void getByID(int apptID) throws SQLException {
         String sql = "SELECT * FROM appointments WHERE Appointment_ID = ?";
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
         ps.setInt(1, apptID);

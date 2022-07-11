@@ -1,6 +1,6 @@
 package model;
 
-public abstract class Customer {
+public class Customer {
     private int customerID;
     private String customerName;
     private String address;
@@ -22,6 +22,10 @@ public abstract class Customer {
         this.lastUpdate = lastUpdate;
         this.lastUpdatedBy = lastUpdatedBy;
         this.divisionID = divisionID;
+    }
+
+    public Customer() {
+
     }
 
     public int getCustomerID() {
