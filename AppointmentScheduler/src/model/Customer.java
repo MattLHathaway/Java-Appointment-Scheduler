@@ -10,8 +10,8 @@ public abstract class Customer {
     private String createdBy;
     private String lastUpdate;
     private String lastUpdatedBy;
-    private String divisionID;
-    public Customer(int customerID, String customerName, String address, String postalCode, String phoneNumber, String createdDate, String createdBy, String lastUpdate, String lastUpdatedBy, String divisionID) {
+    private int divisionID;
+    public Customer(int customerID, String customerName, String address, String postalCode, String phoneNumber, String createdDate, String createdBy, String lastUpdate, String lastUpdatedBy, int divisionID) {
         this.customerID = customerID;
         this.customerName = customerName;
         this.address = address;
@@ -96,11 +96,11 @@ public abstract class Customer {
         this.lastUpdatedBy = lastUpdatedBy;
     }
 
-    public String getDivisionID() {
+    public int getDivisionID() {
         return divisionID;
     }
 
-    public void setDivisionID(String divisionID) {
+    public void setDivisionID(int divisionID) {
         this.divisionID = divisionID;
     }
 }

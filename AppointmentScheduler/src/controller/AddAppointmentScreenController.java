@@ -17,17 +17,19 @@ public class AddAppointmentScreenController {
     public TextField addApptIDField;
     public DatePicker addApptStartDatePicker;
     public Button addApptSaveButton;
-    public ChoiceBox addApptStartTimeChoicebox;
     public TextField addApptTitleField;
     public TextField addApptDescriptionField;
     public TextField addApptLocationField;
     public TextField addApptTypeField;
-    public ChoiceBox addApptEndTimeChoicebox;
     public DatePicker addApptEndDatePicker;
-    public TextField addApptCustomerIDField;
-    public TextField addApptUserIDField;
     public ChoiceBox addApptContactChoicebox;
     public Button addApptCancelButton;
+    public ChoiceBox addApptCustomerIDChoicebox;
+    public ChoiceBox addApptUserIDCheckbox;
+    public TextField addApptStartTimeHourField;
+    public TextField addApptStartTimeMinuteField;
+    public TextField addApptEndTimeHourField;
+    public TextField addApptEndTimeMinuteField;
 
     public void cancelButtonPressed(ActionEvent event) throws IOException {
         //Switch Screen Logic

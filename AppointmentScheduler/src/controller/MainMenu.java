@@ -37,10 +37,7 @@ public class MainMenu implements Initializable {
     public TableColumn locationCol;
     public TableColumn contactCol;
     public TableColumn typeCol;
-    public TableColumn startTimeCol;
-    public TableColumn endTimeCol;
-    public TableColumn startDateCol;
-    public TableColumn endDateCol;
+
     public TableColumn customerIDCol;
     public TableColumn userIDCol;
     public Label timeZoneLabel;
