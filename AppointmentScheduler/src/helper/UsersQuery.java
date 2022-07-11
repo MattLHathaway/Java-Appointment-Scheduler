@@ -2,12 +2,14 @@ package helper;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import model.Users;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.*;
 
 public abstract class UsersQuery {
+
 
     public static int insert(int usersID, String usersName, String usersPassword) throws SQLException {
         String sql = "INSERT INTO users (User_ID, User_Name, Password) VALUES (?, ?, ?)";
@@ -47,6 +49,25 @@ public abstract class UsersQuery {
             String password = rs.getString("Password");
             System.out.println(usersID + " | " + usersName + " | " + password + "\n");
         }
+    }
+
+    public static ObservableList<Users> getAllUsers() throws SQLException {
+        String sql = "SELECT * FROM users";
+        ObservableList<Users> userList = FXCollections.observableArrayList();
+        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+        ResultSet rs = ps.executeQuery();
+        while(rs.next()) {
+            int usersID = rs.getInt("User_ID");
+            String usersName = rs.getString("User_Name");
+            String password = rs.getString("Password");
+            String userCreateDate = rs.getString("Create_Date");
+            String userCreatedBy = rs.getString("Created_By");
+            String userLastUpdate = rs.getString("Last_Update");
+            String userLastUpdatedBy = rs.getString("Last_Updated_By");
+            Users user = new Users(usersID, usersName, password, userCreateDate, userCreatedBy, userLastUpdate, userLastUpdatedBy);
+            userList.add(user);
+        }
+        return userList;
     }
 
     public static void select(int inputUserID) throws SQLException {

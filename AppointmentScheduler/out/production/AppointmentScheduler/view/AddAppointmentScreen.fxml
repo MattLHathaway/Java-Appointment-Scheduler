@@ -8,44 +8,38 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="650.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AddAppointmentScreenController">
+<AnchorPane prefHeight="650.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AddAppointmentScreenController">
    <children>
-      <TextField fx:id="addApptIDField" disable="true" editable="false" layoutX="175.0" layoutY="51.0" text="Auto Generated" />
-      <Label layoutX="117.0" layoutY="55.0" text="ID" />
-      <DatePicker fx:id="addApptStartDatePicker" layoutX="175.0" layoutY="244.0" />
-      <Button fx:id="addApptSaveButton" layoutX="25.0" layoutY="569.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="149.0" text="Save" />
-      <ChoiceBox fx:id="addApptCustomerIDChoicebox" layoutX="173.0" layoutY="426.0" prefWidth="150.0" />
-      <Label layoutX="32.0" layoutY="14.0" text="Add Appointment">
+      <TextField fx:id="addApptIDField" disable="true" editable="false" layoutX="231.0" layoutY="94.0" text="Auto Generated" />
+      <Label layoutX="173.0" layoutY="98.0" text="ID" />
+      <DatePicker fx:id="addApptStartDatePicker" layoutX="232.0" layoutY="298.0" />
+      <Button fx:id="addApptSaveButton" layoutX="84.0" layoutY="591.0" mnemonicParsing="false" onAction="#saveButtonPressed" prefHeight="25.0" prefWidth="149.0" text="Save" />
+      <ChoiceBox fx:id="addApptCustomerIDChoicebox" layoutX="230.0" layoutY="455.0" prefWidth="150.0" />
+      <Label layoutX="27.0" layoutY="29.0" text="Add Appointment">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
       </Label>
-      <TextField fx:id="addApptTitleField" layoutX="175.0" layoutY="89.0" />
-      <TextField fx:id="addApptDescriptionField" layoutX="175.0" layoutY="123.0" />
-      <TextField fx:id="addApptLocationField" layoutX="175.0" layoutY="163.0" />
-      <TextField fx:id="addApptTypeField" layoutX="175.0" layoutY="202.0" />
-      <ChoiceBox fx:id="addApptUserIDCheckbox" layoutX="173.0" layoutY="465.0" prefWidth="150.0" />
-      <DatePicker fx:id="addApptEndDatePicker" layoutX="172.0" layoutY="338.0" />
-      <ChoiceBox fx:id="addApptContactChoicebox" layoutX="174.0" layoutY="502.0" prefWidth="150.0" />
-      <Button fx:id="addApptCancelButton" layoutX="208.0" layoutY="569.0" mnemonicParsing="false" onAction="#cancelButtonPressed" prefHeight="25.0" prefWidth="149.0" text="Cancel" />
-      <Label layoutX="111.0" layoutY="93.0" text="Title" />
-      <Label layoutX="79.0" layoutY="127.0" text="Description" />
-      <Label layoutX="87.0" layoutY="167.0" text="Location" />
-      <Label layoutX="109.0" layoutY="206.0" text="Type" />
-      <Label layoutX="83.0" layoutY="248.0" text="Start Date" />
-      <Label layoutX="87.0" layoutY="342.0" text="End Date" />
-      <Label layoutX="35.0" layoutY="302.0" text="Start Time (Military)" />
-      <Label layoutX="35.0" layoutY="392.0" prefHeight="17.0" prefWidth="105.0" text="End Time (Military)" />
-      <Label layoutX="66.0" layoutY="430.0" text="Customer ID" />
-      <Label layoutX="92.0" layoutY="469.0" text="User ID" />
-      <Label layoutX="90.0" layoutY="506.0" text="Contact" />
-      <Label layoutX="195.0" layoutY="280.0" text="Hour" />
-      <Label layoutX="286.0" layoutY="280.0" text="Minute" />
-      <Label layoutX="195.0" layoutY="371.0" text="Hour" />
-      <Label layoutX="287.0" layoutY="371.0" text="Minute" />
-      <TextField fx:id="addApptStartTimeHourField" layoutX="172.0" layoutY="298.0" prefHeight="25.0" prefWidth="86.0" />
-      <TextField fx:id="addApptStartTimeMinuteField" layoutX="263.0" layoutY="298.0" prefHeight="25.0" prefWidth="86.0" />
-      <TextField fx:id="addApptEndTimeHourField" layoutX="172.0" layoutY="388.0" prefHeight="25.0" prefWidth="86.0" />
-      <TextField fx:id="addApptEndTimeMinuteField" layoutX="263.0" layoutY="388.0" prefHeight="25.0" prefWidth="86.0" />
+      <TextField fx:id="addApptTitleField" layoutX="231.0" layoutY="132.0" />
+      <TextField fx:id="addApptDescriptionField" layoutX="231.0" layoutY="166.0" />
+      <TextField fx:id="addApptLocationField" layoutX="231.0" layoutY="206.0" />
+      <TextField fx:id="addApptTypeField" layoutX="231.0" layoutY="245.0" />
+      <ChoiceBox fx:id="addApptUserIDCheckbox" layoutX="230.0" layoutY="494.0" prefWidth="150.0" />
+      <DatePicker fx:id="addApptEndDatePicker" layoutX="234.0" layoutY="377.0" prefHeight="25.0" prefWidth="174.0" />
+      <ChoiceBox fx:id="addApptContactChoicebox" layoutX="231.0" layoutY="531.0" prefWidth="150.0" />
+      <Button fx:id="addApptCancelButton" layoutX="267.0" layoutY="591.0" mnemonicParsing="false" onAction="#cancelButtonPressed" prefHeight="25.0" prefWidth="149.0" text="Cancel" />
+      <Label layoutX="167.0" layoutY="136.0" text="Title" />
+      <Label layoutX="135.0" layoutY="170.0" text="Description" />
+      <Label layoutX="143.0" layoutY="210.0" text="Location" />
+      <Label layoutX="165.0" layoutY="249.0" text="Type" />
+      <Label layoutX="140.0" layoutY="302.0" text="Start Date" />
+      <Label layoutX="149.0" layoutY="381.0" text="End Date" />
+      <Label layoutX="95.0" layoutY="336.0" text="Start Time (Military)" />
+      <Label layoutX="123.0" layoutY="459.0" text="Customer ID" />
+      <Label layoutX="149.0" layoutY="498.0" text="User ID" />
+      <Label layoutX="147.0" layoutY="535.0" text="Contact" />
+      <TextField fx:id="addApptStartTimeField" layoutX="232.0" layoutY="332.0" prefHeight="25.0" prefWidth="86.0" promptText="12:00:00" />
+      <TextField fx:id="addApptEndTimeField" layoutX="235.0" layoutY="409.0" prefHeight="25.0" prefWidth="86.0" promptText="12:00:00" />
+      <Label layoutX="105.0" layoutY="413.0" text="End Time (Military)" />
    </children>
 </AnchorPane>
