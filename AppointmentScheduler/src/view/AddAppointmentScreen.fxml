@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="650.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AddAppointmentScreenController">
+   <children>
+      <TextField fx:id="addApptIDField" layoutX="173.0" layoutY="78.0" />
+      <Label layoutX="66.0" layoutY="82.0" text="ID" />
+      <DatePicker fx:id="addApptStartDatePicker" layoutX="173.0" layoutY="271.0" />
+      <Button fx:id="addApptSaveButton" layoutX="25.0" layoutY="569.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="149.0" text="Save" />
+      <ChoiceBox fx:id="addApptStartTimeChoicebox" layoutX="173.0" layoutY="311.0" prefWidth="150.0" />
+      <Label layoutX="31.0" layoutY="24.0" text="Add Appointment">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+      <TextField fx:id="addApptTitleField" layoutX="173.0" layoutY="116.0" />
+      <TextField fx:id="addApptDescriptionField" layoutX="173.0" layoutY="150.0" />
+      <TextField fx:id="addApptLocationField" layoutX="173.0" layoutY="190.0" />
+      <TextField fx:id="addApptTypeField" layoutX="173.0" layoutY="229.0" />
+      <ChoiceBox fx:id="addApptEndTimeChoicebox" layoutX="173.0" layoutY="388.0" prefWidth="150.0" />
+      <DatePicker fx:id="addApptEndDatePicker" layoutX="173.0" layoutY="350.0" />
+      <TextField fx:id="addApptCustomerIDField" layoutX="174.0" layoutY="426.0" />
+      <TextField fx:id="addApptUserIDField" layoutX="174.0" layoutY="465.0" />
+      <ChoiceBox fx:id="addApptContactChoicebox" layoutX="174.0" layoutY="502.0" prefWidth="150.0" />
+      <Button fx:id="addApptCancelButton" layoutX="208.0" layoutY="569.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="149.0" text="Cancel" />
+      <Label layoutX="67.0" layoutY="120.0" text="Title" />
+      <Label layoutX="66.0" layoutY="154.0" text="Description" />
+      <Label layoutX="69.0" layoutY="194.0" text="Location" />
+      <Label layoutX="68.0" layoutY="233.0" text="Type" />
+      <Label layoutX="70.0" layoutY="275.0" text="Start Date" />
+      <Label layoutX="72.0" layoutY="354.0" text="End Date" />
+      <Label layoutX="70.0" layoutY="315.0" text="Start Time" />
+      <Label layoutX="72.0" layoutY="392.0" text="End Time" />
+      <Label layoutX="75.0" layoutY="430.0" text="Customer ID" />
+      <Label layoutX="78.0" layoutY="469.0" text="User ID" />
+      <Label layoutX="77.0" layoutY="506.0" text="Contact" />
+   </children>
+</AnchorPane>

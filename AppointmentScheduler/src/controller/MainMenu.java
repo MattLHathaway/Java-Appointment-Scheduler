@@ -7,6 +7,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -19,7 +20,6 @@ public class MainMenu implements Initializable {
 
     public Button logoutButton;
     public Label AppointmentScheduleLabel;
-    public RadioButton ViewCustomerRadio;
     public RadioButton viewByWeekRadio;
     public RadioButton viewByMonthRadio;
     public RadioButton viewAllRadio;
@@ -42,6 +42,19 @@ public class MainMenu implements Initializable {
     public Button modifyAppointmentButton;
     public Button deleteAppointmentButton;
     public Label timeZoneText;
+    public Button customersButton;
+    public TextField apptIDField;
+    public ChoiceBox apptStartTimeChoicebox;
+    public TextField apptTitleField;
+    public TextField apptDescriptionField;
+    public TextField apptLocationField;
+    public TextField apptTypeField;
+    public TextField apptCustomerIDField;
+    public DatePicker apptStartDatePicker;
+    public ChoiceBox apptEndTimeChoicebox;
+    public DatePicker apptEndDatePicker;
+    public ChoiceBox apptContactChoicebox;
+    public TextField apptUserIDField;
 
     public void initialize(URL url, ResourceBundle resourceBundle) {
         System.out.println("We are at the Main Menu!");

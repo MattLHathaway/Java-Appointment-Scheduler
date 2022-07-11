@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane prefHeight="530.0" prefWidth="1400.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.CustomersMenuController">
+   <children>
+      <Label layoutX="24.0" layoutY="27.0" text="Customers">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+      <TableView fx:id="customerTable" layoutX="24.0" layoutY="76.0" prefHeight="256.0" prefWidth="1278.0">
+        <columns>
+          <TableColumn fx:id="customerIDCol" prefWidth="75.0" text="ID" />
+          <TableColumn fx:id="customerNameCol" prefWidth="250.0" text="Customer Name" />
+            <TableColumn fx:id="customerAddressCol" prefWidth="584.0" text="Address" />
+            <TableColumn fx:id="customerPostalCodeCol" prefWidth="100.0" text="Postal Code" />
+            <TableColumn fx:id="customerPhoneCol" prefWidth="144.0" text="Phone" />
+            <TableColumn fx:id="customerFirstLevelDataCol" minWidth="0.0" prefWidth="124.0" text="First Level Data" />
+        </columns>
+      </TableView>
+      <TextField fx:id="customerIDField" disable="true" layoutX="160.0" layoutY="346.0" prefHeight="25.0" prefWidth="59.0" />
+      <Label layoutX="23.0" layoutY="350.0" text="Customer ID" />
+      <Button fx:id="editCustomerButton" layoutX="736.0" layoutY="390.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="105.0" text="Edit Customer" />
+      <ChoiceBox fx:id="customerCountryChoicebox" layoutX="160.0" layoutY="466.0" prefWidth="150.0" />
+      <Label layoutX="24.0" layoutY="433.0" text="Customer Address" />
+      <TextField fx:id="customerPhoneField" layoutX="522.0" layoutY="346.0" prefHeight="25.0" prefWidth="136.0" />
+      <TextField fx:id="customerPostalCodeField" layoutX="522.0" layoutY="386.0" prefHeight="25.0" prefWidth="59.0" />
+      <TextField fx:id="customerNameField" layoutX="160.0" layoutY="386.0" prefHeight="25.0" prefWidth="150.0" />
+      <Label layoutX="385.0" layoutY="390.0" text="Customer Postal Code" />
+      <Label layoutX="23.0" layoutY="470.0" text="Customer Country" />
+      <Label layoutX="24.0" layoutY="390.0" text="Customer Name" />
+      <Label layoutX="385.0" layoutY="351.0" text="Customer Phone" />
+      <Label layoutX="385.0" layoutY="433.0" text="State/Province" />
+      <ChoiceBox fx:id="customerStateProvincePicker" layoutX="522.0" layoutY="429.0" prefWidth="150.0" />
+      <TextField fx:id="customerAddressField" layoutX="159.0" layoutY="429.0" prefHeight="25.0" prefWidth="205.0" />
+      <Button fx:id="deleteCustomerButton" layoutX="736.0" layoutY="433.0" mnemonicParsing="false" text="Delete Customer" />
+      <Button fx:id="addCustomerButton" layoutX="736.0" layoutY="346.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="105.0" text="Add Customer" />
+      <Button fx:id="logoutButton" layoutX="1197.0" layoutY="466.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="105.0" text="logout" />
+      <Button fx:id="saveCustomerButton" layoutX="736.0" layoutY="478.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="105.0" text="Save Customer" />
+      <Button fx:id="appointmentsNavButton" layoutX="1032.0" layoutY="26.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="118.0" text="Appointments">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Button>
+      <Button fx:id="reportsNavButton" layoutX="1184.0" layoutY="26.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="118.0" text="Reports">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Button>
+   </children>
+</AnchorPane>

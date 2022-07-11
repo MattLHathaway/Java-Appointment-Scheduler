@@ -1,5 +1,7 @@
 package model;
 
+import javafx.collections.ObservableList;
+
 public abstract class Appointment {
     private int apptID;
     private String title;
@@ -29,6 +31,7 @@ public abstract class Appointment {
         this.userID = userID;
     }
 
+    //GETTERS AND SETTERS
     public int getApptID() {
         return apptID;
     }
