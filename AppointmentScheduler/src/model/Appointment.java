@@ -2,36 +2,43 @@ package model;
 
 import javafx.collections.ObservableList;
 
-public abstract class Appointment {
+public class Appointment {
     private int apptID;
     private String title;
     private String description;
     private String location;
-    private int contact;
     private String type;
     private String startTime;
     private String endTime;
-    private String startDate;
-    private String endDate;
+    private String createDate;
+    private String createdBy;
+    private String lastUpdate;
+    private String lastUpdatedBy;
     private int customerID;
     private int userID;
+    private int contactID;
 
-    public Appointment(int apptID, String title, String description, String location, int contact, String type, String startTime, String endTime, String startDate, String endDate, int customerID, int userID) {
+    public Appointment(int apptID, String title, String description, String location, String type, String startTime, String endTime, String createDate, String createdBy, String lastUpdate, String lastUpdatedBy, int customerID, int userID, int contactID) {
         this.apptID = apptID;
         this.title = title;
         this.description = description;
         this.location = location;
-        this.contact = contact;
         this.type = type;
         this.startTime = startTime;
         this.endTime = endTime;
-        this.startDate = startDate;
-        this.endDate = endDate;
+        this.createDate = createDate;
+        this.createdBy = createdBy;
+        this.lastUpdate = lastUpdate;
+        this.lastUpdatedBy = lastUpdatedBy;
         this.customerID = customerID;
         this.userID = userID;
+        this.contactID = contactID;
     }
 
-    //GETTERS AND SETTERS
+
+
+    //GETTERS & SETTERS
+
     public int getApptID() {
         return apptID;
     }
@@ -64,14 +71,6 @@ public abstract class Appointment {
         this.location = location;
     }
 
-    public int getContact() {
-        return contact;
-    }
-
-    public void setContact(int contact) {
-        this.contact = contact;
-    }
-
     public String getType() {
         return type;
     }
@@ -96,20 +95,36 @@ public abstract class Appointment {
         this.endTime = endTime;
     }
 
-    public String getStartDate() {
-        return startDate;
+    public String getCreateDate() {
+        return createDate;
     }
 
-    public void setStartDate(String startDate) {
-        this.startDate = startDate;
+    public void setCreateDate(String createDate) {
+        this.createDate = createDate;
     }
 
-    public String getEndDate() {
-        return endDate;
+    public String getCreatedBy() {
+        return createdBy;
     }
 
-    public void setEndDate(String endDate) {
-        this.endDate = endDate;
+    public void setCreatedBy(String createdBy) {
+        this.createdBy = createdBy;
+    }
+
+    public String getLastUpdate() {
+        return lastUpdate;
+    }
+
+    public void setLastUpdate(String lastUpdate) {
+        this.lastUpdate = lastUpdate;
+    }
+
+    public String getLastUpdatedBy() {
+        return lastUpdatedBy;
+    }
+
+    public void setLastUpdatedBy(String lastUpdatedBy) {
+        this.lastUpdatedBy = lastUpdatedBy;
     }
 
     public int getCustomerID() {
@@ -126,5 +141,13 @@ public abstract class Appointment {
 
     public void setUserID(int userID) {
         this.userID = userID;
+    }
+
+    public int getContactID() {
+        return contactID;
+    }
+
+    public void setContactID(int contactID) {
+        this.contactID = contactID;
     }
 }

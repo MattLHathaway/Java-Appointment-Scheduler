@@ -1,5 +1,9 @@
 package helper;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import model.Appointment;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -48,7 +52,7 @@ public abstract class AppointmentQuery {
         return rowsAffected;
     }
 
-    public static int delete(int appointmentID) throws SQLException {
+    public static int deleteByID(int appointmentID) throws SQLException {
         String sql = "DELETE FROM appointments WHERE Appointment_ID = ?";
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
         ps.setInt(1, appointmentID);
@@ -56,7 +60,8 @@ public abstract class AppointmentQuery {
         return rowsAffected;
     }
 
-    public static void select() throws SQLException {
+    public static ObservableList<Appointment> getAppointmentList() throws SQLException {
+        ObservableList<Appointment> AppointmentList = FXCollections.observableArrayList();
         String sql = "SELECT * FROM appointments";
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
         ResultSet rs = ps.executeQuery();
@@ -75,7 +80,10 @@ public abstract class AppointmentQuery {
             int customerID = rs.getInt("Customer_ID");
             int userID = rs.getInt("User_ID");
             int contactID = rs.getInt("Contact_ID");
+            Appointment appointment = new Appointment(appointmentID, title, description, location, type, start, end, createDate, createdBy, lastUpdate, lastUpdatedBy, customerID, userID, contactID);
+            AppointmentList.add(appointment);
         }
+        return AppointmentList;
     }
 
     public static void selectByID(int apptID) throws SQLException {

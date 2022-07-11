@@ -1,7 +1,10 @@
 package controller;
 
 import helper.AppointmentQuery;
+import helper.JDBC;
 import helper.UsersQuery;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -11,6 +14,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
+import model.Appointment;
 
 import java.io.IOException;
 import java.net.URL;
@@ -58,20 +62,44 @@ public class MainMenu implements Initializable {
     public DatePicker apptEndDatePicker;
     public ChoiceBox apptContactChoicebox;
     public TextField apptUserIDField;
+    public TableColumn startDateTimeCol;
+    public TableColumn endDateTimeCol;
 
     public void initialize(URL url, ResourceBundle resourceBundle) {
         System.out.println("We are at the Main Menu!");
         setTimeZoneText();
-//        try {
-//            dummyAppointmentCreator();
-//        } catch (SQLException e) {
-//            throw new RuntimeException(e);
-//        }
+        try {
+            populateTable();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public void dummyAppointmentCreator() throws SQLException {
             AppointmentQuery.insert(3, "title", "description", "location", "Planning Session", "2020-05-28 12:00:00", "2020-05-28 13:00:00", "2022-07-06 15:12:56", "script", "2022-07-06 15:12:56", "script", 2, 2, 2);
             System.out.println("Appointment Succesfully Added!");
+    }
+
+    public void dummyAppointmentDeletor() throws SQLException {
+        AppointmentQuery.deleteByID(3);
+        System.out.println("Appointment Succesfully Deleted!");
+    }
+
+    public void populateTable() throws SQLException {
+        ObservableList<Appointment> appointmentsList = AppointmentQuery.getAppointmentList();
+
+        apptIDCol.setCellValueFactory(new PropertyValueFactory<>("apptID"));
+        titleCol.setCellValueFactory(new PropertyValueFactory<>("title"));
+        descriptionCol.setCellValueFactory(new PropertyValueFactory<>("description"));
+        locationCol.setCellValueFactory(new PropertyValueFactory<>("location"));
+        contactCol.setCellValueFactory(new PropertyValueFactory<>("contactID"));
+        typeCol.setCellValueFactory(new PropertyValueFactory<>("type"));
+        startDateTimeCol.setCellValueFactory(new PropertyValueFactory<>("startTime"));
+        endDateTimeCol.setCellValueFactory(new PropertyValueFactory<>("endTime"));
+        customerIDCol.setCellValueFactory(new PropertyValueFactory<>("customerID"));
+        userIDCol.setCellValueFactory(new PropertyValueFactory<>("userID"));
+
+        table.setItems(appointmentsList);
     }
 
     public void setTimeZoneText() {

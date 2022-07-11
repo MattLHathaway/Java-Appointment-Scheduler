@@ -9,10 +9,12 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="530" prefWidth="1400.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MainMenu">
+<AnchorPane prefHeight="530.0" prefWidth="1400.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MainMenu">
    <children>
+      <BorderPane layoutX="43.0" layoutY="326.0" prefHeight="197.0" prefWidth="797.0" style="-fx-border-width: 1px; -fx-border-color: lightgray; -fx-border-radius: 5px;" />
       <Label fx:id="AppointmentScheduleLabel" layoutX="43.0" layoutY="18.0" text="Appointment Schedule">
          <font>
             <Font name="System Bold" size="18.0" />
@@ -23,18 +25,16 @@
       <RadioButton fx:id="viewAllRadio" layoutX="43.0" layoutY="61.0" mnemonicParsing="false" text="All Appointments" />
       <TableView fx:id="table" layoutX="43.0" layoutY="91.0" prefHeight="228.0" prefWidth="1309.0">
         <columns>
-          <TableColumn fx:id="apptIDCol" prefWidth="64.0" text="Appt ID" />
-          <TableColumn fx:id="titleCol" prefWidth="87.0" text="Title" />
-            <TableColumn fx:id="descriptionCol" prefWidth="197.0" text="Description" />
-            <TableColumn fx:id="locationCol" prefWidth="171.0" text="Location" />
-            <TableColumn fx:id="contactCol" prefWidth="94.0" text="Contact" />
-            <TableColumn fx:id="typeCol" text="Type" />
-            <TableColumn fx:id="startTimeCol" prefWidth="126.0" text="Start Time" />
-            <TableColumn fx:id="endTimeCol" prefWidth="122.0" text="End Time" />
-            <TableColumn fx:id="startDateCol" prefWidth="110.0" text="Start Date" />
-            <TableColumn fx:id="endDateCol" prefWidth="107.0" text="End Date" />
-            <TableColumn fx:id="customerIDCol" prefWidth="86.0" text="Customer ID" />
-            <TableColumn fx:id="userIDCol" prefWidth="64.0" text="User ID" />
+          <TableColumn fx:id="apptIDCol" prefWidth="50.0" text="Appt ID" />
+          <TableColumn fx:id="titleCol" prefWidth="85.0" text="Title" />
+            <TableColumn fx:id="descriptionCol" prefWidth="176.0" text="Description" />
+            <TableColumn fx:id="locationCol" prefWidth="118.0" text="Location" />
+            <TableColumn fx:id="contactCol" prefWidth="51.0" text="Contact" />
+            <TableColumn fx:id="typeCol" prefWidth="158.0" text="Type" />
+            <TableColumn fx:id="startDateTimeCol" prefWidth="230.0" text="Start Date &amp; Time" />
+            <TableColumn fx:id="endDateTimeCol" prefWidth="204.0" text="End Date &amp; Time" />
+            <TableColumn fx:id="customerIDCol" prefWidth="122.0" text="Customer ID" />
+            <TableColumn fx:id="userIDCol" prefWidth="114.0" text="User ID" />
         </columns>
       </TableView>
       <Label fx:id="timeZoneLabel" layoutX="1119.0" layoutY="335.0" text="Your Time Zone:" />
@@ -43,17 +43,17 @@
             <Font size="14.0" />
          </font>
       </Button>
-      <Button fx:id="addAppointmentButton" layoutX="1014.0" layoutY="463.0" mnemonicParsing="false" onAction="#addAppointmentButtonPressed" prefHeight="30.0" prefWidth="148.0" text="Add Appointment">
+      <Button fx:id="addAppointmentButton" layoutX="1204.0" layoutY="409.0" mnemonicParsing="false" onAction="#addAppointmentButtonPressed" prefHeight="30.0" prefWidth="148.0" text="Add New Appt">
          <font>
             <Font size="14.0" />
          </font>
       </Button>
-      <Button fx:id="modifyAppointmentButton" layoutX="312.0" layoutY="461.0" mnemonicParsing="false" text="Modify Appointment">
+      <Button fx:id="modifyAppointmentButton" layoutX="399.0" layoutY="474.0" mnemonicParsing="false" text="Modify Appointment">
          <font>
             <Font size="14.0" />
          </font>
       </Button>
-      <Button fx:id="deleteAppointmentButton" layoutX="485.0" layoutY="461.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="148.0" text="Delete Appointment">
+      <Button fx:id="deleteAppointmentButton" layoutX="671.0" layoutY="472.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="148.0" text="Delete Appointment">
          <font>
             <Font size="14.0" />
          </font>
@@ -69,29 +69,29 @@
             <Font size="14.0" />
          </font>
       </Button>
-      <TextField fx:id="apptIDField" disable="true" layoutX="125.0" layoutY="327.0" prefHeight="25.0" prefWidth="59.0" />
-      <Label layoutX="43.0" layoutY="335.0" text="ID" />
-      <ChoiceBox fx:id="apptStartTimeChoicebox" layoutX="385.0" layoutY="362.0" prefWidth="150.0" />
-      <Label layoutX="43.0" layoutY="366.0" text="Title" />
-      <Label layoutX="43.0" layoutY="396.0" text="Description" />
-      <Label layoutX="43.0" layoutY="429.0" text="Location" />
-      <Label layoutX="43.0" layoutY="461.0" text="Type" />
-      <TextField fx:id="apptTitleField" layoutX="125.0" layoutY="358.0" prefHeight="25.0" prefWidth="150.0" />
-      <TextField fx:id="apptDescriptionField" layoutX="125.0" layoutY="388.0" prefHeight="25.0" prefWidth="150.0" />
-      <TextField fx:id="apptLocationField" layoutX="125.0" layoutY="421.0" prefHeight="25.0" prefWidth="150.0" />
-      <Label layoutX="43.0" layoutY="491.0" text="Customer ID" />
-      <TextField fx:id="apptTypeField" layoutX="125.0" layoutY="453.0" prefHeight="25.0" prefWidth="150.0" />
-      <TextField fx:id="apptCustomerIDField" layoutX="125.0" layoutY="483.0" prefHeight="25.0" prefWidth="150.0" />
-      <DatePicker fx:id="apptStartDatePicker" layoutX="386.0" layoutY="327.0" prefHeight="25.0" prefWidth="148.0" />
-      <ChoiceBox fx:id="apptEndTimeChoicebox" layoutX="656.0" layoutY="362.0" prefWidth="150.0" />
-      <Label layoutX="312.0" layoutY="331.0" text="Start Date" />
-      <Label layoutX="311.0" layoutY="366.0" text="Start Time" />
-      <Label layoutX="317.0" layoutY="405.0" text="Contact" />
-      <Label layoutX="581.0" layoutY="366.0" text="End Time" />
-      <Label layoutX="581.0" layoutY="335.0" text="End Date" />
-      <DatePicker fx:id="apptEndDatePicker" layoutX="657.0" layoutY="331.0" prefHeight="25.0" prefWidth="148.0" />
-      <ChoiceBox fx:id="apptContactChoicebox" layoutX="385.0" layoutY="401.0" prefWidth="150.0" />
-      <TextField fx:id="apptUserIDField" layoutX="657.0" layoutY="401.0" prefHeight="25.0" prefWidth="150.0" />
-      <Label layoutX="581.0" layoutY="405.0" text="User ID" />
+      <TextField fx:id="apptIDField" disable="true" layoutX="138.0" layoutY="338.0" prefHeight="25.0" prefWidth="150.0" text="Generated Automatically" />
+      <Label layoutX="56.0" layoutY="346.0" text="ID" />
+      <ChoiceBox fx:id="apptStartTimeChoicebox" layoutX="398.0" layoutY="373.0" prefWidth="150.0" />
+      <Label layoutX="56.0" layoutY="377.0" text="Title" />
+      <Label layoutX="56.0" layoutY="407.0" text="Description" />
+      <Label layoutX="56.0" layoutY="440.0" text="Location" />
+      <Label layoutX="56.0" layoutY="472.0" text="Type" />
+      <TextField fx:id="apptTitleField" layoutX="138.0" layoutY="369.0" prefHeight="25.0" prefWidth="150.0" />
+      <TextField fx:id="apptDescriptionField" layoutX="138.0" layoutY="399.0" prefHeight="25.0" prefWidth="150.0" />
+      <TextField fx:id="apptLocationField" layoutX="138.0" layoutY="432.0" prefHeight="25.0" prefWidth="150.0" />
+      <Label layoutX="56.0" layoutY="502.0" text="Customer ID" />
+      <TextField fx:id="apptTypeField" layoutX="138.0" layoutY="464.0" prefHeight="25.0" prefWidth="150.0" />
+      <TextField fx:id="apptCustomerIDField" layoutX="138.0" layoutY="494.0" prefHeight="25.0" prefWidth="150.0" />
+      <DatePicker fx:id="apptStartDatePicker" layoutX="399.0" layoutY="338.0" prefHeight="25.0" prefWidth="148.0" />
+      <ChoiceBox fx:id="apptEndTimeChoicebox" layoutX="669.0" layoutY="373.0" prefWidth="150.0" />
+      <Label layoutX="325.0" layoutY="342.0" text="Start Date" />
+      <Label layoutX="324.0" layoutY="377.0" text="Start Time" />
+      <Label layoutX="330.0" layoutY="416.0" text="Contact" />
+      <Label layoutX="594.0" layoutY="377.0" text="End Time" />
+      <Label layoutX="594.0" layoutY="342.0" text="End Date" />
+      <DatePicker fx:id="apptEndDatePicker" layoutX="670.0" layoutY="338.0" prefHeight="25.0" prefWidth="148.0" />
+      <ChoiceBox fx:id="apptContactChoicebox" layoutX="398.0" layoutY="412.0" prefWidth="150.0" />
+      <TextField fx:id="apptUserIDField" layoutX="670.0" layoutY="412.0" prefHeight="25.0" prefWidth="150.0" />
+      <Label layoutX="594.0" layoutY="416.0" text="User ID" />
    </children>
 </AnchorPane>
