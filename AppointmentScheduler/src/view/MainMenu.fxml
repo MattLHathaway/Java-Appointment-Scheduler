@@ -43,7 +43,7 @@
             <Font size="14.0" />
          </font>
       </Button>
-      <Button fx:id="addAppointmentButton" layoutX="1014.0" layoutY="463.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="148.0" text="Add Appointment">
+      <Button fx:id="addAppointmentButton" layoutX="1014.0" layoutY="463.0" mnemonicParsing="false" onAction="#addAppointmentButtonPressed" prefHeight="30.0" prefWidth="148.0" text="Add Appointment">
          <font>
             <Font size="14.0" />
          </font>
@@ -64,7 +64,7 @@
          </font>
       </Button>
       <Label fx:id="timeZoneText" layoutX="1230.0" layoutY="335.0" text="TimeZoneHere" />
-      <Button fx:id="customersButton" layoutX="1002.0" layoutY="31.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="148.0" text="Customers">
+      <Button fx:id="customersButton" layoutX="1002.0" layoutY="31.0" mnemonicParsing="false" onAction="#CustomerNavButtonPressed" prefHeight="30.0" prefWidth="148.0" text="Customers">
          <font>
             <Font size="14.0" />
          </font>
