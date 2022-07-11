@@ -34,20 +34,20 @@ public abstract class AppointmentQuery {
     public static int update(int appointmentID, String title, String description, String location, String type, String start, String end, String createDate, String createdBy, String lastUpdate, String lastUpdatedBy, int customerID, int userID, int contactID) throws SQLException {
         String sql = "UPDATE appointments SET Title = ?, Description = ?, Location = ?, Type = ?, Start = ?, End = ?, Create_Date = ?, Created_By = ?, Last_Update = ?, Last_Updated_By = ?, Customer_ID = ?, User_ID = ?, Contact_ID = ? WHERE Appointment_ID = ?";
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
-        ps.setInt(1, appointmentID);      //Must NOT match another ID
-        ps.setString(2, title);
-        ps.setString(3, description);
-        ps.setString(4, location);
-        ps.setString(5, type);
-        ps.setString(6, start);           //Date Format must be like "2022-06-28 13:00:00"
-        ps.setString(7, end);             //Date Format must be like "2022-06-28 13:00:00"
-        ps.setString(8, createDate);      //Date Format must be like "2022-06-28 13:00:00"
-        ps.setString(9, createdBy);
-        ps.setString(10, lastUpdate);     //Date Format must be like "2022-06-28 13:00:00"
-        ps.setString(11, lastUpdatedBy);
-        ps.setInt(12, customerID);        //Must match a valid customer ID
-        ps.setInt(13, userID);            //Must match a valid user ID
-        ps.setInt(14, contactID);         //Must match a valid contact ID
+        ps.setString(1, title);
+        ps.setString(2, description);
+        ps.setString(3, location);
+        ps.setString(4, type);
+        ps.setString(5, start);           //Date Format must be like "2022-06-28 13:00:00"
+        ps.setString(6, end);             //Date Format must be like "2022-06-28 13:00:00"
+        ps.setString(7, createDate);      //Date Format must be like "2022-06-28 13:00:00"
+        ps.setString(8, createdBy);
+        ps.setString(9, lastUpdate);      //Date Format must be like "2022-06-28 13:00:00"
+        ps.setString(10, lastUpdatedBy);
+        ps.setInt(11, customerID);        //Must match a valid customer ID
+        ps.setInt(12, userID);            //Must match a valid user ID
+        ps.setInt(13, contactID);         //Must match a valid contact ID
+        ps.setInt(14, appointmentID);     //Must NOT match another ID
         int rowsAffected = ps.executeUpdate();
         return rowsAffected;
     }

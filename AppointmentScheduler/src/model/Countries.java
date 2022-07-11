@@ -17,6 +17,10 @@ public class Countries {
         this.countryLastUpdatedBy = countryLastUpdatedBy;
     }
 
+    public Countries() {
+
+    }
+
     //GETTERS & SETTERS
 
     public int getCountryID() {

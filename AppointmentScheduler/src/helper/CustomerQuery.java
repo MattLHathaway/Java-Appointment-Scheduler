@@ -31,22 +31,22 @@ public abstract class CustomerQuery {
     public static int updateCustomer(int customerID, String customerName, String address, String postalCode, String phoneNumber, String createdDate, String createdBy, String lastUpdate, String lastUpdatedBy, int divisionID) throws SQLException {
         String sql = "UPDATE customers Customer_Name = ?, Address = ?, Postal_Code = ?, Phone = ?, Create_Date = ?, Created_By = ?, Last_Update = ?, Last_Updated_By = ?, Division_ID = ? WHERE Customer_ID = ?";
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
-        ps.setInt(1, customerID);               //Must NOT match another ID
-        ps.setString(2, customerName);
-        ps.setString(3, address);
-        ps.setString(4, postalCode);
-        ps.setString(5, phoneNumber);
-        ps.setString(6, createdDate);           //Date Format must be like "2022-06-28 13:00:00"
-        ps.setString(7, createdBy);             //script
-        ps.setString(8, lastUpdate);            //Date Format must be like "2022-06-28 13:00:00"
-        ps.setString(9, lastUpdatedBy);         //script
-        ps.setInt(10, divisionID);              //only specific IDs allowed matching divisions
+        ps.setString(1, customerName);
+        ps.setString(2, address);
+        ps.setString(3, postalCode);
+        ps.setString(4, phoneNumber);
+        ps.setString(5, createdDate);           //Date Format must be like "2022-06-28 13:00:00"
+        ps.setString(6, createdBy);             //script
+        ps.setString(7, lastUpdate);            //Date Format must be like "2022-06-28 13:00:00"
+        ps.setString(8, lastUpdatedBy);         //script
+        ps.setInt(9, divisionID);               //only specific IDs allowed matching divisions
+        ps.setInt(10, customerID);              //Must NOT match another ID
         int rowsAffected = ps.executeUpdate();
         return rowsAffected;
     }
 
     public static int deleteCustomerByID(int customerID) throws SQLException {
-        String sql = "DELETE FROM appointments WHERE Appointment_ID = ?";
+        String sql = "DELETE FROM customers WHERE Appointment_ID = ?";
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
         ps.setInt(1, customerID);
         int rowsAffected = ps.executeUpdate();

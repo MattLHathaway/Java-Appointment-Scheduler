@@ -10,36 +10,42 @@
 
 <AnchorPane prefHeight="650.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AddAppointmentScreenController">
    <children>
-      <TextField fx:id="addApptIDField" layoutX="173.0" layoutY="78.0" />
-      <Label layoutX="66.0" layoutY="82.0" text="ID" />
-      <DatePicker fx:id="addApptStartDatePicker" layoutX="173.0" layoutY="271.0" />
+      <TextField fx:id="addApptIDField" disable="true" editable="false" layoutX="175.0" layoutY="51.0" text="Auto Generated" />
+      <Label layoutX="117.0" layoutY="55.0" text="ID" />
+      <DatePicker fx:id="addApptStartDatePicker" layoutX="175.0" layoutY="244.0" />
       <Button fx:id="addApptSaveButton" layoutX="25.0" layoutY="569.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="149.0" text="Save" />
-      <ChoiceBox fx:id="addApptStartTimeChoicebox" layoutX="173.0" layoutY="311.0" prefWidth="150.0" />
-      <Label layoutX="31.0" layoutY="24.0" text="Add Appointment">
+      <ChoiceBox fx:id="addApptCustomerIDChoicebox" layoutX="173.0" layoutY="426.0" prefWidth="150.0" />
+      <Label layoutX="32.0" layoutY="14.0" text="Add Appointment">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
       </Label>
-      <TextField fx:id="addApptTitleField" layoutX="173.0" layoutY="116.0" />
-      <TextField fx:id="addApptDescriptionField" layoutX="173.0" layoutY="150.0" />
-      <TextField fx:id="addApptLocationField" layoutX="173.0" layoutY="190.0" />
-      <TextField fx:id="addApptTypeField" layoutX="173.0" layoutY="229.0" />
-      <ChoiceBox fx:id="addApptEndTimeChoicebox" layoutX="173.0" layoutY="388.0" prefWidth="150.0" />
-      <DatePicker fx:id="addApptEndDatePicker" layoutX="173.0" layoutY="350.0" />
-      <TextField fx:id="addApptCustomerIDField" layoutX="174.0" layoutY="426.0" />
-      <TextField fx:id="addApptUserIDField" layoutX="174.0" layoutY="465.0" />
+      <TextField fx:id="addApptTitleField" layoutX="175.0" layoutY="89.0" />
+      <TextField fx:id="addApptDescriptionField" layoutX="175.0" layoutY="123.0" />
+      <TextField fx:id="addApptLocationField" layoutX="175.0" layoutY="163.0" />
+      <TextField fx:id="addApptTypeField" layoutX="175.0" layoutY="202.0" />
+      <ChoiceBox fx:id="addApptUserIDCheckbox" layoutX="173.0" layoutY="465.0" prefWidth="150.0" />
+      <DatePicker fx:id="addApptEndDatePicker" layoutX="172.0" layoutY="338.0" />
       <ChoiceBox fx:id="addApptContactChoicebox" layoutX="174.0" layoutY="502.0" prefWidth="150.0" />
       <Button fx:id="addApptCancelButton" layoutX="208.0" layoutY="569.0" mnemonicParsing="false" onAction="#cancelButtonPressed" prefHeight="25.0" prefWidth="149.0" text="Cancel" />
-      <Label layoutX="67.0" layoutY="120.0" text="Title" />
-      <Label layoutX="66.0" layoutY="154.0" text="Description" />
-      <Label layoutX="69.0" layoutY="194.0" text="Location" />
-      <Label layoutX="68.0" layoutY="233.0" text="Type" />
-      <Label layoutX="70.0" layoutY="275.0" text="Start Date" />
-      <Label layoutX="72.0" layoutY="354.0" text="End Date" />
-      <Label layoutX="70.0" layoutY="315.0" text="Start Time" />
-      <Label layoutX="72.0" layoutY="392.0" text="End Time" />
-      <Label layoutX="75.0" layoutY="430.0" text="Customer ID" />
-      <Label layoutX="78.0" layoutY="469.0" text="User ID" />
-      <Label layoutX="77.0" layoutY="506.0" text="Contact" />
+      <Label layoutX="111.0" layoutY="93.0" text="Title" />
+      <Label layoutX="79.0" layoutY="127.0" text="Description" />
+      <Label layoutX="87.0" layoutY="167.0" text="Location" />
+      <Label layoutX="109.0" layoutY="206.0" text="Type" />
+      <Label layoutX="83.0" layoutY="248.0" text="Start Date" />
+      <Label layoutX="87.0" layoutY="342.0" text="End Date" />
+      <Label layoutX="35.0" layoutY="302.0" text="Start Time (Military)" />
+      <Label layoutX="35.0" layoutY="392.0" prefHeight="17.0" prefWidth="105.0" text="End Time (Military)" />
+      <Label layoutX="66.0" layoutY="430.0" text="Customer ID" />
+      <Label layoutX="92.0" layoutY="469.0" text="User ID" />
+      <Label layoutX="90.0" layoutY="506.0" text="Contact" />
+      <Label layoutX="195.0" layoutY="280.0" text="Hour" />
+      <Label layoutX="286.0" layoutY="280.0" text="Minute" />
+      <Label layoutX="195.0" layoutY="371.0" text="Hour" />
+      <Label layoutX="287.0" layoutY="371.0" text="Minute" />
+      <TextField fx:id="addApptStartTimeHourField" layoutX="172.0" layoutY="298.0" prefHeight="25.0" prefWidth="86.0" />
+      <TextField fx:id="addApptStartTimeMinuteField" layoutX="263.0" layoutY="298.0" prefHeight="25.0" prefWidth="86.0" />
+      <TextField fx:id="addApptEndTimeHourField" layoutX="172.0" layoutY="388.0" prefHeight="25.0" prefWidth="86.0" />
+      <TextField fx:id="addApptEndTimeMinuteField" layoutX="263.0" layoutY="388.0" prefHeight="25.0" prefWidth="86.0" />
    </children>
 </AnchorPane>
