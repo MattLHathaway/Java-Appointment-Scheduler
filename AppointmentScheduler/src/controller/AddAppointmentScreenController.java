@@ -125,7 +125,7 @@ public class AddAppointmentScreenController implements Initializable {
         apptList.forEach(Appointment -> allAppointmentIDs.add(Integer.toString(Appointment.getApptID())));
         int sumVal = 0;
         for(int i = 0; i < allAppointmentIDs.size(); i++) {
-            sumVal = Integer.parseInt(sumVal + String.valueOf(allAppointmentIDs.get(i)));
+            sumVal = Integer.parseInt(String.valueOf(allAppointmentIDs.get(i))) + sumVal;
         }
         return sumVal;
     }

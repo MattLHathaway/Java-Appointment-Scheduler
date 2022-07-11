@@ -30,7 +30,7 @@ public class MainMenu implements Initializable {
     public RadioButton viewByWeekRadio;
     public RadioButton viewByMonthRadio;
     public RadioButton viewAllRadio;
-    public TableView table;
+    public TableView<Appointment> table;
     public TableColumn apptIDCol;
     public TableColumn titleCol;
     public TableColumn descriptionCol;
@@ -80,6 +80,12 @@ public class MainMenu implements Initializable {
     public void dummyAppointmentDeletor() throws SQLException {
         AppointmentQuery.deleteByID(3);
         System.out.println("Appointment Succesfully Deleted!");
+    }
+
+    public void onDeleteButtonPressed(ActionEvent event) throws Exception {
+        int deleteApptID = table.getSelectionModel().getSelectedItem().getApptID();
+        AppointmentQuery.deleteByID(deleteApptID);
+        populateTable();
     }
 
     public void populateTable() throws SQLException {

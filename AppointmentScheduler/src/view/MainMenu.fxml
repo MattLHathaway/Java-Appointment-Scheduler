@@ -53,7 +53,7 @@
             <Font size="14.0" />
          </font>
       </Button>
-      <Button fx:id="deleteAppointmentButton" layoutX="671.0" layoutY="472.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="148.0" text="Delete Appointment">
+      <Button fx:id="deleteAppointmentButton" layoutX="671.0" layoutY="472.0" mnemonicParsing="false" onAction="#onDeleteButtonPressed" prefHeight="30.0" prefWidth="148.0" text="Delete Appointment">
          <font>
             <Font size="14.0" />
          </font>
