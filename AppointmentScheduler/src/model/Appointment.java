@@ -35,6 +35,9 @@ public class Appointment {
         this.contactID = contactID;
     }
 
+    public Appointment() {
+
+    }
 
 
     //GETTERS & SETTERS
