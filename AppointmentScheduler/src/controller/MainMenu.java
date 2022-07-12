@@ -24,6 +24,7 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.EventObject;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.TimeZone;
 
@@ -77,22 +78,28 @@ public class MainMenu implements Initializable {
         }
     }
 
-    public void dummyAppointmentCreator() throws SQLException {
-            AppointmentQuery.insert(3, "title", "description", "location", "Planning Session", "2020-05-28 12:00:00", "2020-05-28 13:00:00", "2022-07-06 15:12:56", "script", "2022-07-06 15:12:56", "script", 2, 2, 2);
-            System.out.println("Appointment Succesfully Added!");
-    }
-
-    public void dummyAppointmentDeletor() throws SQLException {
-        AppointmentQuery.deleteByID(3);
-        System.out.println("Appointment Succesfully Deleted!");
-    }
-
     public void onDeleteButtonPressed(ActionEvent event) throws Exception {
-        int deleteApptID = table.getSelectionModel().getSelectedItem().getApptID();
-        AppointmentQuery.deleteByID(deleteApptID);
+        //Check for selected appointment from appt table
+        if (table.getSelectionModel() != null) {
+            //Create "ARE YOU SURE?" Alert Box
+            ButtonType delete = new ButtonType("Delete", ButtonBar.ButtonData.OK_DONE);
+            ButtonType cancel = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
+            Alert alert = new Alert(Alert.AlertType.WARNING,
+                    "Are you sure you want to Delete the Appointment?",
+                    delete,
+                    cancel);
+            alert.setTitle("Delete Warning");
+            Optional<ButtonType> result = alert.showAndWait();
+            //Deletes Appt from DB if delete button is clicked
+            if (result.orElse(cancel) == delete) {
+                int deleteApptID = table.getSelectionModel().getSelectedItem().getApptID();
+                AppointmentQuery.deleteByID(deleteApptID);
+            }
+        }
+        //Refresh the Table
         populateTable();
 
-        //Clear fields
+        //Clear the modification fields
         apptIDField.setText("");
         apptTitleField.setText("");
         apptDescriptionField.setText("");
