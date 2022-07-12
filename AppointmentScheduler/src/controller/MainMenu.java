@@ -78,6 +78,76 @@ public class MainMenu implements Initializable {
         }
     }
 
+    public void onModifyButtonPressed(ActionEvent event) throws IOException, SQLException {
+        //Check for selected appointment from appt table
+        if (table.getSelectionModel() != null) {
+            //Create "ARE YOU SURE?" Alert Box
+            ButtonType modify = new ButtonType("Modify", ButtonBar.ButtonData.OK_DONE);
+            ButtonType cancel = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
+            Alert alert = new Alert(Alert.AlertType.WARNING,
+                    "Are you sure you want to Modify the Appointment?",
+                    modify,
+                    cancel);
+            alert.setTitle("Update Warning");
+            Optional<ButtonType> result = alert.showAndWait();
+            //Modifies Appt in DB if modify button is clicked
+            if (result.orElse(cancel) == modify) {
+                //Grab Original Info to be Modified
+                Appointment selectedAppointment = table.getSelectionModel().getSelectedItem();
+
+                //Variables for formatting
+                String startFormatted = apptStartDatePicker.getValue() + " " + apptStartTimeField.getText();
+                String endFormatted = apptEndDatePicker.getValue() + " " + apptEndTimeField.getText();
+
+                //Grab Info to be Updated and add it to temporary Appointment object
+                selectedAppointment.setTitle(apptTitleField.getText());
+                selectedAppointment.setDescription(apptDescriptionField.getText());
+                selectedAppointment.setLocation(apptLocationField.getText());
+                selectedAppointment.setType(apptTypeField.getText());
+                selectedAppointment.setCustomerID(Integer.parseInt(String.valueOf(apptCustomerIDChoicebox.getValue())));
+                selectedAppointment.setStartTime(startFormatted);
+                selectedAppointment.setContactID(Integer.parseInt(String.valueOf(apptContactChoicebox.getValue())));
+                selectedAppointment.setEndTime(endFormatted);
+                selectedAppointment.setUserID(Integer.parseInt(String.valueOf(apptUserIDChoicebox.getValue())));
+
+                //Push updated Info to DB
+                AppointmentQuery.update(selectedAppointment.getApptID(),
+                        selectedAppointment.getTitle(),
+                        selectedAppointment.getDescription(),
+                        selectedAppointment.getLocation(),
+                        selectedAppointment.getType(),
+                        selectedAppointment.getStartTime(),
+                        selectedAppointment.getEndTime(),
+                        selectedAppointment.getCreateDate(),
+                        selectedAppointment.getCreatedBy(),
+                        selectedAppointment.getLastUpdate(),
+                        selectedAppointment.getLastUpdatedBy(),
+                        selectedAppointment.getCustomerID(),
+                        selectedAppointment.getUserID(),
+                        selectedAppointment.getContactID());
+
+                System.out.println("Appointment Modified!");
+            }
+        }
+
+        //Refresh the Table
+        populateTable();
+
+        //Clear the modification fields
+        apptIDField.setText("");
+        apptTitleField.setText("");
+        apptDescriptionField.setText("");
+        apptLocationField.setText("");
+        apptTypeField.setText("");
+        apptCustomerIDChoicebox.setValue(null);
+        apptStartDatePicker.setValue(null);
+        apptStartTimeField.setText("");
+        apptContactChoicebox.setValue(null);
+        apptEndDatePicker.setValue(null);
+        apptEndTimeField.setText("");
+        apptUserIDChoicebox.setValue(null);
+    }
+
     public void onDeleteButtonPressed(ActionEvent event) throws Exception {
         //Check for selected appointment from appt table
         if (table.getSelectionModel() != null) {
