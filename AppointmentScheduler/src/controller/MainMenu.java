@@ -191,7 +191,7 @@ public class MainMenu implements Initializable {
                 apptEndTimeField.setText(endTimeFormatted);
                 apptUserIDChoicebox.setValue(String.valueOf(selectedAppt.getUserID()));
 
-            } //2022-07-04 12:00:00  10 and 8
+            }
         });
     }
 
