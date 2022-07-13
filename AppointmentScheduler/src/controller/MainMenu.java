@@ -187,17 +187,11 @@ public class MainMenu implements Initializable {
         apptTypeField.setText("");
         apptCustomerIDChoicebox.setValue(null);
         apptStartDatePicker.setValue(null);
-        startTimeChoiceBox.setValue("");
+        startTimeChoiceBox.setValue(null);
         apptContactChoicebox.setValue(null);
         apptEndDatePicker.setValue(null);
-        endTimeChoicebox.setValue("");
+        endTimeChoicebox.setValue(null);
         apptUserIDChoicebox.setValue(null);
-    }
-
-    public void onModifyAppointmentPressed(ActionEvent event) throws IOException {
-        //Store selected appt as object
-        Appointment selectedAppointment = table.getSelectionModel().getSelectedItem();
-
     }
 
     public void radioCheck(ActionEvent event) throws SQLException {

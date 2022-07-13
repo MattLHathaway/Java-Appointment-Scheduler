@@ -25,6 +25,7 @@ import model.Users;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.time.LocalTime;
 import java.util.ResourceBundle;
 import java.util.UUID;
 
@@ -41,8 +42,8 @@ public class AddAppointmentScreenController implements Initializable {
     public Button addApptCancelButton;
     public ChoiceBox addApptCustomerIDChoicebox;
     public ChoiceBox addApptUserIDCheckbox;
-    public TextField addApptStartTimeField;
-    public TextField addApptEndTimeField;
+    public ChoiceBox addApptEndTimeChoicebox;
+    public ChoiceBox addApptStartTimeChoicebox;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -72,8 +73,8 @@ public class AddAppointmentScreenController implements Initializable {
     public void saveButtonPressed(ActionEvent event) throws IOException, SQLException {
         //Variables and Time String Formatting
         int uniqueID = createUniqueAppointmentID();
-        String formattedStartTime = addApptStartDatePicker.getValue() + " " + addApptStartTimeField.getText();
-        String formattedEndTime = addApptEndDatePicker.getValue() + " " + addApptEndTimeField.getText();
+        String formattedStartTime = addApptStartDatePicker.getValue() + " " + addApptStartTimeChoicebox.getValue() + ":00";
+        String formattedEndTime = addApptEndDatePicker.getValue() + " " + addApptEndTimeChoicebox.getValue() + ":00";
         String formattedCreateTime = java.time.LocalDate.now() + " " + java.time.LocalTime.now();
 
         //Turning Names into IDs for the Table
@@ -138,13 +139,8 @@ public class AddAppointmentScreenController implements Initializable {
         return sumVal;
     }
 
-    public void fillChoiceBoxOptions() throws SQLException {
 
-        //PULLING Customer IDs of ALL customers
-//        ObservableList<Customer> custList = CustomerQuery.getCustomerList();
-//        ObservableList<String> allCustomerIDs = FXCollections.observableArrayList();
-//        custList.forEach(Customer -> allCustomerIDs.add(Integer.toString(Customer.getCustomerID())));
-//        addApptCustomerIDChoicebox.setItems(allCustomerIDs);
+    public void fillChoiceBoxOptions() throws SQLException {
 
         //PULLING Customer Names
         ObservableList<Customer> custList = CustomerQuery.getCustomerList();
@@ -163,6 +159,22 @@ public class AddAppointmentScreenController implements Initializable {
         ObservableList<String> allContactNames = FXCollections.observableArrayList();
         contactList.forEach(Contact -> allContactNames.add(Contact.getContactName()));
         addApptContactChoicebox.setItems(allContactNames);
+
+        //Adding Available Appointment Times
+        ObservableList<String> appointmentTimes = FXCollections.observableArrayList();
+
+        LocalTime firstAppointment = LocalTime.MIN.plusHours(8);
+        LocalTime lastAppointment = LocalTime.MAX.minusHours(1).minusMinutes(45);
+
+        //if statement to prevent loops
+        if (!firstAppointment.equals(0) || !lastAppointment.equals(0)) {
+            while (firstAppointment.isBefore(lastAppointment)) {
+                appointmentTimes.add(String.valueOf(firstAppointment));
+                firstAppointment = firstAppointment.plusMinutes(15);
+            }
+        }
+        addApptStartTimeChoicebox.setItems(appointmentTimes);
+        addApptEndTimeChoicebox.setItems(appointmentTimes);
 
     }
 

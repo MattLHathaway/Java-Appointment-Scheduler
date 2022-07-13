@@ -38,8 +38,8 @@
       <Label layoutX="123.0" layoutY="459.0" text="Customer ID" />
       <Label layoutX="149.0" layoutY="498.0" text="User ID" />
       <Label layoutX="147.0" layoutY="535.0" text="Contact" />
-      <TextField fx:id="addApptStartTimeField" layoutX="232.0" layoutY="332.0" prefHeight="25.0" prefWidth="86.0" promptText="12:00:00" />
-      <TextField fx:id="addApptEndTimeField" layoutX="235.0" layoutY="409.0" prefHeight="25.0" prefWidth="86.0" promptText="12:00:00" />
       <Label layoutX="105.0" layoutY="413.0" text="End Time (Military)" />
+      <ChoiceBox fx:id="addApptStartTimeChoicebox" layoutX="231.0" layoutY="332.0" prefWidth="150.0" />
+      <ChoiceBox fx:id="addApptEndTimeChoicebox" layoutX="231.0" layoutY="409.0" prefWidth="150.0" />
    </children>
 </AnchorPane>
