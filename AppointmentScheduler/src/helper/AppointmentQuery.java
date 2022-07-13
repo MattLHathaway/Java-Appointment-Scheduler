@@ -7,6 +7,7 @@ import model.Appointment;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 
 public abstract class AppointmentQuery {
 
@@ -63,6 +64,58 @@ public abstract class AppointmentQuery {
     public static ObservableList<Appointment> getAppointmentList() throws SQLException {
         ObservableList<Appointment> AppointmentList = FXCollections.observableArrayList();
         String sql = "SELECT * FROM appointments";
+        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+        ResultSet rs = ps.executeQuery();
+        while(rs.next()) {
+            int appointmentID = rs.getInt("Appointment_ID");
+            String title = rs.getString("Title");
+            String description = rs.getString("Description");
+            String location = rs.getString("Location");
+            String type = rs.getString("Type");
+            String start = rs.getString("Start");
+            String end = rs.getString("End");
+            String createDate = rs.getString("Create_Date");
+            String createdBy = rs.getString("Created_By");
+            String lastUpdate = rs.getString("Last_Update");
+            String lastUpdatedBy = rs.getString("Last_Updated_By");
+            int customerID = rs.getInt("Customer_ID");
+            int userID = rs.getInt("User_ID");
+            int contactID = rs.getInt("Contact_ID");
+            Appointment appointment = new Appointment(appointmentID, title, description, location, type, start, end, createDate, createdBy, lastUpdate, lastUpdatedBy, customerID, userID, contactID);
+            AppointmentList.add(appointment);
+        }
+        return AppointmentList;
+    }
+
+    public static ObservableList<Appointment> getAppointmentListByWeek() throws SQLException {
+        ObservableList<Appointment> AppointmentList = FXCollections.observableArrayList();
+        String sql = "SELECT * FROM appointments WHERE YEARWEEK(Start) = YEARWEEK(NOW());";
+        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+        ResultSet rs = ps.executeQuery();
+        while(rs.next()) {
+            int appointmentID = rs.getInt("Appointment_ID");
+            String title = rs.getString("Title");
+            String description = rs.getString("Description");
+            String location = rs.getString("Location");
+            String type = rs.getString("Type");
+            String start = rs.getString("Start");
+            String end = rs.getString("End");
+            String createDate = rs.getString("Create_Date");
+            String createdBy = rs.getString("Created_By");
+            String lastUpdate = rs.getString("Last_Update");
+            String lastUpdatedBy = rs.getString("Last_Updated_By");
+            int customerID = rs.getInt("Customer_ID");
+            int userID = rs.getInt("User_ID");
+            int contactID = rs.getInt("Contact_ID");
+            Appointment appointment = new Appointment(appointmentID, title, description, location, type, start, end, createDate, createdBy, lastUpdate, lastUpdatedBy, customerID, userID, contactID);
+            AppointmentList.add(appointment);
+        }
+        return AppointmentList;
+    }
+
+    public static ObservableList<Appointment> getAppointmentListByMonth() throws SQLException {
+        ObservableList<Appointment> AppointmentList = FXCollections.observableArrayList();
+        String sql = "SELECT * FROM appointments WHERE MONTH(Start)=MONTH(now()) AND YEAR(Start)=YEAR(now());";
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
         ResultSet rs = ps.executeQuery();
         while(rs.next()) {

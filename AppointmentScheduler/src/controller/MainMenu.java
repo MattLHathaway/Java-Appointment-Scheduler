@@ -198,21 +198,66 @@ public class MainMenu implements Initializable {
 
     }
 
+    public void radioCheck(ActionEvent event) throws SQLException {
+        populateTable();
+    }
+
     public void populateTable() throws SQLException {
-        ObservableList<Appointment> appointmentsList = AppointmentQuery.getAppointmentList();
 
-        apptIDCol.setCellValueFactory(new PropertyValueFactory<>("apptID"));
-        titleCol.setCellValueFactory(new PropertyValueFactory<>("title"));
-        descriptionCol.setCellValueFactory(new PropertyValueFactory<>("description"));
-        locationCol.setCellValueFactory(new PropertyValueFactory<>("location"));
-        contactCol.setCellValueFactory(new PropertyValueFactory<>("contactID"));
-        typeCol.setCellValueFactory(new PropertyValueFactory<>("type"));
-        startDateTimeCol.setCellValueFactory(new PropertyValueFactory<>("startTime"));
-        endDateTimeCol.setCellValueFactory(new PropertyValueFactory<>("endTime"));
-        customerIDCol.setCellValueFactory(new PropertyValueFactory<>("customerID"));
-        userIDCol.setCellValueFactory(new PropertyValueFactory<>("userID"));
+        //Define Filter Radio/ChoiceBoxes
+        RadioButton AllRB = (RadioButton) viewAllRadio;
+        RadioButton weekRB = (RadioButton) viewByWeekRadio;
+        RadioButton monthRB = (RadioButton) viewByMonthRadio;
 
-        table.setItems(appointmentsList);
+        //CHECK FILTER
+        if (AllRB.isSelected()) {
+            ObservableList<Appointment> appointmentsList = AppointmentQuery.getAppointmentList();
+
+            apptIDCol.setCellValueFactory(new PropertyValueFactory<>("apptID"));
+            titleCol.setCellValueFactory(new PropertyValueFactory<>("title"));
+            descriptionCol.setCellValueFactory(new PropertyValueFactory<>("description"));
+            locationCol.setCellValueFactory(new PropertyValueFactory<>("location"));
+            contactCol.setCellValueFactory(new PropertyValueFactory<>("contactID"));
+            typeCol.setCellValueFactory(new PropertyValueFactory<>("type"));
+            startDateTimeCol.setCellValueFactory(new PropertyValueFactory<>("startTime"));
+            endDateTimeCol.setCellValueFactory(new PropertyValueFactory<>("endTime"));
+            customerIDCol.setCellValueFactory(new PropertyValueFactory<>("customerID"));
+            userIDCol.setCellValueFactory(new PropertyValueFactory<>("userID"));
+
+            table.setItems(appointmentsList);
+        } else if (weekRB.isSelected()) {
+            //getAppointmentListByWeek
+            ObservableList<Appointment> appointmentsList = AppointmentQuery.getAppointmentListByWeek();
+
+            apptIDCol.setCellValueFactory(new PropertyValueFactory<>("apptID"));
+            titleCol.setCellValueFactory(new PropertyValueFactory<>("title"));
+            descriptionCol.setCellValueFactory(new PropertyValueFactory<>("description"));
+            locationCol.setCellValueFactory(new PropertyValueFactory<>("location"));
+            contactCol.setCellValueFactory(new PropertyValueFactory<>("contactID"));
+            typeCol.setCellValueFactory(new PropertyValueFactory<>("type"));
+            startDateTimeCol.setCellValueFactory(new PropertyValueFactory<>("startTime"));
+            endDateTimeCol.setCellValueFactory(new PropertyValueFactory<>("endTime"));
+            customerIDCol.setCellValueFactory(new PropertyValueFactory<>("customerID"));
+            userIDCol.setCellValueFactory(new PropertyValueFactory<>("userID"));
+
+            table.setItems(appointmentsList);
+        } else if (monthRB.isSelected()) {
+            ObservableList<Appointment> appointmentsList = AppointmentQuery.getAppointmentListByMonth();
+
+            apptIDCol.setCellValueFactory(new PropertyValueFactory<>("apptID"));
+            titleCol.setCellValueFactory(new PropertyValueFactory<>("title"));
+            descriptionCol.setCellValueFactory(new PropertyValueFactory<>("description"));
+            locationCol.setCellValueFactory(new PropertyValueFactory<>("location"));
+            contactCol.setCellValueFactory(new PropertyValueFactory<>("contactID"));
+            typeCol.setCellValueFactory(new PropertyValueFactory<>("type"));
+            startDateTimeCol.setCellValueFactory(new PropertyValueFactory<>("startTime"));
+            endDateTimeCol.setCellValueFactory(new PropertyValueFactory<>("endTime"));
+            customerIDCol.setCellValueFactory(new PropertyValueFactory<>("customerID"));
+            userIDCol.setCellValueFactory(new PropertyValueFactory<>("userID"));
+
+            table.setItems(appointmentsList);
+        }
+
 
         //Set Table to be Clickable
         table.setOnMouseClicked(event ->{
