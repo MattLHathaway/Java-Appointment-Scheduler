@@ -53,7 +53,24 @@ public abstract class ContactQuery {
         return ContactList;
     }
 
-    public static Contact getByID(int contID) throws SQLException {
+    public static String getContactNameByID(int contID) throws SQLException {
+        Contact selectedContact = new Contact();
+        String sql = "SELECT * FROM contacts WHERE Contact_ID = ?";
+        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+        ps.setInt(1, contID);
+        ResultSet rs = ps.executeQuery();
+        while(rs.next()) {
+            int contactID = rs.getInt("Contact_ID");
+            String contactName = rs.getString("Contact_Name");
+            String contactEmail = rs.getString("Email");
+            Contact contact = new Contact(contactID, contactName, contactEmail);
+            selectedContact = contact;
+        }
+        String output = selectedContact.getContactName();
+        return output;
+    }
+
+    public static Contact getObjectByID(int contID) throws SQLException {
         Contact selectedContact = new Contact();
         String sql = "SELECT * FROM contacts WHERE Contact_ID = ?";
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
@@ -67,6 +84,23 @@ public abstract class ContactQuery {
             selectedContact = contact;
         }
         return selectedContact;
+    }
+
+    public static int getIdByName(String contName) throws SQLException {
+        Contact selectedContact = new Contact();
+        String sql = "SELECT * FROM contacts WHERE Contact_Name = ?";
+        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+        ps.setString(1, contName);
+        ResultSet rs = ps.executeQuery();
+        while(rs.next()) {
+            int contactID = rs.getInt("Contact_ID");
+            String contactName = rs.getString("Contact_Name");
+            String contactEmail = rs.getString("Email");
+            Contact contact = new Contact(contactID, contactName, contactEmail);
+            selectedContact = contact;
+        }
+        int output = selectedContact.getContactID();
+        return output;
     }
 
 }

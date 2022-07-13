@@ -98,4 +98,50 @@ public abstract class CustomerQuery {
         return selectedCustomer;
     }
 
+    public static String getNameByID(int custID) throws SQLException {
+        String sql = "SELECT * FROM customers WHERE Customer_ID = ?";
+        Customer selectedCustomer = new Customer();
+        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+        ps.setInt(1, custID);
+        ResultSet rs = ps.executeQuery();
+        while(rs.next()) {
+            int customerID = rs.getInt("Customer_ID");
+            String customerName = rs.getString("Customer_Name");
+            String address = rs.getString("Address");
+            String postalCode = rs.getString("Postal_Code");
+            String phoneNumber = rs.getString("Phone");
+            String createdDate = rs.getString("Create_Date");
+            String createdBy = rs.getString("Created_By");
+            String lastUpdate = rs.getString("Last_Update");
+            String lastUpdatedBy = rs.getString("Last_Updated_By");
+            int divisionID = rs.getInt("Division_ID");
+            Customer customer = new Customer(customerID, customerName, address, postalCode, phoneNumber, createdDate, createdBy, lastUpdate, lastUpdatedBy, divisionID);
+            selectedCustomer = customer;
+        }
+        return selectedCustomer.getCustomerName();
+    }
+
+    public static int getIDbyName(String custName) throws SQLException {
+        String sql = "SELECT * FROM customers WHERE Customer_Name = ?";
+        Customer selectedCustomer = new Customer();
+        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+        ps.setString(1, custName);
+        ResultSet rs = ps.executeQuery();
+        while(rs.next()) {
+            int customerID = rs.getInt("Customer_ID");
+            String customerName = rs.getString("Customer_Name");
+            String address = rs.getString("Address");
+            String postalCode = rs.getString("Postal_Code");
+            String phoneNumber = rs.getString("Phone");
+            String createdDate = rs.getString("Create_Date");
+            String createdBy = rs.getString("Created_By");
+            String lastUpdate = rs.getString("Last_Update");
+            String lastUpdatedBy = rs.getString("Last_Updated_By");
+            int divisionID = rs.getInt("Division_ID");
+            Customer customer = new Customer(customerID, customerName, address, postalCode, phoneNumber, createdDate, createdBy, lastUpdate, lastUpdatedBy, divisionID);
+            selectedCustomer = customer;
+        }
+        return selectedCustomer.getCustomerID();
+    }
+
 }

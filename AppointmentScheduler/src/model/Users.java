@@ -19,6 +19,10 @@ public class Users {
         this.userLastUpdatedBy = userLastUpdatedBy;
     }
 
+    public Users() {
+
+    }
+
     //GETTERS & SETTERS
 
     public int getUserID() {

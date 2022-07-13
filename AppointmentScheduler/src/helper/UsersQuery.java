@@ -2,6 +2,7 @@ package helper;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import model.Customer;
 import model.Users;
 
 import java.sql.PreparedStatement;
@@ -107,6 +108,46 @@ public abstract class UsersQuery {
             allUserPasswords.add(usersPassword);
         }
         return allUserPasswords;
+    }
+
+    public static String getNameByID(int inputUserID) throws SQLException  {
+        String sql = "SELECT * FROM users WHERE User_ID = ?";
+        Users selectedUser = new Users();
+        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+        ps.setInt(1, inputUserID);
+        ResultSet rs = ps.executeQuery();
+        while(rs.next()) {
+            int userID = rs.getInt("User_ID");
+            String userName = rs.getString("User_Name");
+            String userPassword = rs.getString("Password");
+            String userCreateDate = rs.getString("Create_Date");
+            String userCreatedBy = rs.getString("Created_By");
+            String userLastUpdate = rs.getString("Last_Update");
+            String userLastUpdatedBy = rs.getString("Last_Updated_By");
+            Users user = new Users(userID, userName, userPassword, userCreateDate, userCreatedBy, userLastUpdate, userLastUpdatedBy);
+            selectedUser = user;
+        }
+        return selectedUser.getUserName();
+    }
+
+    public static int getIdByName(String inputUserName) throws SQLException  {
+        String sql = "SELECT * FROM users WHERE User_Name = ?";
+        Users selectedUser = new Users();
+        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+        ps.setString(1, inputUserName);
+        ResultSet rs = ps.executeQuery();
+        while(rs.next()) {
+            int userID = rs.getInt("User_ID");
+            String userName = rs.getString("User_Name");
+            String userPassword = rs.getString("Password");
+            String userCreateDate = rs.getString("Create_Date");
+            String userCreatedBy = rs.getString("Created_By");
+            String userLastUpdate = rs.getString("Last_Update");
+            String userLastUpdatedBy = rs.getString("Last_Updated_By");
+            Users user = new Users(userID, userName, userPassword, userCreateDate, userCreatedBy, userLastUpdate, userLastUpdatedBy);
+            selectedUser = user;
+        }
+        return selectedUser.getUserID();
     }
 
 

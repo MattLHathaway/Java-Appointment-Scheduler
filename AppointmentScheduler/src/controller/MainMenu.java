@@ -56,11 +56,9 @@ public class MainMenu implements Initializable {
     public TextField apptDescriptionField;
     public TextField apptLocationField;
     public TextField apptTypeField;
-    public TextField apptCustomerIDField;
     public DatePicker apptStartDatePicker;
     public DatePicker apptEndDatePicker;
     public ChoiceBox apptContactChoicebox;
-    public TextField apptUserIDField;
     public TableColumn startDateTimeCol;
     public TableColumn endDateTimeCol;
     public TextField apptStartTimeField;

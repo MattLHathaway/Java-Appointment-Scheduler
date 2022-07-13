@@ -70,14 +70,22 @@ public class AddAppointmentScreenController implements Initializable {
 //        this.userID = userID;
 //        this.contactID = contactID;
     public void saveButtonPressed(ActionEvent event) throws IOException, SQLException {
-        //Variables
+        //Variables and Time String Formatting
         int uniqueID = createUniqueAppointmentID();
         String formattedStartTime = addApptStartDatePicker.getValue() + " " + addApptStartTimeField.getText();
         String formattedEndTime = addApptEndDatePicker.getValue() + " " + addApptEndTimeField.getText();
         String formattedCreateTime = java.time.LocalDate.now() + " " + java.time.LocalTime.now();
-        String custID = (String) addApptCustomerIDChoicebox.getValue();
-        String userID = (String) addApptUserIDCheckbox.getValue();
+
+        //Turning Names into IDs for the Table
+        String customerID = (String) addApptCustomerIDChoicebox.getValue();
+        int customerIdByName = CustomerQuery.getIDbyName(String.valueOf(customerID));
+
+        String usersID = (String) addApptUserIDCheckbox.getValue();
+        int usersIdByName = UsersQuery.getIdByName(String.valueOf(usersID));
+
         String contID = (String) addApptContactChoicebox.getValue();
+        int contactIdByName = ContactQuery.getIdByName(String.valueOf(contID));
+
         //Store Input into Appointment Object
         Appointment newAppointment = new Appointment(uniqueID,
                 addApptTitleField.getText(),
@@ -90,9 +98,9 @@ public class AddAppointmentScreenController implements Initializable {
                 "script",
                 formattedCreateTime,
                 "script",
-                Integer.parseInt(custID),
-                Integer.parseInt(userID),
-                Integer.parseInt(contID)
+                customerIdByName,
+                usersIdByName,
+                contactIdByName
                 );
         //Add Object to DB
         AppointmentQuery.insert(newAppointment.getApptID(),
@@ -133,20 +141,28 @@ public class AddAppointmentScreenController implements Initializable {
     public void fillChoiceBoxOptions() throws SQLException {
 
         //PULLING Customer IDs of ALL customers
+//        ObservableList<Customer> custList = CustomerQuery.getCustomerList();
+//        ObservableList<String> allCustomerIDs = FXCollections.observableArrayList();
+//        custList.forEach(Customer -> allCustomerIDs.add(Integer.toString(Customer.getCustomerID())));
+//        addApptCustomerIDChoicebox.setItems(allCustomerIDs);
+
+        //PULLING Customer Names
         ObservableList<Customer> custList = CustomerQuery.getCustomerList();
-        ObservableList<String> allCustomerIDs = FXCollections.observableArrayList();
-        custList.forEach(Customer -> allCustomerIDs.add(Integer.toString(Customer.getCustomerID())));
-        addApptCustomerIDChoicebox.setItems(allCustomerIDs);
-        //Pulling User IDs of ALL users
+        ObservableList<String> allCustomerNames = FXCollections.observableArrayList();
+        custList.forEach(Customer -> allCustomerNames.add(Customer.getCustomerName()));
+        addApptCustomerIDChoicebox.setItems(allCustomerNames);
+
+        //Pulling Usernames of ALL users
         ObservableList<Users> userList = UsersQuery.getAllUsers();
-        ObservableList<String> allUserIDs = FXCollections.observableArrayList();
-        userList.forEach(Users -> allUserIDs.add(Integer.toString(Users.getUserID())));
-        addApptUserIDCheckbox.setItems(allUserIDs);
-        //Pulling Contact IDs of ALL contacts
+        ObservableList<String> allUserNames = FXCollections.observableArrayList();
+        userList.forEach(Users -> allUserNames.add(Users.getUserName()));
+        addApptUserIDCheckbox.setItems(allUserNames);
+
+        //Pulling Contact Names of ALL contacts
         ObservableList<Contact> contactList = ContactQuery.getContactList();
-        ObservableList<String> allContactIDs = FXCollections.observableArrayList();
-        contactList.forEach(Contact -> allContactIDs.add(Integer.toString(Contact.getContactID())));
-        addApptContactChoicebox.setItems(allContactIDs);
+        ObservableList<String> allContactNames = FXCollections.observableArrayList();
+        contactList.forEach(Contact -> allContactNames.add(Contact.getContactName()));
+        addApptContactChoicebox.setItems(allContactNames);
 
     }
 
