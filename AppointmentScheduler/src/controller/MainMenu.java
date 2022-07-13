@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.EventObject;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -61,10 +62,10 @@ public class MainMenu implements Initializable {
     public ChoiceBox apptContactChoicebox;
     public TableColumn startDateTimeCol;
     public TableColumn endDateTimeCol;
-    public TextField apptStartTimeField;
-    public TextField apptEndTimeField;
     public ChoiceBox apptUserIDChoicebox;
     public ChoiceBox apptCustomerIDChoicebox;
+    public ChoiceBox startTimeChoiceBox;
+    public ChoiceBox endTimeChoicebox;
 
     public void initialize(URL url, ResourceBundle resourceBundle) {
         System.out.println("We are at the Main Menu!");
@@ -94,8 +95,8 @@ public class MainMenu implements Initializable {
                 Appointment selectedAppointment = table.getSelectionModel().getSelectedItem();
 
                 //Variables for formatting
-                String startFormatted = apptStartDatePicker.getValue() + " " + apptStartTimeField.getText();
-                String endFormatted = apptEndDatePicker.getValue() + " " + apptEndTimeField.getText();
+                String startFormatted = apptStartDatePicker.getValue() + " " + startTimeChoiceBox.getValue();
+                String endFormatted = apptEndDatePicker.getValue() + " " + endTimeChoicebox.getValue();
 
                 //Translating the Usernames into IDs for DB storage
                 String customerID = (String) apptCustomerIDChoicebox.getValue();
@@ -113,11 +114,12 @@ public class MainMenu implements Initializable {
                 selectedAppointment.setLocation(apptLocationField.getText());
                 selectedAppointment.setType(apptTypeField.getText());
                 selectedAppointment.setCustomerID(customerIdByName);
-                selectedAppointment.setStartTime(startFormatted);
+                selectedAppointment.setStartTime(startFormatted + ":00");
                 selectedAppointment.setContactID(usersIdByName);
-                selectedAppointment.setEndTime(endFormatted);
+                selectedAppointment.setEndTime(endFormatted + ":00");
                 selectedAppointment.setUserID(contactIdByName);
 
+                //.substring(endRaw.length()-8)
                 //Push updated Info to DB
                 AppointmentQuery.update(selectedAppointment.getApptID(),
                         selectedAppointment.getTitle(),
@@ -149,10 +151,10 @@ public class MainMenu implements Initializable {
         apptTypeField.setText("");
         apptCustomerIDChoicebox.setValue(null);
         apptStartDatePicker.setValue(null);
-        apptStartTimeField.setText("");
+        startTimeChoiceBox.setValue(null);
         apptContactChoicebox.setValue(null);
         apptEndDatePicker.setValue(null);
-        apptEndTimeField.setText("");
+        endTimeChoicebox.setValue(null);
         apptUserIDChoicebox.setValue(null);
     }
 
@@ -185,10 +187,10 @@ public class MainMenu implements Initializable {
         apptTypeField.setText("");
         apptCustomerIDChoicebox.setValue(null);
         apptStartDatePicker.setValue(null);
-        apptStartTimeField.setText("");
+        startTimeChoiceBox.setValue("");
         apptContactChoicebox.setValue(null);
         apptEndDatePicker.setValue(null);
-        apptEndTimeField.setText("");
+        endTimeChoicebox.setValue("");
         apptUserIDChoicebox.setValue(null);
     }
 
@@ -307,8 +309,6 @@ public class MainMenu implements Initializable {
                 contactList.forEach(Contact -> allContactNames.add(Contact.getContactName()));
                 apptContactChoicebox.setItems(allContactNames);
 
-                //Translating variables
-
 
                 //Filling the Modification Fields with Selected Appointments' Data !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                 apptIDField.setText(String.valueOf(selectedAppt.getApptID()));
@@ -322,19 +322,35 @@ public class MainMenu implements Initializable {
                     throw new RuntimeException(e);
                 }
                 apptStartDatePicker.setValue(LocalDate.parse(startDateFormatted));
-                apptStartTimeField.setText(startTimeFormatted);
                 try {
                     apptContactChoicebox.setValue(ContactQuery.getContactNameByID(selectedAppt.getContactID()));
                 } catch (SQLException e) {
                     throw new RuntimeException(e);
                 }
                 apptEndDatePicker.setValue(LocalDate.parse(endDateFormatted));
-                apptEndTimeField.setText(endTimeFormatted);
                 try {
                     apptUserIDChoicebox.setValue(UsersQuery.getNameByID(selectedAppt.getUserID()));
                 } catch (SQLException e) {
                     throw new RuntimeException(e);
                 }
+
+                //Filling available appointment times
+                ObservableList<String> appointmentTimes = FXCollections.observableArrayList();
+
+                LocalTime firstAppointment = LocalTime.MIN.plusHours(8);
+                LocalTime lastAppointment = LocalTime.MAX.minusHours(1).minusMinutes(45);
+
+                //if statement to prevent loops
+                if (!firstAppointment.equals(0) || !lastAppointment.equals(0)) {
+                    while (firstAppointment.isBefore(lastAppointment)) {
+                        appointmentTimes.add(String.valueOf(firstAppointment));
+                        firstAppointment = firstAppointment.plusMinutes(15);
+                    }
+                }
+                startTimeChoiceBox.setItems(appointmentTimes);
+                endTimeChoicebox.setItems(appointmentTimes);
+                startTimeChoiceBox.setValue(startTimeFormatted.substring(0,5));
+                endTimeChoicebox.setValue(endTimeFormatted.substring(0,5));
 
             }
         });

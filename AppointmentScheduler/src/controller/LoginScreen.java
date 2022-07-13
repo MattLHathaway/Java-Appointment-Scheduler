@@ -13,6 +13,7 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import main.TimeUtility;
 
 import java.io.IOException;
 import java.net.URL;
@@ -51,6 +52,7 @@ public class LoginScreen implements Initializable {
         setAppLanguage();
         applyTimeZone();
         ResourceBundle rb = ResourceBundle.getBundle("en_lang");
+
     }
 
     public void applyTimeZone() {
