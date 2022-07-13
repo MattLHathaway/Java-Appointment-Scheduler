@@ -97,16 +97,26 @@ public class MainMenu implements Initializable {
                 String startFormatted = apptStartDatePicker.getValue() + " " + apptStartTimeField.getText();
                 String endFormatted = apptEndDatePicker.getValue() + " " + apptEndTimeField.getText();
 
+                //Translating the Usernames into IDs for DB storage
+                String customerID = (String) apptCustomerIDChoicebox.getValue();
+                int customerIdByName = CustomerQuery.getIDbyName(String.valueOf(customerID));
+
+                String usersID = (String) apptUserIDChoicebox.getValue();
+                int usersIdByName = UsersQuery.getIdByName(String.valueOf(usersID));
+
+                String contID = (String) apptContactChoicebox.getValue();
+                int contactIdByName = ContactQuery.getIdByName(String.valueOf(contID));
+
                 //Grab Info to be Updated and add it to temporary Appointment object
                 selectedAppointment.setTitle(apptTitleField.getText());
                 selectedAppointment.setDescription(apptDescriptionField.getText());
                 selectedAppointment.setLocation(apptLocationField.getText());
                 selectedAppointment.setType(apptTypeField.getText());
-                selectedAppointment.setCustomerID(Integer.parseInt(String.valueOf(apptCustomerIDChoicebox.getValue())));
+                selectedAppointment.setCustomerID(customerIdByName);
                 selectedAppointment.setStartTime(startFormatted);
-                selectedAppointment.setContactID(Integer.parseInt(String.valueOf(apptContactChoicebox.getValue())));
+                selectedAppointment.setContactID(usersIdByName);
                 selectedAppointment.setEndTime(endFormatted);
-                selectedAppointment.setUserID(Integer.parseInt(String.valueOf(apptUserIDChoicebox.getValue())));
+                selectedAppointment.setUserID(contactIdByName);
 
                 //Push updated Info to DB
                 AppointmentQuery.update(selectedAppointment.getApptID(),
@@ -221,50 +231,65 @@ public class MainMenu implements Initializable {
                 String endDateFormatted = endRaw.substring(0, 10);
 
                 //Filling Choicebox Options
-                    //PULLING Customer IDs of ALL customers
+                    //PULLING Customer Names of ALL customers
                 ObservableList<Customer> custList = null;
                 try {
                     custList = CustomerQuery.getCustomerList();
                 } catch (SQLException e) {
                     throw new RuntimeException(e);
                 }
-                ObservableList<String> allCustomerIDs = FXCollections.observableArrayList();
-                custList.forEach(Customer -> allCustomerIDs.add(Integer.toString(Customer.getCustomerID())));
-                apptCustomerIDChoicebox.setItems(allCustomerIDs);
-                    //Pulling User IDs of ALL users
+                ObservableList<String> allCustomerNames = FXCollections.observableArrayList();
+                custList.forEach(Customer -> allCustomerNames.add(Customer.getCustomerName()));
+                apptCustomerIDChoicebox.setItems(allCustomerNames);
+                    //Pulling User Names of ALL users
                 ObservableList<Users> userList = null;
                 try {
                     userList = UsersQuery.getAllUsers();
                 } catch (SQLException e) {
                     throw new RuntimeException(e);
                 }
-                ObservableList<String> allUserIDs = FXCollections.observableArrayList();
-                userList.forEach(Users -> allUserIDs.add(Integer.toString(Users.getUserID())));
-                apptUserIDChoicebox.setItems(allUserIDs);
-                    //Pulling Contact IDs of ALL contacts
+                ObservableList<String> allUserNames = FXCollections.observableArrayList();
+                userList.forEach(Users -> allUserNames.add(Users.getUserName()));
+                apptUserIDChoicebox.setItems(allUserNames);
+                    //Pulling Contact Names of ALL contacts
                 ObservableList<Contact> contactList = null;
                 try {
                     contactList = ContactQuery.getContactList();
                 } catch (SQLException e) {
                     throw new RuntimeException(e);
                 }
-                ObservableList<String> allContactIDs = FXCollections.observableArrayList();
-                contactList.forEach(Contact -> allContactIDs.add(Integer.toString(Contact.getContactID())));
-                apptContactChoicebox.setItems(allContactIDs);
+                ObservableList<String> allContactNames = FXCollections.observableArrayList();
+                contactList.forEach(Contact -> allContactNames.add(Contact.getContactName()));
+                apptContactChoicebox.setItems(allContactNames);
 
-                //Filling the Modification Fields with Selected Appointments' Data
+                //Translating variables
+
+
+                //Filling the Modification Fields with Selected Appointments' Data !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                 apptIDField.setText(String.valueOf(selectedAppt.getApptID()));
                 apptTitleField.setText(selectedAppt.getTitle());
                 apptDescriptionField.setText(selectedAppt.getDescription());
                 apptLocationField.setText(selectedAppt.getLocation());
                 apptTypeField.setText(selectedAppt.getType());
-                apptCustomerIDChoicebox.setValue(String.valueOf(selectedAppt.getCustomerID()));
+                try {
+                    apptCustomerIDChoicebox.setValue(CustomerQuery.getNameByID(selectedAppt.getCustomerID()));
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
                 apptStartDatePicker.setValue(LocalDate.parse(startDateFormatted));
                 apptStartTimeField.setText(startTimeFormatted);
-                apptContactChoicebox.setValue(String.valueOf(selectedAppt.getContactID()));
+                try {
+                    apptContactChoicebox.setValue(ContactQuery.getContactNameByID(selectedAppt.getContactID()));
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
                 apptEndDatePicker.setValue(LocalDate.parse(endDateFormatted));
                 apptEndTimeField.setText(endTimeFormatted);
-                apptUserIDChoicebox.setValue(String.valueOf(selectedAppt.getUserID()));
+                try {
+                    apptUserIDChoicebox.setValue(UsersQuery.getNameByID(selectedAppt.getUserID()));
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
 
             }
         });
