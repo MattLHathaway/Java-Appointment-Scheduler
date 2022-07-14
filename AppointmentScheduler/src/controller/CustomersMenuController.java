@@ -17,10 +17,11 @@ import model.Customer;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class CustomersMenuController implements Initializable {
-    public TableView customerTable;
+    public TableView<Customer> customerTable;
     public TableColumn customerIDCol;
     public TableColumn customerNameCol;
     public TableColumn customerAddressCol;
@@ -38,7 +39,6 @@ public class CustomersMenuController implements Initializable {
     public Button deleteCustomerButton;
     public Button addCustomerButton;
     public Button logoutButton;
-    public Button saveCustomerButton;
     public Button appointmentsNavButton;
     public Button reportsNavButton;
 
@@ -82,6 +82,38 @@ public class CustomersMenuController implements Initializable {
         stage.setScene(scene);
         stage.show();
     }
+
+    public void onDeleteButtonPressed(ActionEvent event) throws Exception {
+        //Check for selected customer from table
+        if (customerTable.getSelectionModel() != null) {
+            //Create "ARE YOU SURE?" Alert Box
+            ButtonType delete = new ButtonType("Delete", ButtonBar.ButtonData.OK_DONE);
+            ButtonType cancel = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
+            Alert alert = new Alert(Alert.AlertType.WARNING,
+                    "Are you sure you want to Delete the Customer?",
+                    delete,
+                    cancel);
+            alert.setTitle("Delete Warning");
+            Optional<ButtonType> result = alert.showAndWait();
+            //Deletes Customer from DB if delete button is clicked
+            if (result.orElse(cancel) == delete) {
+                int customerFromTable = customerTable.getSelectionModel().getSelectedItem().getCustomerID();
+                CustomerQuery.deleteCustomerByID(customerFromTable);
+            }
+        }
+        //Refresh the Table
+        populateCustomersTable();
+
+        //Clear the modification fields
+        customerIDField.setText("");
+        customerNameField.setText("");
+        customerAddressField.setText("");
+        customerPostalCodeField.setText("");
+        customerPhoneField.setText("");
+        customerStateProvincePicker.setValue(null);
+        customerCountryChoicebox.setValue(null);
+    }
+
     public void logoutButtonPressed(ActionEvent event) throws IOException {
         //Switch Screen Logic
         Parent root = FXMLLoader.load(getClass().getResource("/view/LoginScreen.fxml"));

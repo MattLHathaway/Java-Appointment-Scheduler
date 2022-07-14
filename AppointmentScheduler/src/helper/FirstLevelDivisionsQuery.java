@@ -33,4 +33,24 @@ public class FirstLevelDivisionsQuery {
         }
         return selectedFirstLevelDivisions;
     }
+
+    public static int getDivisionIDbyName(String inputState) throws SQLException {
+        int inputDivisionID = 1;
+        String sql = "SELECT * FROM first_level_divisions WHERE Division = ?";
+        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+        ps.setString(1, inputState);
+        ResultSet rs = ps.executeQuery();
+        while(rs.next()) {
+            int divisionID = rs.getInt("Division_ID");
+            String division = rs.getString("Division");
+            String divisionCreateDate = rs.getString("Create_Date");
+            String divisionCreatedBy = rs.getString("Created_By");
+            String divisionLastUpdate = rs.getString("Last_Update");
+            String divisionLastUpdatedBy = rs.getString("Last_Updated_By");
+            int countryID = rs.getInt("Country_ID");
+            FirstLevelDivisions firstLevelDivisions = new FirstLevelDivisions(divisionID, division, divisionCreateDate, divisionCreatedBy, divisionLastUpdate, divisionLastUpdatedBy, countryID);
+            inputDivisionID = firstLevelDivisions.getDivisionID();
+        }
+        return inputDivisionID;
+    }
 }

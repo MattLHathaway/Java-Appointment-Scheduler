@@ -5,6 +5,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
 
@@ -15,21 +16,21 @@
       <TextField fx:id="CustPhoneField" layoutX="223.0" layoutY="265.0" />
       <TextField fx:id="custAddressField" layoutX="223.0" layoutY="306.0" />
       <TextField fx:id="custPostalCodeField" layoutX="223.0" layoutY="347.0" prefHeight="25.0" prefWidth="73.0" />
-      <ChoiceBox fx:id="custStateChoicebox" layoutX="223.0" layoutY="389.0" prefWidth="150.0" />
-      <ChoiceBox fx:id="custCountryChoicebox" layoutX="223.0" layoutY="431.0" prefWidth="150.0" />
+      <ChoiceBox fx:id="custStateChoicebox" layoutX="222.0" layoutY="426.0" prefWidth="150.0" />
+      <ChoiceBox fx:id="custCountryChoicebox" layoutX="222.0" layoutY="387.0" prefWidth="150.0" />
       <Label layoutX="128.0" layoutY="181.0" text="Customer ID" />
       <Label layoutX="129.0" layoutY="225.0" text="Name" />
       <Label layoutX="130.0" layoutY="310.0" text="Address" />
       <Label layoutX="129.0" layoutY="269.0" text="Phone" />
       <Label layoutX="130.0" layoutY="351.0" text="Postal Code" />
-      <Label layoutX="130.0" layoutY="393.0" text="State/Province" />
-      <Label layoutX="130.0" layoutY="435.0" text="Country" />
+      <Label layoutX="129.0" layoutY="430.0" text="State/Province" />
+      <Label layoutX="129.0" layoutY="391.0" text="Country" />
       <Label layoutX="46.0" layoutY="33.0" text="Add Customer">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
       </Label>
-      <Button fx:id="saveButton" layoutX="128.0" layoutY="577.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="106.0" text="Save">
+      <Button fx:id="saveButton" layoutX="128.0" layoutY="577.0" mnemonicParsing="false" onAction="#onSaveButtonPressed" prefHeight="30.0" prefWidth="106.0" text="Save">
          <font>
             <Font size="14.0" />
          </font>
@@ -39,5 +40,7 @@
             <Font size="14.0" />
          </font>
       </Button>
+      <Button fx:id="applyCountryButton" layoutX="385.0" layoutY="387.0" mnemonicParsing="false" onAction="#onCountryChosen" text="Apply Country" />
+      <Line endX="45.0" endY="-79.0" layoutX="385.0" layoutY="498.0" startX="-4.0" startY="-59.0" />
    </children>
 </AnchorPane>
