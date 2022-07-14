@@ -4,9 +4,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import model.Appointment;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.time.LocalDate;
 
 public abstract class AppointmentQuery {
@@ -83,6 +81,34 @@ public abstract class AppointmentQuery {
             int contactID = rs.getInt("Contact_ID");
             Appointment appointment = new Appointment(appointmentID, title, description, location, type, start, end, createDate, createdBy, lastUpdate, lastUpdatedBy, customerID, userID, contactID);
             AppointmentList.add(appointment);
+        }
+        return AppointmentList;
+    }
+
+    public static ObservableList<String> getTakenStartTimeListByDate(String inputDate) throws SQLException {
+        ObservableList<String> AppointmentList = FXCollections.observableArrayList();
+        String sql = "SELECT time(Start) AS start_date FROM appointments WHERE DATE(Start) BETWEEN '?' AND '? 23:59:59';";
+        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+        ps.setString(1, inputDate);
+        ps.setString(2, inputDate);
+        ResultSet rs = ps.executeQuery();
+        while(rs.next()) {
+            int appointmentID = rs.getInt("Appointment_ID");
+            String title = rs.getString("Title");
+            String description = rs.getString("Description");
+            String location = rs.getString("Location");
+            String type = rs.getString("Type");
+            String start = rs.getString("Start");
+            String end = rs.getString("End");
+            String createDate = rs.getString("Create_Date");
+            String createdBy = rs.getString("Created_By");
+            String lastUpdate = rs.getString("Last_Update");
+            String lastUpdatedBy = rs.getString("Last_Updated_By");
+            int customerID = rs.getInt("Customer_ID");
+            int userID = rs.getInt("User_ID");
+            int contactID = rs.getInt("Contact_ID");
+            Appointment appointment = new Appointment(appointmentID, title, description, location, type, start, end, createDate, createdBy, lastUpdate, lastUpdatedBy, customerID, userID, contactID);
+            AppointmentList.add((appointment.getStartTime().substring(appointment.getStartTime().length()-8)).substring(0,5)); //Formatting to just 12:00
         }
         return AppointmentList;
     }

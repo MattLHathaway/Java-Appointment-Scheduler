@@ -73,6 +73,15 @@ public class CustomersMenuController implements Initializable {
         stage.setScene(scene);
         stage.show();
     }
+
+    public void addCustomerButtonPressed(ActionEvent event) throws IOException {
+        //Switch Screen Logic
+        Parent root = FXMLLoader.load(getClass().getResource("/view/AddCustomerScreen.fxml"));
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+    }
     public void logoutButtonPressed(ActionEvent event) throws IOException {
         //Switch Screen Logic
         Parent root = FXMLLoader.load(getClass().getResource("/view/LoginScreen.fxml"));

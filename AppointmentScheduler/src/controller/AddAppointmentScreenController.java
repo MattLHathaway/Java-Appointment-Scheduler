@@ -26,8 +26,9 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.time.LocalTime;
+import java.util.Objects;
 import java.util.ResourceBundle;
-import java.util.UUID;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class AddAppointmentScreenController implements Initializable {
     public TextField addApptIDField;
@@ -53,23 +54,7 @@ public class AddAppointmentScreenController implements Initializable {
             throw new RuntimeException(e);
         }
 
-
     }
-
-//        this.apptID = apptID;
-//        this.title = title;
-//        this.description = description;
-//        this.location = location;
-//        this.type = type;
-//        this.startTime = startTime;
-//        this.endTime = endTime;
-//        this.createDate = createDate;
-//        this.createdBy = createdBy;
-//        this.lastUpdate = lastUpdate;
-//        this.lastUpdatedBy = lastUpdatedBy;
-//        this.customerID = customerID;
-//        this.userID = userID;
-//        this.contactID = contactID;
     public void saveButtonPressed(ActionEvent event) throws IOException, SQLException {
         //Variables and Time String Formatting
         int uniqueID = createUniqueAppointmentID();
@@ -160,22 +145,56 @@ public class AddAppointmentScreenController implements Initializable {
         contactList.forEach(Contact -> allContactNames.add(Contact.getContactName()));
         addApptContactChoicebox.setItems(allContactNames);
 
-        //Adding Available Appointment Times
+        //Adding All existing Appointment Times
         ObservableList<String> appointmentTimes = FXCollections.observableArrayList();
+        LocalTime firstAppointment = LocalTime.MIN.plusHours(8); //8am
+        LocalTime lastAppointment = LocalTime.MAX.minusHours(1).minusMinutes(45); //10pm
 
-        LocalTime firstAppointment = LocalTime.MIN.plusHours(8);
-        LocalTime lastAppointment = LocalTime.MAX.minusHours(1).minusMinutes(45);
-
-        //if statement to prevent loops
         if (!firstAppointment.equals(0) || !lastAppointment.equals(0)) {
             while (firstAppointment.isBefore(lastAppointment)) {
                 appointmentTimes.add(String.valueOf(firstAppointment));
                 firstAppointment = firstAppointment.plusMinutes(15);
             }
         }
+        //Filtering out unavailable appointments !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        ObservableList<String> availableAppointments = FXCollections.observableArrayList();
+
         addApptStartTimeChoicebox.setItems(appointmentTimes);
         addApptEndTimeChoicebox.setItems(appointmentTimes);
 
+    }
+
+
+    public void onStartDateChosen(ActionEvent event) throws SQLException {
+        //Creating List of unavailable times (takenAppointments)
+        String chosenDate = String.valueOf(addApptStartDatePicker.getValue());
+        ObservableList<String> takenAppointments = AppointmentQuery.getTakenStartTimeListByDate(chosenDate);
+
+        //Creating List of ALL times (appointmentTimes)
+        ObservableList<String> appointmentTimes = FXCollections.observableArrayList();
+        LocalTime firstAppointment = LocalTime.MIN.plusHours(8); //8am
+        LocalTime lastAppointment = LocalTime.MAX.minusHours(1).minusMinutes(45); //10pm
+        if (!firstAppointment.equals(0) || !lastAppointment.equals(0)) {
+            while (firstAppointment.isBefore(lastAppointment)) {
+                appointmentTimes.add(String.valueOf(firstAppointment));
+                firstAppointment = firstAppointment.plusMinutes(15);
+            }
+        }
+
+        //Creating List of available times (availableAppointments)
+        ObservableList<String> availableAppointments = FXCollections.observableArrayList();
+
+        AtomicInteger i = new AtomicInteger();
+        appointmentTimes.forEach(String -> {
+            if(!Objects.equals(String, takenAppointments.get(i.get()))) {
+                availableAppointments.add(String);
+                i.getAndIncrement();
+            }
+        });
+
+        //Assign Available Appointments to the choicebox
+        addApptStartTimeChoicebox.setItems(availableAppointments);
+        System.out.println("It worked?");
     }
 
     public void cancelButtonPressed(ActionEvent event) throws IOException {
