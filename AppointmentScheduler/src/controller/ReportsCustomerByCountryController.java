@@ -2,7 +2,7 @@ package controller;
 
 import javafx.scene.control.*;
 
-public class ReportsMenuController {
+public class ReportsCustomerByCountryController {
     public TableView reportsTable;
     public ChoiceBox reportsChoicebox;
     public RadioButton apptByCustomerRadio;
@@ -13,6 +13,4 @@ public class ReportsMenuController {
     public Button customerButton;
     public Button AppointmentsButton;
     public Button logoutButton;
-    public TableColumn apptIDCol;
-    public TableColumn apptTitleCol;
 }
