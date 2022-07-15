@@ -8,11 +8,12 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane prefHeight="530.0" prefWidth="1400.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.CustomersMenuController">
    <children>
-      <BorderPane layoutX="24.0" layoutY="338.0" prefHeight="186.0" prefWidth="677.0" style="-fx-border-width: 1px; -fx-border-color: lightgray; -fx-border-radius: 5px;" />
+      <BorderPane layoutX="24.0" layoutY="338.0" prefHeight="186.0" prefWidth="782.0" style="-fx-border-width: 1px; -fx-border-color: lightgray; -fx-border-radius: 5px;" />
       <Label layoutX="24.0" layoutY="27.0" text="Customers">
          <font>
             <Font name="System Bold" size="18.0" />
@@ -30,7 +31,7 @@
       </TableView>
       <TextField fx:id="customerIDField" disable="true" layoutX="175.0" layoutY="355.0" prefHeight="25.0" prefWidth="59.0" />
       <Label layoutX="38.0" layoutY="359.0" text="Customer ID" />
-      <Button fx:id="editCustomerButton" layoutX="400.0" layoutY="476.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="130.0" text="Modify Customer">
+      <Button fx:id="editCustomerButton" layoutX="400.0" layoutY="476.0" mnemonicParsing="false" onAction="#onModifyButtonPressed" prefHeight="30.0" prefWidth="130.0" text="Modify Customer">
          <font>
             <Font size="14.0" />
          </font></Button>
@@ -69,5 +70,7 @@
             <Font size="14.0" />
          </font>
       </Button>
+      <Button fx:id="applyCountryButton" layoutX="700.0" layoutY="395.0" mnemonicParsing="false" onAction="#onCountryChosen" text="Apply Country" />
+      <Line endX="45.0" endY="-23.0" layoutX="700.0" layoutY="451.0" startX="-4.0" startY="-3.0" />
    </children>
 </AnchorPane>

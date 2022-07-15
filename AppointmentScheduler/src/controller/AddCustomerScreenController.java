@@ -61,9 +61,6 @@ public class AddCustomerScreenController implements Initializable {
 
     }
 
-
-
-
     public void onSaveButtonPressed(ActionEvent actionEvent) throws IOException, SQLException {
         //Get Field Values
         String currentState = custStateChoicebox.getValue().toString();

@@ -29,7 +29,7 @@ public abstract class CustomerQuery {
     }
 
     public static int updateCustomer(int customerID, String customerName, String address, String postalCode, String phoneNumber, String createdDate, String createdBy, String lastUpdate, String lastUpdatedBy, int divisionID) throws SQLException {
-        String sql = "UPDATE customers Customer_Name = ?, Address = ?, Postal_Code = ?, Phone = ?, Create_Date = ?, Created_By = ?, Last_Update = ?, Last_Updated_By = ?, Division_ID = ? WHERE Customer_ID = ?";
+        String sql = "UPDATE customers SET Customer_Name = ?, Address = ?, Postal_Code = ?, Phone = ?, Create_Date = ?, Created_By = ?, Last_Update = ?, Last_Updated_By = ?, Division_ID = ? WHERE Customer_ID = ?";
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
         ps.setString(1, customerName);
         ps.setString(2, address);

@@ -22,6 +22,9 @@ import model.FirstLevelDivisions;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -86,7 +89,6 @@ public class CustomersMenuController implements Initializable {
                 throw new RuntimeException(e);
             }
             try {
-                String fldName = FirstLevelDivisionsQuery.getDivisionNameByID(selectedCustomer.getCustomerID());
                 if (FirstLevelDivisionsQuery.getCountryIDbyDivisionID(selectedCustomer.getDivisionID()) == 1) {
                    countryName = "U.S";
                    countryID = 1;
@@ -126,7 +128,31 @@ public class CustomersMenuController implements Initializable {
         });
 
     }
-    public void AppointmentNavButtonPressed(ActionEvent event) throws IOException {
+
+    public void onCountryChosen(javafx.event.ActionEvent actionEvent) throws SQLException {
+        //CHECKING WHICH COUNTRY WAS CHOSEN
+        if (Objects.equals(customerCountryChoicebox.getValue().toString(), "U.S")) {
+            //Adding US States by Country ID
+            ObservableList<FirstLevelDivisions> statesList = FirstLevelDivisionsQuery.getAllDivisionsByCountryID(1);
+            ObservableList<String> usStateNames = FXCollections.observableArrayList();
+            statesList.forEach(FirstLevelDivisions -> usStateNames.add(FirstLevelDivisions.getDivision()));
+            customerStateProvincePicker.setItems(usStateNames);
+        } else if (Objects.equals(customerCountryChoicebox.getValue().toString(), "UK")) {
+            //Adding UK States by Country ID
+            ObservableList<FirstLevelDivisions> statesList = FirstLevelDivisionsQuery.getAllDivisionsByCountryID(2);
+            ObservableList<String> ukStateNames = FXCollections.observableArrayList();
+            statesList.forEach(FirstLevelDivisions -> ukStateNames.add(FirstLevelDivisions.getDivision()));
+            customerStateProvincePicker.setItems(ukStateNames);
+        } else {
+            //Adding Canadian States by Country ID
+            ObservableList<FirstLevelDivisions> statesList = FirstLevelDivisionsQuery.getAllDivisionsByCountryID(3);
+            ObservableList<String> canadaStateNames = FXCollections.observableArrayList();
+            statesList.forEach(FirstLevelDivisions -> canadaStateNames.add(FirstLevelDivisions.getDivision()));
+            customerStateProvincePicker.setItems(canadaStateNames);
+        }
+    }
+
+        public void AppointmentNavButtonPressed(ActionEvent event) throws IOException {
         //Switch Screen Logic
         Parent root = FXMLLoader.load(getClass().getResource("/view/MainMenu.fxml"));
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -158,15 +184,36 @@ public class CustomersMenuController implements Initializable {
             Optional<ButtonType> result = alert.showAndWait();
             //Modifies Customer in DB if modify button is clicked
             if (result.orElse(cancel) == modify) {
-                //Grab Original Info to be modified
+                //Grab Original Info to be modified !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
                 Customer selectedCustomer = customerTable.getSelectionModel().getSelectedItem();
 
-                //Translating the firstLevelDivisionID into stateName and countryID into countryName
+                selectedCustomer.setCustomerID(Integer.parseInt(customerIDField.getText()));
+                selectedCustomer.setCustomerName(customerNameField.getText());
+                selectedCustomer.setAddress(customerAddressField.getText());
+                selectedCustomer.setPostalCode(customerPostalCodeField.getText());
+                selectedCustomer.setPhoneNumber(customerPhoneField.getText());
+                selectedCustomer.setDivisionID(FirstLevelDivisionsQuery.getDivisionIDbyName(String.valueOf(customerStateProvincePicker.getValue())));
+                selectedCustomer.setLastUpdate(String.valueOf(LocalDateTime.now()));
+                selectedCustomer.setLastUpdatedBy("script");
+                selectedCustomer.setCreatedBy("script");
+                selectedCustomer.setCreatedDate(customerTable.getSelectionModel().getSelectedItem().getCreatedDate());
 
-
+                //Push to DB
+                CustomerQuery.updateCustomer(selectedCustomer.getCustomerID(),
+                        selectedCustomer.getCustomerName(),
+                        selectedCustomer.getAddress(),
+                        selectedCustomer.getPostalCode(),
+                        selectedCustomer.getPhoneNumber(),
+                        selectedCustomer.getCreatedDate(),
+                        selectedCustomer.getCreatedBy(),
+                        selectedCustomer.getLastUpdate(),
+                        selectedCustomer.getLastUpdatedBy(),
+                        selectedCustomer.getDivisionID());
             }
 
         }
+        populateCustomersTable();
     }
 
     public void onDeleteButtonPressed(ActionEvent event) throws Exception {
