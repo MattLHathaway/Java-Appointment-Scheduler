@@ -34,6 +34,25 @@ public class FirstLevelDivisionsQuery {
         return selectedFirstLevelDivisions;
     }
 
+    public static ObservableList<FirstLevelDivisions> getAllDivisions() throws SQLException {
+        ObservableList<FirstLevelDivisions> selectedFirstLevelDivisions = FXCollections.observableArrayList();
+        String sql = "SELECT * FROM first_level_divisions";
+        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+        ResultSet rs = ps.executeQuery();
+        while(rs.next()) {
+            int divisionID = rs.getInt("Division_ID");
+            String division = rs.getString("Division");
+            String divisionCreateDate = rs.getString("Create_Date");
+            String divisionCreatedBy = rs.getString("Created_By");
+            String divisionLastUpdate = rs.getString("Last_Update");
+            String divisionLastUpdatedBy = rs.getString("Last_Updated_By");
+            int countryID = rs.getInt("Country_ID");
+            FirstLevelDivisions firstLevelDivisions = new FirstLevelDivisions(divisionID, division, divisionCreateDate, divisionCreatedBy, divisionLastUpdate, divisionLastUpdatedBy, countryID);
+            selectedFirstLevelDivisions.add(firstLevelDivisions);
+        }
+        return selectedFirstLevelDivisions;
+    }
+
     public static int getDivisionIDbyName(String inputState) throws SQLException {
         int inputDivisionID = 1;
         String sql = "SELECT * FROM first_level_divisions WHERE Division = ?";
@@ -53,4 +72,46 @@ public class FirstLevelDivisionsQuery {
         }
         return inputDivisionID;
     }
+
+    public static String getDivisionNameByID(int inputID) throws SQLException {
+        String inputDivisionName = "ERROR";
+        String sql = "SELECT * FROM first_level_divisions WHERE Division_ID = ?";
+        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+        ps.setInt(1, inputID);
+        ResultSet rs = ps.executeQuery();
+        while(rs.next()) {
+            int divisionID = rs.getInt("Division_ID");
+            String division = rs.getString("Division");
+            String divisionCreateDate = rs.getString("Create_Date");
+            String divisionCreatedBy = rs.getString("Created_By");
+            String divisionLastUpdate = rs.getString("Last_Update");
+            String divisionLastUpdatedBy = rs.getString("Last_Updated_By");
+            int countryID = rs.getInt("Country_ID");
+            FirstLevelDivisions firstLevelDivisions = new FirstLevelDivisions(divisionID, division, divisionCreateDate, divisionCreatedBy, divisionLastUpdate, divisionLastUpdatedBy, countryID);
+            inputDivisionName = firstLevelDivisions.getDivision();
+        }
+        return inputDivisionName;
+    }
+
+    public static int getCountryIDbyDivisionID(int inputDivisionID) throws SQLException {
+        int outputCountryID = 0;
+        String sql = "SELECT * FROM first_level_divisions WHERE Division_ID = ?";
+        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+        ps.setInt(1, inputDivisionID);
+        ResultSet rs = ps.executeQuery();
+        while(rs.next()) {
+            int divisionID = rs.getInt("Division_ID");
+            String division = rs.getString("Division");
+            String divisionCreateDate = rs.getString("Create_Date");
+            String divisionCreatedBy = rs.getString("Created_By");
+            String divisionLastUpdate = rs.getString("Last_Update");
+            String divisionLastUpdatedBy = rs.getString("Last_Updated_By");
+            int countryID = rs.getInt("Country_ID");
+            FirstLevelDivisions firstLevelDivisions = new FirstLevelDivisions(divisionID, division, divisionCreateDate, divisionCreatedBy, divisionLastUpdate, divisionLastUpdatedBy, countryID);
+            outputCountryID = firstLevelDivisions.getCountryID();
+        }
+        return outputCountryID;
+    }
+
+
 }

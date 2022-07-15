@@ -304,7 +304,7 @@ public class MainMenu implements Initializable {
                 apptContactChoicebox.setItems(allContactNames);
 
 
-                //Filling the Modification Fields with Selected Appointments' Data !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                //Filling the Modification Fields with Selected Appointments' Data
                 apptIDField.setText(String.valueOf(selectedAppt.getApptID()));
                 apptTitleField.setText(selectedAppt.getTitle());
                 apptDescriptionField.setText(selectedAppt.getDescription());
