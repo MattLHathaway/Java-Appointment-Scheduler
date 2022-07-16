@@ -379,4 +379,13 @@ public class MainMenu implements Initializable {
         stage.setScene(scene);
         stage.show();
     }
+
+    public void reportButtonPressed(ActionEvent actionEvent) throws IOException {
+        //Switch Screen Logic
+        Parent root = FXMLLoader.load(getClass().getResource("/view/ReportsMenu.fxml"));
+        Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+    }
 }

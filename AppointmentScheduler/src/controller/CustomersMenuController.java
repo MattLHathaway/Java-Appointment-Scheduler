@@ -170,6 +170,15 @@ public class CustomersMenuController implements Initializable {
         stage.show();
     }
 
+    public void reportButtonPressed(ActionEvent event) throws IOException {
+        //Switch Screen Logic
+        Parent root = FXMLLoader.load(getClass().getResource("/view/ReportsMenu.fxml"));
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+    }
+
     public void onModifyButtonPressed(ActionEvent event) throws IOException, SQLException {
         //Check for selected Customer from cust table
         if (customerTable.getSelectionModel() != null) {

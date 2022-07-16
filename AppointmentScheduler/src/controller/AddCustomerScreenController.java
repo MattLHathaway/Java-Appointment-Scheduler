@@ -61,6 +61,15 @@ public class AddCustomerScreenController implements Initializable {
 
     }
 
+    public void reportButtonPressed(ActionEvent event) throws IOException {
+        //Switch Screen Logic
+        Parent root = FXMLLoader.load(getClass().getResource("/view/ReportsMenu.fxml"));
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+    }
+
     public void onSaveButtonPressed(ActionEvent actionEvent) throws IOException, SQLException {
         //Get Field Values
         String currentState = custStateChoicebox.getValue().toString();

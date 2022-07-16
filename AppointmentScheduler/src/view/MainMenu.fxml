@@ -42,7 +42,7 @@
         </columns>
       </TableView>
       <Label fx:id="timeZoneLabel" layoutX="257.0" layoutY="23.0" text="Your Time Zone:" />
-      <Button fx:id="reportsButton" layoutX="1204.0" layoutY="31.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="148.0" text="Reports">
+      <Button fx:id="reportsButton" layoutX="1204.0" layoutY="31.0" mnemonicParsing="false" onAction="#reportButtonPressed" prefHeight="30.0" prefWidth="148.0" text="Reports">
          <font>
             <Font size="14.0" />
          </font>
