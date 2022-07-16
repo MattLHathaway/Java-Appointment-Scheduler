@@ -23,16 +23,16 @@
             <TableColumn fx:id="apptCustomerIDCol" prefWidth="138.0" text="Customer ID" />
         </columns>
       </TableView>
-      <Label layoutX="456.0" layoutY="97.0" text="Customer ID" />
+      <Label layoutX="467.0" layoutY="97.0" text="Contact ID" />
       <ChoiceBox fx:id="reportsChoicebox" layoutX="550.0" layoutY="93.0" prefWidth="150.0" />
-      <RadioButton fx:id="apptByCustomerRadio" layoutX="16.0" layoutY="65.0" mnemonicParsing="false" onAction="#radioCheck" selected="true" text="Appointments by Customer">
+      <RadioButton fx:id="apptByCustomerRadio" layoutX="16.0" layoutY="65.0" mnemonicParsing="false" onAction="#radioCheck" selected="true" text="Appointments by Contact">
          <toggleGroup>
             <ToggleGroup fx:id="ReportsRadioGroup" />
          </toggleGroup>
       </RadioButton>
-      <RadioButton fx:id="customersByTypeRadio" layoutX="206.0" layoutY="65.0" mnemonicParsing="false" onAction="#radioCheck" text="All Customers by Type" toggleGroup="$ReportsRadioGroup" />
-      <RadioButton fx:id="customersByMonthRadio" layoutX="373.0" layoutY="65.0" mnemonicParsing="false" onAction="#radioCheck" text="All Customers by Month" toggleGroup="$ReportsRadioGroup" />
-      <RadioButton fx:id="customersByCountryRadio" layoutX="549.0" layoutY="65.0" mnemonicParsing="false" onAction="#radioCheck" text="All Customers by Country" toggleGroup="$ReportsRadioGroup" />
+      <RadioButton fx:id="customersByCountryRadio" layoutX="550.0" layoutY="65.0" mnemonicParsing="false" onAction="#radioCheck" text="All Customers by Type" toggleGroup="$ReportsRadioGroup" />
+      <RadioButton fx:id="customersByMonthRadio" layoutX="371.0" layoutY="65.0" mnemonicParsing="false" onAction="#radioCheck" text="Appointments by Month" toggleGroup="$ReportsRadioGroup" />
+      <RadioButton fx:id="customersByTypeRadio" layoutX="196.0" layoutY="65.0" mnemonicParsing="false" onAction="#radioCheck" text="Appointments By Type" toggleGroup="$ReportsRadioGroup" />
       <Button fx:id="customerButton" layoutX="1233.0" layoutY="50.0" mnemonicParsing="false" onAction="#CustomerButtonPressed" prefHeight="30.0" prefWidth="150.0" text="Customers">
          <font>
             <Font size="14.0" />

@@ -115,11 +115,10 @@ public class MainMenu implements Initializable {
                 selectedAppointment.setType(apptTypeField.getText());
                 selectedAppointment.setCustomerID(customerIdByName);
                 selectedAppointment.setStartTime(startFormatted + ":00");
-                selectedAppointment.setContactID(usersIdByName);
                 selectedAppointment.setEndTime(endFormatted + ":00");
                 selectedAppointment.setUserID(contactIdByName);
+                selectedAppointment.setContactID(usersIdByName);
 
-                //.substring(endRaw.length()-8)
                 //Push updated Info to DB
                 AppointmentQuery.update(selectedAppointment.getApptID(),
                         selectedAppointment.getTitle(),

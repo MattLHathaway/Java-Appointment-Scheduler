@@ -222,6 +222,15 @@ public class CustomersMenuController implements Initializable {
             }
 
         }
+        //Clear the modification fields
+        customerIDField.setText("");
+        customerNameField.setText("");
+        customerAddressField.setText("");
+        customerPostalCodeField.setText("");
+        customerPhoneField.setText("");
+        customerStateProvincePicker.setValue(null);
+        customerCountryChoicebox.setValue(null);
+
         populateCustomersTable();
     }
 

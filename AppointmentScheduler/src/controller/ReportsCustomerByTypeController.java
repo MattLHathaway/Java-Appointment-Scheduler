@@ -30,30 +30,27 @@ public class ReportsCustomerByTypeController implements Initializable {
     public TableView reportsTable;
     public ChoiceBox reportsChoicebox;
     public RadioButton apptByCustomerRadio;
-    public ToggleGroup ReportsRadioGroup;
     public RadioButton customersByTypeRadio;
     public RadioButton customersByMonthRadio;
     public RadioButton customersByCountryRadio;
     public Button customerButton;
     public Button AppointmentsButton;
     public Button logoutButton;
-    public TableColumn customerIDCol;
-    public TableColumn customerNameCol;
-    public TableColumn customerAddressCol;
-    public TableColumn customerPostalCodeCol;
-    public TableColumn customerPhoneNumberCol;
-    public TableColumn customerCreatedDateCol;
-    public TableColumn customerCreatedByCol;
-    public TableColumn customerLastUpdateCol;
-    public TableColumn customerLastUpdatedByCol;
-    public TableColumn customerStateProvinceCol;
     public Button searchButton;
+    public ToggleGroup Group2;
+    public TableColumn apptIDCol;
+    public TableColumn apptTitleCol;
+    public TableColumn apptDescriptionCol;
+    public TableColumn apptTypeCol;
+    public TableColumn apptStartDateTimeCol;
+    public TableColumn apptEndDateTimeCol;
+    public TableColumn apptCustomerIDCol;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         try {
             fillChoiceBoxOptions();
-            populateCustomersTable();
+            populateTable();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -67,58 +64,34 @@ public class ReportsCustomerByTypeController implements Initializable {
         reportsChoicebox.setItems(allApptTypes);
     }
 
-    public void populateCustomersTable() throws SQLException {
-        //Check for Choicebox Selection
+    public void populateTable() throws SQLException {
+        //Check if a Contact ID has been chosen and applies that to table
         if (reportsChoicebox.getValue() == null) {
-            ObservableList<Customer> customersList = CustomerQuery.getCustomerList();
+            ObservableList<Appointment> appointmentList = AppointmentQuery.getAppointmentList();
 
-            customerIDCol.setCellValueFactory(new PropertyValueFactory<>("customerID"));
-            customerNameCol.setCellValueFactory(new PropertyValueFactory<>("customerName"));
-            customerAddressCol.setCellValueFactory(new PropertyValueFactory<>("address"));
-            customerPostalCodeCol.setCellValueFactory(new PropertyValueFactory<>("postalCode"));
-            customerPhoneNumberCol.setCellValueFactory(new PropertyValueFactory<>("phoneNumber"));
-            customerCreatedDateCol.setCellValueFactory(new PropertyValueFactory("createdDate"));
-            customerCreatedByCol.setCellValueFactory(new PropertyValueFactory<>("createdBy"));
-            customerLastUpdateCol.setCellValueFactory(new PropertyValueFactory<>("lastUpdate"));
-            customerLastUpdatedByCol.setCellValueFactory(new PropertyValueFactory<>("lastUpdatedBy"));
-            customerStateProvinceCol.setCellValueFactory(new PropertyValueFactory<>("divisionID"));
+            apptIDCol.setCellValueFactory(new PropertyValueFactory<>("apptID"));
+            apptTitleCol.setCellValueFactory(new PropertyValueFactory<>("title"));
+            apptDescriptionCol.setCellValueFactory(new PropertyValueFactory<>("description"));
+            apptTypeCol.setCellValueFactory(new PropertyValueFactory<>("type"));
+            apptStartDateTimeCol.setCellValueFactory(new PropertyValueFactory<>("startTime"));
+            apptEndDateTimeCol.setCellValueFactory(new PropertyValueFactory<>("endTime"));
+            apptCustomerIDCol.setCellValueFactory(new PropertyValueFactory<>("customerID"));
 
-            reportsTable.setItems(customersList);
+            reportsTable.setItems(appointmentList);
         } else {
-            //Creating a list of Customer IDs that have Appointments of the Chosen Type (stringListOfCustomerIDs)
-            String appointmentType = reportsChoicebox.getValue().toString();
-            ObservableList<Appointment> appointmentListByType = AppointmentQuery.getByType(appointmentType);
-            ObservableList<String> stringListOfCustomerIDs = FXCollections.observableArrayList();
-            appointmentListByType.forEach(Appointment -> stringListOfCustomerIDs.add(String.valueOf(Appointment.getCustomerID())));
+            //Creating a List of Appointment IDs that have the Chosen Type
+            String contactID = reportsChoicebox.getValue().toString();
+            ObservableList<Appointment> appointmentList = AppointmentQuery.getByType(contactID);
 
-            //Pull all appointments that correlate with the String list of IDs
-            ObservableList<Customer> allCustomers = CustomerQuery.getCustomerList();
+            apptIDCol.setCellValueFactory(new PropertyValueFactory<>("apptID"));
+            apptTitleCol.setCellValueFactory(new PropertyValueFactory<>("title"));
+            apptDescriptionCol.setCellValueFactory(new PropertyValueFactory<>("description"));
+            apptTypeCol.setCellValueFactory(new PropertyValueFactory<>("type"));
+            apptStartDateTimeCol.setCellValueFactory(new PropertyValueFactory<>("startTime"));
+            apptEndDateTimeCol.setCellValueFactory(new PropertyValueFactory<>("endTime"));
+            apptCustomerIDCol.setCellValueFactory(new PropertyValueFactory<>("customerID"));
 
-            //Checks both ObservableLists and puts the ones that match into a new list named "myFilteredList"
-            List<Customer> myFilteredList = allCustomers.stream()
-                    .filter(cust -> appointmentListByType.stream()
-                            .anyMatch(appt ->
-                                    cust.getCustomerID() ==
-                                            appt.getCustomerID()))
-                    .collect(Collectors.toList());
-
-            //converting filteredList into ObservableList
-            ObservableList<Customer> finalList = FXCollections.observableList(myFilteredList);
-
-            //Assigning filtered list to the table
-            customerIDCol.setCellValueFactory(new PropertyValueFactory<>("customerID"));
-            customerNameCol.setCellValueFactory(new PropertyValueFactory<>("customerName"));
-            customerAddressCol.setCellValueFactory(new PropertyValueFactory<>("address"));
-            customerPostalCodeCol.setCellValueFactory(new PropertyValueFactory<>("postalCode"));
-            customerPhoneNumberCol.setCellValueFactory(new PropertyValueFactory<>("phoneNumber"));
-            customerCreatedDateCol.setCellValueFactory(new PropertyValueFactory("createdDate"));
-            customerCreatedByCol.setCellValueFactory(new PropertyValueFactory<>("createdBy"));
-            customerLastUpdateCol.setCellValueFactory(new PropertyValueFactory<>("lastUpdate"));
-            customerLastUpdatedByCol.setCellValueFactory(new PropertyValueFactory<>("lastUpdatedBy"));
-            customerStateProvinceCol.setCellValueFactory(new PropertyValueFactory<>("divisionID"));
-
-            reportsTable.setItems(finalList);
-
+            reportsTable.setItems(appointmentList);
         }
 
     }
@@ -136,6 +109,7 @@ public class ReportsCustomerByTypeController implements Initializable {
             Scene scene = new Scene(root);
             stage.setScene(scene);
             stage.show();
+            System.out.println("Appointments by Type");
         } else if (reportsMenu.isSelected()) {
             //Switch Screen Logic
             Parent root = FXMLLoader.load(getClass().getResource("/view/ReportsMenu.fxml"));
@@ -143,6 +117,7 @@ public class ReportsCustomerByTypeController implements Initializable {
             Scene scene = new Scene(root);
             stage.setScene(scene);
             stage.show();
+            System.out.println("Appointments by Contact");
         } else if (customersByMonth.isSelected()) {
             //Switch Screen Logic
             Parent root = FXMLLoader.load(getClass().getResource("/view/ReportsCustomerByMonth.fxml"));
@@ -150,6 +125,7 @@ public class ReportsCustomerByTypeController implements Initializable {
             Scene scene = new Scene(root);
             stage.setScene(scene);
             stage.show();
+            System.out.println("Appointments by Month");
         } else if (customersByCountry.isSelected()) {
             //Switch Screen Logic
             Parent root = FXMLLoader.load(getClass().getResource("/view/ReportsCustomerByCountry.fxml"));
@@ -157,6 +133,7 @@ public class ReportsCustomerByTypeController implements Initializable {
             Scene scene = new Scene(root);
             stage.setScene(scene);
             stage.show();
+            System.out.println("Customers by Type");
         }
     }
 

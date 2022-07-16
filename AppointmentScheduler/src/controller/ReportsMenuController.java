@@ -1,6 +1,7 @@
 package controller;
 
 import helper.AppointmentQuery;
+import helper.ContactQuery;
 import helper.CustomerQuery;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -14,6 +15,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import model.Appointment;
+import model.Contact;
 import model.Customer;
 
 import java.io.IOException;
@@ -52,20 +54,20 @@ public class ReportsMenuController implements Initializable {
     }
 
     public void fillChoiceBoxOptions() throws SQLException {
-        //Fill Choicebox with Customer IDs
-        ObservableList<Customer> custList = null;
+        //Fill Choicebox with Contact IDs
+        ObservableList<Contact> contList = null;
         try {
-            custList = CustomerQuery.getCustomerList();
+            contList = ContactQuery.getContactList();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        ObservableList<String> allCustomerIDs = FXCollections.observableArrayList();
-        custList.forEach(Customer -> allCustomerIDs.add(String.valueOf(Customer.getCustomerID())));
-        reportsChoicebox.setItems(allCustomerIDs);
+        ObservableList<String> allContactIDs = FXCollections.observableArrayList();
+        contList.forEach(Contact -> allContactIDs.add(String.valueOf(Contact.getContactID())));
+        reportsChoicebox.setItems(allContactIDs);
     }
 
     public void populateTable() throws SQLException {
-        //Check if a Customer ID has been chosen and applies that to table
+        //Check if a Contact ID has been chosen and applies that to table
         if (reportsChoicebox.getValue() == null) {
             ObservableList<Appointment> appointmentList = AppointmentQuery.getAppointmentList();
 
@@ -79,8 +81,8 @@ public class ReportsMenuController implements Initializable {
 
             reportsTable.setItems(appointmentList);
         } else {
-            String customerID = reportsChoicebox.getValue().toString();
-            ObservableList<Appointment> appointmentList = AppointmentQuery.getAppointmentListByCustomerID(Integer.parseInt(customerID));
+            String contactID = reportsChoicebox.getValue().toString();
+            ObservableList<Appointment> appointmentList = AppointmentQuery.getAppointmentListByContactID(Integer.parseInt(contactID));
 
             apptIDCol.setCellValueFactory(new PropertyValueFactory<>("apptID"));
             apptTitleCol.setCellValueFactory(new PropertyValueFactory<>("title"));
@@ -108,6 +110,7 @@ public class ReportsMenuController implements Initializable {
             Scene scene = new Scene(root);
             stage.setScene(scene);
             stage.show();
+            System.out.println("Appointments by Type");
         } else if (reportsMenu.isSelected()) {
             //Switch Screen Logic
             Parent root = FXMLLoader.load(getClass().getResource("/view/ReportsMenu.fxml"));
@@ -115,6 +118,7 @@ public class ReportsMenuController implements Initializable {
             Scene scene = new Scene(root);
             stage.setScene(scene);
             stage.show();
+            System.out.println("Appointments by Contact");
         } else if (customersByMonth.isSelected()) {
             //Switch Screen Logic
             Parent root = FXMLLoader.load(getClass().getResource("/view/ReportsCustomerByMonth.fxml"));
@@ -122,6 +126,7 @@ public class ReportsMenuController implements Initializable {
             Scene scene = new Scene(root);
             stage.setScene(scene);
             stage.show();
+            System.out.println("Appointments by Month");
         } else if (customersByCountry.isSelected()) {
             //Switch Screen Logic
             Parent root = FXMLLoader.load(getClass().getResource("/view/ReportsCustomerByCountry.fxml"));
@@ -129,6 +134,7 @@ public class ReportsMenuController implements Initializable {
             Scene scene = new Scene(root);
             stage.setScene(scene);
             stage.show();
+            System.out.println("Customers by Type");
         }
     }
 

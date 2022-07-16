@@ -14,28 +14,17 @@
     <children>
         <TableView fx:id="reportsTable" layoutX="16.0" layoutY="132.0" prefHeight="326.0" prefWidth="1369.0">
          <columns>
-            <TableColumn fx:id="customerIDCol" prefWidth="75.0" text="Customer ID" />
-            <TableColumn fx:id="customerNameCol" prefWidth="115.0" text="Customer Name" />
-            <TableColumn fx:id="customerAddressCol" prefWidth="157.0" text="Address" />
-            <TableColumn fx:id="customerPostalCodeCol" prefWidth="100.0" text="Postal Code" />
-            <TableColumn fx:id="customerPhoneNumberCol" prefWidth="137.0" text="Phone Number" />
-            <TableColumn fx:id="customerCreatedByCol" prefWidth="152.0" text="Created Date" />
-            <TableColumn fx:id="customerCreatedByCol" prefWidth="176.0" text="Created By" />
-            <TableColumn fx:id="customerLastUpdateCol" prefWidth="164.0" text="Last Update" />
-            <TableColumn fx:id="customerLastUpdatedByCol" prefWidth="141.0" text="Last Updated By" />
-            <TableColumn fx:id="customerStateProvinceCol" prefWidth="151.0" text="State/Province" />
+            <TableColumn fx:id="apptIDCol" prefWidth="75.0" text="Appt ID" />
+            <TableColumn fx:id="apptTitleCol" prefWidth="115.0" text="Title" />
+            <TableColumn fx:id="apptDescriptionCol" prefWidth="248.0" text="Description" />
+            <TableColumn fx:id="apptTypeCol" prefWidth="176.0" text="Type" />
+            <TableColumn fx:id="apptStartDateTimeCol" prefWidth="322.0" text="Start Time &amp; Date" />
+            <TableColumn fx:id="apptEndDateTimeCol" prefWidth="294.0" text="End Time &amp; Date" />
+            <TableColumn fx:id="apptCustomerIDCol" prefWidth="138.0" text="Customer ID" />
          </columns>
         </TableView>
         <Label layoutX="487.0" layoutY="97.0" text="Month" />
         <ChoiceBox fx:id="reportsChoicebox" layoutX="550.0" layoutY="93.0" prefWidth="150.0" />
-        <RadioButton fx:id="apptByCustomerRadio" layoutX="16.0" layoutY="65.0" mnemonicParsing="false" onAction="#radioCheck" selected="true" text="Appointments by Customer">
-            <toggleGroup>
-                <ToggleGroup fx:id="ReportsRadioGroup" />
-            </toggleGroup>
-        </RadioButton>
-        <RadioButton fx:id="customersByTypeRadio" layoutX="206.0" layoutY="65.0" mnemonicParsing="false" onAction="#radioCheck" text="All Customers by Type" toggleGroup="$ReportsRadioGroup" />
-        <RadioButton fx:id="customersByMonthRadio" layoutX="373.0" layoutY="65.0" mnemonicParsing="false" onAction="#radioCheck" selected="true" text="All Customers by Month" toggleGroup="$ReportsRadioGroup" />
-        <RadioButton fx:id="customersByCountryRadio" layoutX="549.0" layoutY="65.0" mnemonicParsing="false" onAction="#radioCheck" text="All Customers by Country" toggleGroup="$ReportsRadioGroup" />
         <Button fx:id="customerButton" layoutX="1233.0" layoutY="50.0" mnemonicParsing="false" onAction="#CustomerButtonPressed" prefHeight="30.0" prefWidth="150.0" text="Customers">
             <font>
                 <Font size="14.0" />
@@ -57,5 +46,13 @@
             </font>
         </Label>
       <Button fx:id="searchButton" layoutX="700.0" layoutY="93.0" mnemonicParsing="false" onAction="#populateTable" text="Search" />
+      <RadioButton fx:id="apptByCustomerRadio" layoutX="14.0" layoutY="65.0" mnemonicParsing="false" onAction="#radioCheck" text="Appointments by Contact">
+         <toggleGroup>
+            <ToggleGroup fx:id="group3" />
+         </toggleGroup>
+      </RadioButton>
+      <RadioButton fx:id="customersByCountryRadio" layoutX="548.0" layoutY="65.0" mnemonicParsing="false" onAction="#radioCheck" text="All Customers by Type" toggleGroup="$group3" />
+      <RadioButton fx:id="customersByMonthRadio" layoutX="369.0" layoutY="65.0" mnemonicParsing="false" onAction="#radioCheck" selected="true" text="Appointments by Month" toggleGroup="$group3" />
+      <RadioButton fx:id="customersByTypeRadio" layoutX="194.0" layoutY="65.0" mnemonicParsing="false" onAction="#radioCheck" text="Appointments By Type" toggleGroup="$group3" />
     </children>
 </AnchorPane>
