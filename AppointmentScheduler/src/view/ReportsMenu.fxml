@@ -53,5 +53,6 @@
             <Font name="System Bold" size="18.0" />
          </font>
       </Label>
+      <Button fx:id="searchButton" layoutX="701.0" layoutY="93.0" mnemonicParsing="false" onAction="#populateTable" text="Search" />
    </children>
 </AnchorPane>

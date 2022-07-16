@@ -1,16 +1,27 @@
 package controller;
 
+import helper.AppointmentQuery;
+import helper.CustomerQuery;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
+import model.Appointment;
+import model.Customer;
 
 import java.io.IOException;
+import java.net.URL;
+import java.sql.SQLException;
+import java.util.ResourceBundle;
 
-public class ReportsMenuController {
+public class ReportsMenuController implements Initializable {
     public TableView reportsTable;
     public ChoiceBox reportsChoicebox;
     public RadioButton apptByCustomerRadio;
@@ -28,7 +39,61 @@ public class ReportsMenuController {
     public TableColumn apptStartDateTimeCol;
     public TableColumn apptEndDateTimeCol;
     public TableColumn apptCustomerIDCol;
+    public Button searchButton;
 
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        try {
+            fillChoiceBoxOptions();
+            populateTable();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void fillChoiceBoxOptions() throws SQLException {
+        //Fill Choicebox with Customer IDs
+        ObservableList<Customer> custList = null;
+        try {
+            custList = CustomerQuery.getCustomerList();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        ObservableList<String> allCustomerIDs = FXCollections.observableArrayList();
+        custList.forEach(Customer -> allCustomerIDs.add(String.valueOf(Customer.getCustomerID())));
+        reportsChoicebox.setItems(allCustomerIDs);
+    }
+
+    public void populateTable() throws SQLException {
+        //Check if a Customer ID has been chosen and applies that to table
+        if (reportsChoicebox.getValue() == null) {
+            ObservableList<Appointment> appointmentList = AppointmentQuery.getAppointmentList();
+
+            apptIDCol.setCellValueFactory(new PropertyValueFactory<>("apptID"));
+            apptTitleCol.setCellValueFactory(new PropertyValueFactory<>("title"));
+            apptDescriptionCol.setCellValueFactory(new PropertyValueFactory<>("description"));
+            apptTypeCol.setCellValueFactory(new PropertyValueFactory<>("type"));
+            apptStartDateTimeCol.setCellValueFactory(new PropertyValueFactory<>("startTime"));
+            apptEndDateTimeCol.setCellValueFactory(new PropertyValueFactory<>("endTime"));
+            apptCustomerIDCol.setCellValueFactory(new PropertyValueFactory<>("customerID"));
+
+            reportsTable.setItems(appointmentList);
+        } else {
+            String customerID = reportsChoicebox.getValue().toString();
+            ObservableList<Appointment> appointmentList = AppointmentQuery.getAppointmentListByCustomerID(Integer.parseInt(customerID));
+
+            apptIDCol.setCellValueFactory(new PropertyValueFactory<>("apptID"));
+            apptTitleCol.setCellValueFactory(new PropertyValueFactory<>("title"));
+            apptDescriptionCol.setCellValueFactory(new PropertyValueFactory<>("description"));
+            apptTypeCol.setCellValueFactory(new PropertyValueFactory<>("type"));
+            apptStartDateTimeCol.setCellValueFactory(new PropertyValueFactory<>("startTime"));
+            apptEndDateTimeCol.setCellValueFactory(new PropertyValueFactory<>("endTime"));
+            apptCustomerIDCol.setCellValueFactory(new PropertyValueFactory<>("customerID"));
+
+            reportsTable.setItems(appointmentList);
+        }
+
+    }
 
     public void radioCheck(javafx.event.ActionEvent actionEvent) throws IOException {
         RadioButton reportsMenu = (RadioButton) apptByCustomerRadio;
