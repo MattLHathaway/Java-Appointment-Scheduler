@@ -19,7 +19,7 @@
                 <TableColumn fx:id="customerAddressCol" prefWidth="157.0" text="Address" />
                 <TableColumn fx:id="customerPostalCodeCol" prefWidth="100.0" text="Postal Code" />
                 <TableColumn fx:id="customerPhoneNumberCol" prefWidth="137.0" text="Phone Number" />
-                <TableColumn fx:id="customerCreatedByCol" prefWidth="152.0" text="Created Date" />
+                <TableColumn fx:id="customerCreatedDateCol" prefWidth="152.0" text="Created Date" />
                 <TableColumn fx:id="customerCreatedByCol" prefWidth="176.0" text="Created By" />
             <TableColumn fx:id="customerLastUpdateCol" prefWidth="164.0" text="Last Update" />
             <TableColumn fx:id="customerLastUpdatedByCol" prefWidth="141.0" text="Last Updated By" />
@@ -56,5 +56,6 @@
                 <Font name="System Bold" size="18.0" />
             </font>
         </Label>
+      <Button fx:id="searchButton" layoutX="701.0" layoutY="93.0" mnemonicParsing="false" onAction="#populateCustomersTable" text="Search" />
     </children>
 </AnchorPane>

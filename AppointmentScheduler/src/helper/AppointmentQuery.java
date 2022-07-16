@@ -214,4 +214,31 @@ public abstract class AppointmentQuery {
         }
         return appointmentListByID;
     }
+
+    public static ObservableList<Appointment> getByType(String inputType) throws SQLException {
+        ObservableList<Appointment> appointmentListByID = FXCollections.observableArrayList();
+        String sql = "SELECT * FROM appointments WHERE Type = ?";
+        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+        ps.setString(1, inputType);
+        ResultSet rs = ps.executeQuery();
+        while(rs.next()) {
+            int appointmentID = rs.getInt("Appointment_ID");
+            String title = rs.getString("Title");
+            String description = rs.getString("Description");
+            String location = rs.getString("Location");
+            String type = rs.getString("Type");
+            String start = rs.getString("Start");
+            String end = rs.getString("End");
+            String createDate = rs.getString("Create_Date");
+            String createdBy = rs.getString("Created_By");
+            String lastUpdate = rs.getString("Last_Update");
+            String lastUpdatedBy = rs.getString("Last_Updated_By");
+            int customerID = rs.getInt("Customer_ID");
+            int userID = rs.getInt("User_ID");
+            int contactID = rs.getInt("Contact_ID");
+            Appointment appointment = new Appointment(appointmentID, title, description, location, type, start, end, createDate, createdBy, lastUpdate, lastUpdatedBy, customerID, userID, contactID);
+            appointmentListByID.add(appointment);
+        }
+        return appointmentListByID;
+    }
 }
