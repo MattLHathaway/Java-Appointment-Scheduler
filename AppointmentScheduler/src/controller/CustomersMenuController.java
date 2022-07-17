@@ -15,6 +15,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
+import model.Appointment;
 import model.Countries;
 import model.Customer;
 import model.FirstLevelDivisions;
@@ -237,19 +238,26 @@ public class CustomersMenuController implements Initializable {
     public void onDeleteButtonPressed(ActionEvent event) throws Exception {
         //Check for selected customer from table
         if (customerTable.getSelectionModel() != null) {
-            //Create "ARE YOU SURE?" Alert Box
-            ButtonType delete = new ButtonType("Delete", ButtonBar.ButtonData.OK_DONE);
-            ButtonType cancel = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
-            Alert alert = new Alert(Alert.AlertType.WARNING,
-                    "Are you sure you want to Delete the Customer?",
-                    delete,
-                    cancel);
-            alert.setTitle("Delete Warning");
-            Optional<ButtonType> result = alert.showAndWait();
-            //Deletes Customer from DB if delete button is clicked
-            if (result.orElse(cancel) == delete) {
-                int customerFromTable = customerTable.getSelectionModel().getSelectedItem().getCustomerID();
-                CustomerQuery.deleteCustomerByID(customerFromTable);
+            //Make sure the Customer didn't have any Appointments
+            int selectedCustomerID = customerTable.getSelectionModel().getSelectedItem().getCustomerID();
+            ObservableList<Appointment> apptList = AppointmentQuery.getAppointmentListByCustomerID(selectedCustomerID);
+            if (apptList.size() == 0) {
+                //Create "ARE YOU SURE?" Alert Box
+                ButtonType delete = new ButtonType("Delete", ButtonBar.ButtonData.OK_DONE);
+                ButtonType cancel = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
+                Alert alert = new Alert(Alert.AlertType.WARNING,
+                        "Are you sure you want to Delete the Customer?",
+                        delete,
+                        cancel);
+                alert.setTitle("Delete Warning");
+                Optional<ButtonType> result = alert.showAndWait();
+                //Deletes Customer from DB if delete button is clicked
+                if (result.orElse(cancel) == delete) {
+                    int customerFromTable = customerTable.getSelectionModel().getSelectedItem().getCustomerID();
+                    CustomerQuery.deleteCustomerByID(customerFromTable);
+                }
+            } else {
+                AlertMessageController.partError(3, null);
             }
         }
         //Refresh the Table

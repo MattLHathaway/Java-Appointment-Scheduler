@@ -21,7 +21,7 @@ public class AlertMessageController {
                 break;
             }
             case 3: {
-                alert.setContentText("Price must be a double!");
+                alert.setContentText("Customer has open Appointments!  These appointments must be deleted before you can delete the Customer.");
                 break;
             }
             case 4: {

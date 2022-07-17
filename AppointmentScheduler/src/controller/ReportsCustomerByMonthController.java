@@ -23,7 +23,6 @@ public class ReportsCustomerByMonthController implements Initializable {
     public TableView reportsTable;
     public ChoiceBox reportsChoicebox;
     public RadioButton apptByCustomerRadio;
-    public ToggleGroup ReportsRadioGroup;
     public RadioButton customersByTypeRadio;
     public RadioButton customersByMonthRadio;
     public RadioButton customersByCountryRadio;
