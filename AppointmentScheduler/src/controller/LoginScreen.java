@@ -53,6 +53,8 @@ public class LoginScreen implements Initializable {
         applyTimeZone();
         ResourceBundle rb = ResourceBundle.getBundle("en_lang");
 
+        System.out.println(TimeUtility.convertToUTC("2022-07-15 15:00:00"));
+
     }
 
     public void applyTimeZone() {
