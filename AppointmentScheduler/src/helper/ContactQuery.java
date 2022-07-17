@@ -8,8 +8,19 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/**
+ * This class is used to get Contact information from the Database.
+ */
 public abstract class ContactQuery {
 
+    /**
+     * This function allows you to add a Contact.
+     * @param contactID
+     * @param contactName
+     * @param contactEmail
+     * @return
+     * @throws SQLException
+     */
     public static int addContact(int contactID, String contactName, String contactEmail) throws SQLException {
         String sql = "INSERT INTO contacts (Contact_ID, Contact_Name, Email) VALUES (?, ?, ?)";
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
@@ -20,6 +31,14 @@ public abstract class ContactQuery {
         return rowsAffected;
     }
 
+    /**
+     * This function allows you to update a Contact.
+     * @param contactID
+     * @param contactName
+     * @param contactEmail
+     * @return
+     * @throws SQLException
+     */
     public static int updateContactByID(int contactID, String contactName, String contactEmail) throws SQLException {
         String sql = "UPDATE contacts Contact_Name = ?, Email = ? WHERE Contact_ID = ?";
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
@@ -30,6 +49,12 @@ public abstract class ContactQuery {
         return rowsAffected;
     }
 
+    /**
+     * This function allows you to delete a Contact.
+     * @param contactID
+     * @return
+     * @throws SQLException
+     */
     public static int deleteContactByID(int contactID) throws SQLException {
         String sql = "DELETE FROM contacts WHERE Contact_ID = ?";
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
@@ -38,6 +63,11 @@ public abstract class ContactQuery {
         return rowsAffected;
     }
 
+    /**
+     * This function allows you to get a List of contacts.
+     * @return
+     * @throws SQLException
+     */
     public static ObservableList<Contact> getContactList() throws SQLException {
         ObservableList<Contact> ContactList = FXCollections.observableArrayList();
         String sql = "SELECT * FROM contacts";
@@ -53,6 +83,12 @@ public abstract class ContactQuery {
         return ContactList;
     }
 
+    /**
+     * This function allows you to get a List of contact name by ID.
+     * @param contID
+     * @return
+     * @throws SQLException
+     */
     public static String getContactNameByID(int contID) throws SQLException {
         Contact selectedContact = new Contact();
         String sql = "SELECT * FROM contacts WHERE Contact_ID = ?";
@@ -70,6 +106,12 @@ public abstract class ContactQuery {
         return output;
     }
 
+    /**
+     * This function allows you to get a List of contacts by ID.
+     * @param contID
+     * @return
+     * @throws SQLException
+     */
     public static Contact getObjectByID(int contID) throws SQLException {
         Contact selectedContact = new Contact();
         String sql = "SELECT * FROM contacts WHERE Contact_ID = ?";
@@ -86,6 +128,12 @@ public abstract class ContactQuery {
         return selectedContact;
     }
 
+    /**
+     * This function allows you to get a contact ID by name.
+     * @param contName
+     * @return
+     * @throws SQLException
+     */
     public static int getIdByName(String contName) throws SQLException {
         Contact selectedContact = new Contact();
         String sql = "SELECT * FROM contacts WHERE Contact_Name = ?";

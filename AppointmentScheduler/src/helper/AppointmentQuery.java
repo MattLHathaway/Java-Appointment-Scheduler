@@ -5,10 +5,31 @@ import javafx.collections.ObservableList;
 import model.Appointment;
 
 import java.sql.*;
-import java.time.LocalDate;
 
+/**
+ * This class allows us to pull Appointment Information from our database.
+ */
 public abstract class AppointmentQuery {
 
+    /**
+     * This inserts an Appointment into the DB.
+     * @param appointmentID
+     * @param title
+     * @param description
+     * @param location
+     * @param type
+     * @param start
+     * @param end
+     * @param createDate
+     * @param createdBy
+     * @param lastUpdate
+     * @param lastUpdatedBy
+     * @param customerID
+     * @param userID
+     * @param contactID
+     * @return
+     * @throws SQLException
+     */
     public static int insert(int appointmentID, String title, String description, String location, String type, String start, String end, String createDate, String createdBy, String lastUpdate, String lastUpdatedBy, int customerID, int userID, int contactID) throws SQLException {
         String sql = "INSERT INTO appointments (Appointment_ID, Title, Description, Location, Type, Start, End, Create_Date, Created_By, Last_Update, Last_Updated_By, Customer_ID, User_ID, Contact_ID) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
@@ -30,6 +51,25 @@ public abstract class AppointmentQuery {
         return rowsAffected;
     }
 
+    /**
+     * This function updates a current Appointment using its ID.
+     * @param appointmentID
+     * @param title
+     * @param description
+     * @param location
+     * @param type
+     * @param start
+     * @param end
+     * @param createDate
+     * @param createdBy
+     * @param lastUpdate
+     * @param lastUpdatedBy
+     * @param customerID
+     * @param userID
+     * @param contactID
+     * @return
+     * @throws SQLException
+     */
     public static int update(int appointmentID, String title, String description, String location, String type, String start, String end, String createDate, String createdBy, String lastUpdate, String lastUpdatedBy, int customerID, int userID, int contactID) throws SQLException {
         String sql = "UPDATE appointments SET Title = ?, Description = ?, Location = ?, Type = ?, Start = ?, End = ?, Create_Date = ?, Created_By = ?, Last_Update = ?, Last_Updated_By = ?, Customer_ID = ?, User_ID = ?, Contact_ID = ? WHERE Appointment_ID = ?";
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
@@ -51,6 +91,12 @@ public abstract class AppointmentQuery {
         return rowsAffected;
     }
 
+    /**
+     * This function deletes an Appointment by its ID.
+     * @param appointmentID
+     * @return
+     * @throws SQLException
+     */
     public static int deleteByID(int appointmentID) throws SQLException {
         String sql = "DELETE FROM appointments WHERE Appointment_ID = ?";
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
@@ -59,6 +105,11 @@ public abstract class AppointmentQuery {
         return rowsAffected;
     }
 
+    /**
+     * This function gets an ObservableList of All Appointments.
+     * @return
+     * @throws SQLException
+     */
     public static ObservableList<Appointment> getAppointmentList() throws SQLException {
         ObservableList<Appointment> AppointmentList = FXCollections.observableArrayList();
         String sql = "SELECT * FROM appointments";
@@ -85,6 +136,12 @@ public abstract class AppointmentQuery {
         return AppointmentList;
     }
 
+    /**
+     * This function gives a list of all currently taken Appointment Start times by Date.
+     * @param inputDate
+     * @return
+     * @throws SQLException
+     */
     public static ObservableList<String> getTakenStartTimeListByDate(String inputDate) throws SQLException {
         ObservableList<String> AppointmentList = FXCollections.observableArrayList();
         String sql = "SELECT time(Start) AS start_date FROM appointments WHERE DATE(Start) BETWEEN '?' AND '? 23:59:59';";
@@ -113,6 +170,11 @@ public abstract class AppointmentQuery {
         return AppointmentList;
     }
 
+    /**
+     * This function gets an ObservableList of Appointments by Week and is used to filter the MainMenu file in the controller folder.
+     * @return
+     * @throws SQLException
+     */
     public static ObservableList<Appointment> getAppointmentListByWeek() throws SQLException {
         ObservableList<Appointment> AppointmentList = FXCollections.observableArrayList();
         String sql = "SELECT * FROM appointments WHERE YEARWEEK(Start) = YEARWEEK(NOW());";
@@ -139,6 +201,11 @@ public abstract class AppointmentQuery {
         return AppointmentList;
     }
 
+    /**
+     * This function returns an ObservableList of allAppointments by month and is used to filter the MainMenu page in the controller folder.
+     * @return
+     * @throws SQLException
+     */
     public static ObservableList<Appointment> getAppointmentListByMonth() throws SQLException {
         ObservableList<Appointment> AppointmentList = FXCollections.observableArrayList();
         String sql = "SELECT * FROM appointments WHERE MONTH(Start)=MONTH(now()) AND YEAR(Start)=YEAR(now());";
@@ -165,6 +232,12 @@ public abstract class AppointmentQuery {
         return AppointmentList;
     }
 
+    /**
+     * This function gets an ObservableList of Appointments by a specific month.  This is used for the Reports page.
+     * @param inputMonth
+     * @return
+     * @throws SQLException
+     */
     public static ObservableList<Appointment> getAppointmentListBySpecifiedMonth(int inputMonth) throws SQLException {
         ObservableList<Appointment> AppointmentList = FXCollections.observableArrayList();
         String sql = "SELECT * FROM appointments WHERE MONTH(Start)=? AND YEAR(Start)=YEAR(now());";
@@ -192,29 +265,12 @@ public abstract class AppointmentQuery {
         return AppointmentList;
     }
 
-    public static void getByID(int apptID) throws SQLException {
-        String sql = "SELECT * FROM appointments WHERE Appointment_ID = ?";
-        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
-        ps.setInt(1, apptID);
-        ResultSet rs = ps.executeQuery();
-        while(rs.next()) {
-            int appointmentID = rs.getInt("Appointment_ID");
-            String title = rs.getString("Title");
-            String description = rs.getString("Description");
-            String location = rs.getString("Location");
-            String type = rs.getString("Type");
-            String start = rs.getString("Start");
-            String end = rs.getString("End");
-            String createDate = rs.getString("Create_Date");
-            String createdBy = rs.getString("Created_By");
-            String lastUpdate = rs.getString("Last_Update");
-            String lastUpdatedBy = rs.getString("Last_Updated_By");
-            int customerID = rs.getInt("Customer_ID");
-            int userID = rs.getInt("User_ID");
-            int contactID = rs.getInt("Contact_ID");
-        }
-    }
-
+    /**
+     * This function returns an ObservableList of Appointments by CustomerID.
+     * @param inputID
+     * @return
+     * @throws SQLException
+     */
     public static ObservableList<Appointment> getAppointmentListByCustomerID(int inputID) throws SQLException {
         ObservableList<Appointment> appointmentListByID = FXCollections.observableArrayList();
         String sql = "SELECT * FROM appointments WHERE Customer_ID = ?";
@@ -242,6 +298,12 @@ public abstract class AppointmentQuery {
         return appointmentListByID;
     }
 
+    /**
+     * This function returns an ObservableList of all Appointments by Contact ID.
+     * @param inputID
+     * @return
+     * @throws SQLException
+     */
     public static ObservableList<Appointment> getAppointmentListByContactID(int inputID) throws SQLException {
         ObservableList<Appointment> appointmentListByID = FXCollections.observableArrayList();
         String sql = "SELECT * FROM appointments WHERE Contact_ID = ?";
@@ -269,6 +331,12 @@ public abstract class AppointmentQuery {
         return appointmentListByID;
     }
 
+    /**
+     * This function returns an ObservableList of all Appointments by Type.
+     * @param inputType
+     * @return
+     * @throws SQLException
+     */
     public static ObservableList<Appointment> getByType(String inputType) throws SQLException {
         ObservableList<Appointment> appointmentListByID = FXCollections.observableArrayList();
         String sql = "SELECT * FROM appointments WHERE Type = ?";

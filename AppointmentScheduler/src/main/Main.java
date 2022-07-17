@@ -8,9 +8,16 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-import java.util.Locale;
-
+/**
+ * This class' purpose is to connect to the DB and Launch the program.
+ */
 public class Main extends Application {
+
+    /**
+     * This initializes our login screen FXML, beginning the GUI.
+     * @param stage
+     * @throws Exception
+     */
     @Override
     public void start(Stage stage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("/view/LoginScreen.fxml"));
@@ -19,6 +26,10 @@ public class Main extends Application {
         stage.show();
     }
 
+    /**
+     * This allows us to open and close our connections around the launch of the GUI.
+     * @param args
+     */
     public static void main(String[] args) {
         //write your code here
         JDBC.openConnection();

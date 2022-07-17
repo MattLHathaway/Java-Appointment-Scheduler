@@ -4,7 +4,6 @@ import helper.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.EventType;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
@@ -12,7 +11,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import model.Appointment;
 import model.Contact;
@@ -24,11 +22,14 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.EventObject;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.TimeZone;
 
+/**
+ * The MainMenu is for displaying Appointments.  This is where the Login form takes you.  The purpose is to display
+ * all appointments in local timezones and allow the user to navigate through the rest of the program as needed.
+ */
 public class MainMenu implements Initializable {
 
     public Button logoutButton;
@@ -68,6 +69,12 @@ public class MainMenu implements Initializable {
     public ChoiceBox endTimeChoicebox;
     public Label customMessageLabel;
 
+    /**
+     * On initialization we ensure that the table is populated and no custom messages are currently displaying.
+     * @param url
+     * @param resourceBundle
+     */
+
     public void initialize(URL url, ResourceBundle resourceBundle) {
         System.out.println("We are at the Main Menu!");
         customMessageLabel.setText("");
@@ -79,6 +86,14 @@ public class MainMenu implements Initializable {
         }
     }
 
+    /**
+     * This triggers when the user clicks on the Modify Button.  Any changes the user made to the modifiable appointment
+     * text fields is applied to the appointments in the database.  It does ask if you are sure before allowing the
+     * permanent changes to be applied.
+     * @param event
+     * @throws IOException
+     * @throws SQLException
+     */
     public void onModifyButtonPressed(ActionEvent event) throws IOException, SQLException {
         //Check for selected appointment from appt table
         if (table.getSelectionModel() != null) {
@@ -159,6 +174,12 @@ public class MainMenu implements Initializable {
         apptUserIDChoicebox.setValue(null);
     }
 
+    /**
+     * This allows the user to delete an appointment.  The program displays a custom message on the user interface when
+     * you do.
+     * @param event
+     * @throws Exception
+     */
     public void onDeleteButtonPressed(ActionEvent event) throws Exception {
         //Check for selected appointment from appt table
         String appointmentID = String.valueOf(table.getSelectionModel().getSelectedItem().getApptID());
@@ -198,10 +219,22 @@ public class MainMenu implements Initializable {
         apptUserIDChoicebox.setValue(null);
     }
 
+    /**
+     * This is a recognizable name function that just triggers the populateTable function.
+     * @param event
+     * @throws SQLException
+     */
     public void radioCheck(ActionEvent event) throws SQLException {
         populateTable();
     }
 
+    /**
+     * This function triggers any time changes are made to the table and on initialization of the page.  The goal is to
+     * ensure correct data in the table at all times and allow for filtering/modification of Appointment Data.  This
+     * function also the ability to set the table to be clickable and thereby filling the modification fields with the
+     * data that was clicked.
+     * @throws SQLException
+     */
     public void populateTable() throws SQLException {
 
         //Define Filter Radio/ChoiceBoxes
@@ -355,11 +388,19 @@ public class MainMenu implements Initializable {
         });
     }
 
+    /**
+     * This allows us to set the time zone visibly on the screen.
+     */
     public void setTimeZoneText() {
         TimeZone tz = TimeZone.getDefault();
         timeZoneText.setText(tz.getID());
     }
 
+    /**
+     * This function allows the user to switch pages.
+     * @param event
+     * @throws IOException
+     */
     public void CustomerNavButtonPressed(ActionEvent event) throws IOException {
         //Switch Screen Logic
         Parent root = FXMLLoader.load(getClass().getResource("/view/CustomersMenu.fxml"));
@@ -368,6 +409,12 @@ public class MainMenu implements Initializable {
         stage.setScene(scene);
         stage.show();
     }
+
+    /**
+     * This function allows the user to switch pages.
+     * @param event
+     * @throws IOException
+     */
     public void addAppointmentButtonPressed(ActionEvent event) throws IOException {
         //Switch Screen Logic
         Parent root = FXMLLoader.load(getClass().getResource("/view/AddAppointmentScreen.fxml"));
@@ -376,6 +423,11 @@ public class MainMenu implements Initializable {
         stage.setScene(scene);
         stage.show();
     }
+    /**
+     * This function allows the user to switch pages.
+     * @param event
+     * @throws IOException
+     */
     public void logoutPressed(ActionEvent event) throws IOException {
         //Switch Screen Logic
         Parent root = FXMLLoader.load(getClass().getResource("/view/LoginScreen.fxml"));
@@ -385,6 +437,11 @@ public class MainMenu implements Initializable {
         stage.show();
     }
 
+    /**
+     * This function allows the user to switch pages.
+     * @param actionEvent
+     * @throws IOException
+     */
     public void reportButtonPressed(ActionEvent actionEvent) throws IOException {
         //Switch Screen Logic
         Parent root = FXMLLoader.load(getClass().getResource("/view/ReportsMenu.fxml"));

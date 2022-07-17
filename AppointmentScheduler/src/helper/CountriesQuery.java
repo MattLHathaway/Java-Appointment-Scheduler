@@ -3,17 +3,23 @@ package helper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import model.Countries;
-import model.Customer;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/**
+ * This class' purpose is to move Countries data to and from the database.
+ */
 public abstract class CountriesQuery {
 
+    /**
+     * This function is used to get all Countries by ID #.
+     * @param selectedCountryID
+     * @return
+     * @throws SQLException
+     */
     //int countryID, String country, String countryCreateDate, String countryCreatedBy, String countryLastUpdate, String countryLastUpdatedBy
-
-
     public static Countries getByID(int selectedCountryID) throws SQLException {
         Countries selectedCountry = new Countries();
         String sql = "SELECT * FROM countries WHERE Country_ID = ?";
@@ -33,6 +39,11 @@ public abstract class CountriesQuery {
         return selectedCountry;
     }
 
+    /**
+     * This function is used to get all Countries.
+     * @return
+     * @throws SQLException
+     */
     public static ObservableList<Countries> getCountriesList() throws SQLException {
         ObservableList<Countries> countriesList = FXCollections.observableArrayList();
         String sql = "SELECT * FROM countries";

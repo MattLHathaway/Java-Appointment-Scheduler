@@ -15,16 +15,25 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import main.TimeUtility;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.Locale;
 import java.util.Objects;
 import java.util.ResourceBundle;
 import java.util.TimeZone;
 
+/**
+ * The LoginScreen is used to allow or deny a user entry to the rest of the program
+ */
 public class LoginScreen implements Initializable {
+
     public ChoiceBox languageDropDown;
     public TextField passwordField;
     public TextField usernameField;
@@ -39,8 +48,6 @@ public class LoginScreen implements Initializable {
     public Button languageChangeButton;
     private Stage stage;
     private Scene scene;
-    private Parent root;
-
     private ObservableList<String> allPW;
     private ObservableList<String> allUN;
 
@@ -53,15 +60,21 @@ public class LoginScreen implements Initializable {
         applyTimeZone();
         ResourceBundle rb = ResourceBundle.getBundle("en_lang");
 
-        System.out.println(TimeUtility.convertToUTC("2022-07-15 15:00:00"));
+//        System.out.println(TimeUtility.convertToUTC("2022-07-15 15:00:00"));
 
     }
 
+    /**
+     * Get the default timezone of the Local User and set as text on the login GUI
+     */
     public void applyTimeZone() {
         TimeZone tz = TimeZone.getDefault();
         TimeZoneText.setText(tz.getID());
     }
 
+    /**
+     * This function triggers on initialization and tells our application which language to use, French or English
+     */
     public void applyLanguageButtonPressed() {
         ResourceBundle rb = ResourceBundle.getBundle("en_lang");
 
@@ -75,6 +88,9 @@ public class LoginScreen implements Initializable {
         }
     }
 
+    /**
+     * This is applied to allow users to change the text of the login form buttons between English and French
+     */
     public void setAppLanguage() {
         //Checking for users Language
         boolean isEnglish = false;
@@ -94,6 +110,10 @@ public class LoginScreen implements Initializable {
         applyLanguageValues(rb);
     }
 
+    /**
+     * Called after the language is set, this function applies the newly selected language to all forms/buttons on the Login GUI
+     * @param rb
+     */
     public void applyLanguageValues(ResourceBundle rb) {
         LoginLabel.setText(rb.getString("LoginTitle"));
         UsernameLabel.setText(rb.getString("UsernameLabel"));
@@ -104,15 +124,32 @@ public class LoginScreen implements Initializable {
         resetButton.setText(rb.getString("ResetButton"));
     }
 
+    /**
+     * Triggered when pressing the Reset button, this is used to empty the Username and Password text fields
+     * @param event
+     * @throws IOException
+     */
     public void resetButtonPressed(ActionEvent event) throws IOException {
         usernameField.setText("");
         passwordField.setText("");
     }
 
+    /**
+     * This event triggers when a user clicks the login button.  It checks the username and password and gives an error
+     * if it is incorrect.  It also logs successful and unsuccessful login attempts in the login_activity.txt file.
+     * @param event
+     * @throws IOException
+     * @throws SQLException
+     */
     public void loginPressed(ActionEvent event) throws IOException, SQLException {
         boolean correctCredentials = false;
         Locale currentLocale = Locale.getDefault();
         String localeLanguage = currentLocale.getDisplayLanguage();
+        File loginRecord = new File("login_activity.txt");
+        FileWriter fr = new FileWriter(loginRecord, true);
+        BufferedWriter br = new BufferedWriter(fr);
+        String userName = usernameField.getText();
+        String currentDateTime = String.valueOf(LocalDateTime.now());
         //Store current Usernames & Passwords
         allUN = UsersQuery.returnUserNames();
         allPW = UsersQuery.returnUserPasswords();
@@ -123,6 +160,11 @@ public class LoginScreen implements Initializable {
             };
         }
         if (correctCredentials) {
+            //Write Successful Login to login_activity.txt
+            br.write("Successful Login by " + userName + " at " + currentDateTime + "\n");
+            br.close();
+            fr.close();
+
             //Switch Screen Logic
             Parent root = FXMLLoader.load(getClass().getResource("/view/MainMenu.fxml"));
             stage = (Stage)((Node)event.getSource()).getScene().getWindow();
@@ -130,6 +172,10 @@ public class LoginScreen implements Initializable {
             stage.setScene(scene);
             stage.show();
         } else {
+            //Write Unsuccessful Login to login_activity.txt
+            br.write("Unsuccessful Login Attempt at " + currentDateTime + "\n");
+            br.close();
+            fr.close();
             //Show Alert if UN/PW was incorrect
             if (Objects.equals(localeLanguage, "English")) {
                 AlertMessageController.partError(1, null);
@@ -139,19 +185,4 @@ public class LoginScreen implements Initializable {
             return;
         };
     }
-
-    public void resetPressed() {
-
-    }
 }
-
-//        int rowsAffected;
-//        try {
-//            rowsAffected = UsersQuery.delete(3);
-//        } catch (SQLException e) {
-//            throw new RuntimeException(e);
-//        }
-//        if (rowsAffected > 0) {
-//            System.out.println("Insert Successful");
-//        }
-//        ;

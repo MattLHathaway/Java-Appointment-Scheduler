@@ -25,13 +25,15 @@ import model.Users;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 import java.util.ResourceBundle;
 import java.util.concurrent.atomic.AtomicInteger;
 
+/**
+ * This class is the controller for the AddAppointmentScreen.fxml.  It's main purpose is to allow the user to add new
+ * Appointments and customize the data that comprises said new Appointment.
+ */
 public class AddAppointmentScreenController implements Initializable {
     public TextField addApptIDField;
     public DatePicker addApptStartDatePicker;
@@ -48,6 +50,11 @@ public class AddAppointmentScreenController implements Initializable {
     public ChoiceBox addApptEndTimeChoicebox;
     public ChoiceBox addApptStartTimeChoicebox;
 
+    /**
+     * Upon initialization, the choicebox options are set so that the User may correctly choose between available times.
+     * @param url
+     * @param resourceBundle
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         try {
@@ -57,6 +64,13 @@ public class AddAppointmentScreenController implements Initializable {
         }
 
     }
+
+    /**
+     * Triggered once the save button is clicked, this function saves all user input data as a new Appointment.
+     * @param event
+     * @throws IOException
+     * @throws SQLException
+     */
     public void saveButtonPressed(ActionEvent event) throws IOException, SQLException {
         //Variables and Time String Formatting
         int uniqueID = createUniqueAppointmentID();
@@ -114,7 +128,11 @@ public class AddAppointmentScreenController implements Initializable {
         stage.show();
     }
 
-
+    /**
+     * This function creates a unique ID using the sum of all other current appointment IDs.
+     * @return
+     * @throws SQLException
+     */
     public int createUniqueAppointmentID() throws SQLException {
         ObservableList<Appointment> apptList = AppointmentQuery.getAppointmentList();
         ObservableList<String> allAppointmentIDs = FXCollections.observableArrayList();
@@ -126,7 +144,10 @@ public class AddAppointmentScreenController implements Initializable {
         return sumVal;
     }
 
-
+    /**
+     * This fills the choiceboxes with appropriate options only, preventing the user from entering incorrect information.
+     * @throws SQLException
+     */
     public void fillChoiceBoxOptions() throws SQLException {
 
         //PULLING Customer Names
@@ -166,39 +187,11 @@ public class AddAppointmentScreenController implements Initializable {
 
     }
 
-
-    public void onStartDateChosen(ActionEvent event) throws SQLException {
-        //Creating List of unavailable times (takenAppointments)
-        String chosenDate = String.valueOf(addApptStartDatePicker.getValue());
-        ObservableList<String> takenAppointments = AppointmentQuery.getTakenStartTimeListByDate(chosenDate);
-
-        //Creating List of ALL times (appointmentTimes)
-        ObservableList<String> appointmentTimes = FXCollections.observableArrayList();
-        LocalTime firstAppointment = LocalTime.MIN.plusHours(8); //8am
-        LocalTime lastAppointment = LocalTime.MAX.minusHours(1).minusMinutes(45); //10pm
-        if (!firstAppointment.equals(0) || !lastAppointment.equals(0)) {
-            while (firstAppointment.isBefore(lastAppointment)) {
-                appointmentTimes.add(String.valueOf(firstAppointment));
-                firstAppointment = firstAppointment.plusMinutes(15);
-            }
-        }
-
-        //Creating List of available times (availableAppointments)
-        ObservableList<String> availableAppointments = FXCollections.observableArrayList();
-
-        AtomicInteger i = new AtomicInteger();
-        appointmentTimes.forEach(String -> {
-            if(!Objects.equals(String, takenAppointments.get(i.get()))) {
-                availableAppointments.add(String);
-                i.getAndIncrement();
-            }
-        });
-
-        //Assign Available Appointments to the choicebox
-        addApptStartTimeChoicebox.setItems(availableAppointments);
-        System.out.println("It worked?");
-    }
-
+    /**
+     * This switches screens.
+     * @param event
+     * @throws IOException
+     */
     public void cancelButtonPressed(ActionEvent event) throws IOException {
         //Switch Screen Logic
         Parent root = FXMLLoader.load(getClass().getResource("/view/MainMenu.fxml"));

@@ -2,7 +2,6 @@ package controller;
 
 import helper.AppointmentQuery;
 import helper.ContactQuery;
-import helper.CustomerQuery;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -16,13 +15,15 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import model.Appointment;
 import model.Contact;
-import model.Customer;
 
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
+/**
+ * The purpose of this menu is to show Appointments for each Contact.
+ */
 public class ReportsMenuController implements Initializable {
     public TableView reportsTable;
     public ChoiceBox reportsChoicebox;
@@ -43,6 +44,11 @@ public class ReportsMenuController implements Initializable {
     public TableColumn apptCustomerIDCol;
     public Button searchButton;
 
+    /**
+     * Upon initialization, the choicebox is filled and table refreshed.
+     * @param url
+     * @param resourceBundle
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         try {
@@ -53,6 +59,10 @@ public class ReportsMenuController implements Initializable {
         }
     }
 
+    /**
+     * This function fills the choicebox with contact IDs.
+     * @throws SQLException
+     */
     public void fillChoiceBoxOptions() throws SQLException {
         //Fill Choicebox with Contact IDs
         ObservableList<Contact> contList = null;
@@ -66,6 +76,10 @@ public class ReportsMenuController implements Initializable {
         reportsChoicebox.setItems(allContactIDs);
     }
 
+    /**
+     * This refreshes the table.
+     * @throws SQLException
+     */
     public void populateTable() throws SQLException {
         //Check if a Contact ID has been chosen and applies that to table
         if (reportsChoicebox.getValue() == null) {
@@ -97,6 +111,11 @@ public class ReportsMenuController implements Initializable {
 
     }
 
+    /**
+     * This is for switching pages.
+     * @param actionEvent
+     * @throws IOException
+     */
     public void radioCheck(javafx.event.ActionEvent actionEvent) throws IOException {
         RadioButton reportsMenu = (RadioButton) apptByCustomerRadio;
         RadioButton customersByType = (RadioButton) customersByTypeRadio;
@@ -138,6 +157,11 @@ public class ReportsMenuController implements Initializable {
         }
     }
 
+    /**
+     * This is for switching pages.
+     * @param event
+     * @throws IOException
+     */
     public void logoutPressed(ActionEvent event) throws IOException {
         //Switch Screen Logic
         Parent root = FXMLLoader.load(getClass().getResource("/view/LoginScreen.fxml"));
@@ -147,6 +171,11 @@ public class ReportsMenuController implements Initializable {
         stage.show();
     }
 
+    /**
+     * This is for switching pages.
+     * @param event
+     * @throws IOException
+     */
     public void AppointmentButtonPressed(ActionEvent event) throws IOException {
         //Switch Screen Logic
         Parent root = FXMLLoader.load(getClass().getResource("/view/MainMenu.fxml"));
@@ -156,6 +185,11 @@ public class ReportsMenuController implements Initializable {
         stage.show();
     }
 
+    /**
+     * This is for switching pages.
+     * @param event
+     * @throws IOException
+     */
     public void CustomerButtonPressed(ActionEvent event) throws IOException {
         //Switch Screen Logic
         Parent root = FXMLLoader.load(getClass().getResource("/view/CustomersMenu.fxml"));
@@ -164,5 +198,4 @@ public class ReportsMenuController implements Initializable {
         stage.setScene(scene);
         stage.show();
     }
-
 }

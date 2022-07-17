@@ -1,10 +1,9 @@
 package controller;
 
-import helper.AppointmentQuery;
+
 import helper.CountriesQuery;
 import helper.CustomerQuery;
 import helper.FirstLevelDivisionsQuery;
-import javafx.beans.Observable;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -17,7 +16,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import model.Appointment;
 import model.Countries;
 import model.Customer;
 import model.FirstLevelDivisions;
@@ -29,6 +27,9 @@ import java.time.LocalDate;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
+/**
+ * This is the controller for the AddCustomerScreen.fxml.
+ */
 public class AddCustomerScreenController implements Initializable {
     public TextField CustNameField;
     public TextField CustPhoneField;
@@ -40,7 +41,11 @@ public class AddCustomerScreenController implements Initializable {
     public Button cancelButton;
     public Button applyCountryButton;
 
-
+    /**
+     * Upon initializing, it fills choicebox options.
+     * @param url
+     * @param resourceBundle
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         System.out.println("This is the Add Customer Page");
@@ -52,6 +57,10 @@ public class AddCustomerScreenController implements Initializable {
         }
     }
 
+    /**
+     * When called, this function fills the choicebox list with the three available countries.
+     * @throws SQLException
+     */
     public void fillChoiceBoxOptions() throws SQLException {
         //ADDING countries to list
         ObservableList<Countries> countriesList = CountriesQuery.getCountriesList();
@@ -61,15 +70,13 @@ public class AddCustomerScreenController implements Initializable {
 
     }
 
-    public void reportButtonPressed(ActionEvent event) throws IOException {
-        //Switch Screen Logic
-        Parent root = FXMLLoader.load(getClass().getResource("/view/ReportsMenu.fxml"));
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        Scene scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
-    }
-
+    /**
+     * This function takes all user-entered data in the fields and choiceboxes and formats them, then places them in the
+     * database as a new Customer.  Once done it returns you to the Customer Table Page.
+     * @param actionEvent
+     * @throws IOException
+     * @throws SQLException
+     */
     public void onSaveButtonPressed(ActionEvent actionEvent) throws IOException, SQLException {
         //Get Field Values
         String currentState = custStateChoicebox.getValue().toString();
@@ -109,6 +116,11 @@ public class AddCustomerScreenController implements Initializable {
         stage.show();
     }
 
+    /**
+     * This function switches screens.
+     * @param actionEvent
+     * @throws IOException
+     */
     public void onCancelButtonPressed(javafx.event.ActionEvent actionEvent) throws IOException {
         //Switch Screen Logic
         Parent root = FXMLLoader.load(getClass().getResource("/view/CustomersMenu.fxml"));
@@ -118,6 +130,11 @@ public class AddCustomerScreenController implements Initializable {
         stage.show();
     }
 
+    /**
+     * This checks which country was chosen from the dropdown and allows the State/Province drop down to be properly populated.
+     * @param actionEvent
+     * @throws SQLException
+     */
     public void onCountryChosen(javafx.event.ActionEvent actionEvent) throws SQLException {
         //CHECKING WHICH COUNTRY WAS CHOSEN
         if (Objects.equals(custCountryChoicebox.getValue().toString(), "U.S")) {
@@ -141,11 +158,23 @@ public class AddCustomerScreenController implements Initializable {
         }
     }
 
+    /**
+     * This function takes in an input state as a String.  It then returns the correct Division ID as an Integer.
+     * @param inputState
+     * @return
+     * @throws SQLException
+     */
     public int getDivisionID(String inputState) throws SQLException {
         int inputStateID = FirstLevelDivisionsQuery.getDivisionIDbyName(inputState);
         return inputStateID;
     }
 
+    /**
+     * This function is designed to create a unique ID for the customer.  It accomplishes by setting a new ID to the sum
+     * of all other customer IDs.
+     * @return
+     * @throws SQLException
+     */
     public int createUniqueAppointmentID() throws SQLException {
         ObservableList<Customer> custList = CustomerQuery.getCustomerList();
         ObservableList<String> allCustomerIDs = FXCollections.observableArrayList();

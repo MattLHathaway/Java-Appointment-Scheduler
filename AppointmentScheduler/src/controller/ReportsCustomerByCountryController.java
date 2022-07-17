@@ -23,11 +23,13 @@ import java.util.List;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
+/**
+ * The purpose of this Report page is to display Customers by Appointment Type
+ */
 public class ReportsCustomerByCountryController implements Initializable {
     public TableView reportsTable;
     public ChoiceBox reportsChoicebox;
     public RadioButton apptByCustomerRadio;
-    public ToggleGroup ReportsRadioGroup;
     public RadioButton customersByTypeRadio;
     public RadioButton customersByMonthRadio;
     public RadioButton customersByCountryRadio;
@@ -47,6 +49,11 @@ public class ReportsCustomerByCountryController implements Initializable {
     public Button searchButton;
     public ToggleGroup group4;
 
+    /**
+     * On initialization it fills the table and sets Choicebox with Types.
+     * @param url
+     * @param resourceBundle
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         try {
@@ -57,6 +64,10 @@ public class ReportsCustomerByCountryController implements Initializable {
         }
     }
 
+    /**
+     * This function fills the choicebox with appointment types.
+     * @throws SQLException
+     */
     public void fillChoiceBoxOptions() throws SQLException {
         //Fill Choicebox with Appointment Types
         ObservableList<Appointment> apptTypeList = AppointmentQuery.getAppointmentList();
@@ -65,6 +76,10 @@ public class ReportsCustomerByCountryController implements Initializable {
         reportsChoicebox.setItems(allApptTypes);
     }
 
+    /**
+     * This function allows the table to be refreshed with current data.
+     * @throws SQLException
+     */
     public void populateCustomersTable() throws SQLException {
         //Check for Choicebox Selection
         if (reportsChoicebox.getValue() == null) {
@@ -121,6 +136,11 @@ public class ReportsCustomerByCountryController implements Initializable {
 
     }
 
+    /**
+     * This is for switching pages.
+     * @param actionEvent
+     * @throws IOException
+     */
     public void radioCheck(javafx.event.ActionEvent actionEvent) throws IOException {
         RadioButton reportsMenu = (RadioButton) apptByCustomerRadio;
         RadioButton customersByType = (RadioButton) customersByTypeRadio;
@@ -162,6 +182,11 @@ public class ReportsCustomerByCountryController implements Initializable {
         }
     }
 
+    /**
+     * This is for switching pages.
+     * @param event
+     * @throws IOException
+     */
     public void logoutPressed(ActionEvent event) throws IOException {
         //Switch Screen Logic
         Parent root = FXMLLoader.load(getClass().getResource("/view/LoginScreen.fxml"));
@@ -171,6 +196,11 @@ public class ReportsCustomerByCountryController implements Initializable {
         stage.show();
     }
 
+    /**
+     * This is for switching pages.
+     * @param event
+     * @throws IOException
+     */
     public void AppointmentButtonPressed(ActionEvent event) throws IOException {
         //Switch Screen Logic
         Parent root = FXMLLoader.load(getClass().getResource("/view/MainMenu.fxml"));
@@ -180,6 +210,11 @@ public class ReportsCustomerByCountryController implements Initializable {
         stage.show();
     }
 
+    /**
+     * This is for switching pages.
+     * @param event
+     * @throws IOException
+     */
     public void CustomerButtonPressed(ActionEvent event) throws IOException {
         //Switch Screen Logic
         Parent root = FXMLLoader.load(getClass().getResource("/view/CustomersMenu.fxml"));

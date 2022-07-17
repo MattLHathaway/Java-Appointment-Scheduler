@@ -6,8 +6,16 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 
+/**
+ * This class' purpose is to convert time zone Strings into other time zone Strings.
+ */
 public class TimeUtility {
 
+    /**
+     * This function takes the current time zone and converts it to UTC.
+     * @param dateTime
+     * @return
+     */
     public static String convertToUTC(String dateTime) {
         Timestamp currentTimeStamp = Timestamp.valueOf(String.valueOf(dateTime));
         LocalDateTime LocalDT = currentTimeStamp.toLocalDateTime();
@@ -17,6 +25,4 @@ public class TimeUtility {
         String utcOUT = localOUT.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
         return utcOUT;
     }
-
-
 }

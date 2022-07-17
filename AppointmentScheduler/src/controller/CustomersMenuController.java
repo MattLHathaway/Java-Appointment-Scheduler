@@ -23,12 +23,14 @@ import model.FirstLevelDivisions;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
+/**
+ * This is the controller for the CustomersMenu.fxml.
+ */
 public class CustomersMenuController implements Initializable {
     public TableView<Customer> customerTable;
     public TableColumn customerIDCol;
@@ -53,7 +55,11 @@ public class CustomersMenuController implements Initializable {
     public Button applyCountryButton;
     public Label customMessageLabel;
 
-
+    /**
+     * Upon initialization of this page, we fill the customersTable with all current Customers.
+     * @param url
+     * @param resourceBundle
+     */
     public void initialize(URL url, ResourceBundle resourceBundle) {
         System.out.println("We are at the Customers Menu!");
 
@@ -66,6 +72,12 @@ public class CustomersMenuController implements Initializable {
         customMessageLabel.setText("");
     }
 
+    /**
+     * We use this function to populate the customersTable.  It is used to refresh the table any time table data is changed,
+     * deleted, or added.  It is also used to set the table to be clickable, allowing the modification fields to populate
+     * with customer information.
+     * @throws SQLException
+     */
     public void populateCustomersTable() throws SQLException {
         ObservableList<Customer> customersList = CustomerQuery.getCustomerList();
 
@@ -136,6 +148,11 @@ public class CustomersMenuController implements Initializable {
 
     }
 
+    /**
+     * This function is used to change the choicebox options between state/province options for the US, UK, or Canada.
+     * @param actionEvent
+     * @throws SQLException
+     */
     public void onCountryChosen(javafx.event.ActionEvent actionEvent) throws SQLException {
         //CHECKING WHICH COUNTRY WAS CHOSEN
         if (Objects.equals(customerCountryChoicebox.getValue().toString(), "U.S")) {
@@ -159,7 +176,12 @@ public class CustomersMenuController implements Initializable {
         }
     }
 
-        public void AppointmentNavButtonPressed(ActionEvent event) throws IOException {
+    /**
+     * This function switches screens.
+     * @param event
+     * @throws IOException
+     */
+    public void AppointmentNavButtonPressed(ActionEvent event) throws IOException {
         //Switch Screen Logic
         Parent root = FXMLLoader.load(getClass().getResource("/view/MainMenu.fxml"));
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -168,6 +190,11 @@ public class CustomersMenuController implements Initializable {
         stage.show();
     }
 
+    /**
+     * This function switches screens.
+     * @param event
+     * @throws IOException
+     */
     public void addCustomerButtonPressed(ActionEvent event) throws IOException {
         //Switch Screen Logic
         Parent root = FXMLLoader.load(getClass().getResource("/view/AddCustomerScreen.fxml"));
@@ -177,6 +204,11 @@ public class CustomersMenuController implements Initializable {
         stage.show();
     }
 
+    /**
+     * This function switches screens.
+     * @param event
+     * @throws IOException
+     */
     public void reportButtonPressed(ActionEvent event) throws IOException {
         //Switch Screen Logic
         Parent root = FXMLLoader.load(getClass().getResource("/view/ReportsMenu.fxml"));
@@ -186,6 +218,13 @@ public class CustomersMenuController implements Initializable {
         stage.show();
     }
 
+    /**
+     * This buttons takes information from the customer modification fields and applies them to the selected customer
+     * from the customerTable.  It clears the modification fields and refreshes the table once done.
+     * @param event
+     * @throws IOException
+     * @throws SQLException
+     */
     public void onModifyButtonPressed(ActionEvent event) throws IOException, SQLException {
         //Check for selected Customer from cust table
         if (customerTable.getSelectionModel() != null) {
@@ -241,6 +280,12 @@ public class CustomersMenuController implements Initializable {
         populateCustomersTable();
     }
 
+    /**
+     * This deletes a selected customer.  It warns the user first, and will only allow the customer to be deleted if no
+     * appointments exist in their name.
+     * @param event
+     * @throws Exception
+     */
     public void onDeleteButtonPressed(ActionEvent event) throws Exception {
         //Check for selected customer from table
         if (customerTable.getSelectionModel() != null) {
@@ -281,6 +326,11 @@ public class CustomersMenuController implements Initializable {
         customerCountryChoicebox.setValue(null);
     }
 
+    /**
+     * This function switches screens.
+     * @param event
+     * @throws IOException
+     */
     public void logoutButtonPressed(ActionEvent event) throws IOException {
         //Switch Screen Logic
         Parent root = FXMLLoader.load(getClass().getResource("/view/LoginScreen.fxml"));

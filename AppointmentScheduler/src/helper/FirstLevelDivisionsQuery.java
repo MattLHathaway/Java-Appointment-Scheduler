@@ -8,12 +8,17 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/**
+ * This class' purpose is to move FirstLevelDivision data to and from the database.
+ */
 public class FirstLevelDivisionsQuery {
 
-    //Division_ID, Division, Create_Date, Created_By, Last_Update, Last_Updated_By, Country_ID
-    //int divisionID, String division, String divisionCreateDate, String divisionCreatedBy, String divisionLastUpdate, String divisionLastUpdatedBy, int countryID
-
-
+    /**
+     * This function gets all Divisions by Country ID.
+     * @param fldID
+     * @return
+     * @throws SQLException
+     */
     public static ObservableList<FirstLevelDivisions> getAllDivisionsByCountryID(int fldID) throws SQLException {
         ObservableList<FirstLevelDivisions> selectedFirstLevelDivisions = FXCollections.observableArrayList();
         String sql = "SELECT * FROM first_level_divisions WHERE Country_ID = ?";
@@ -34,6 +39,11 @@ public class FirstLevelDivisionsQuery {
         return selectedFirstLevelDivisions;
     }
 
+    /**
+     * This function gets all Divisions.
+     * @return
+     * @throws SQLException
+     */
     public static ObservableList<FirstLevelDivisions> getAllDivisions() throws SQLException {
         ObservableList<FirstLevelDivisions> selectedFirstLevelDivisions = FXCollections.observableArrayList();
         String sql = "SELECT * FROM first_level_divisions";
@@ -53,6 +63,12 @@ public class FirstLevelDivisionsQuery {
         return selectedFirstLevelDivisions;
     }
 
+    /**
+     * This function gets all Divisions by Country Name.
+     * @param inputState
+     * @return
+     * @throws SQLException
+     */
     public static int getDivisionIDbyName(String inputState) throws SQLException {
         int inputDivisionID = 1;
         String sql = "SELECT * FROM first_level_divisions WHERE Division = ?";
@@ -73,6 +89,13 @@ public class FirstLevelDivisionsQuery {
         return inputDivisionID;
     }
 
+
+    /**
+     * This function gets all Division Names by ID.
+     * @param inputID
+     * @return
+     * @throws SQLException
+     */
     public static String getDivisionNameByID(int inputID) throws SQLException {
         String inputDivisionName = "ERROR";
         String sql = "SELECT * FROM first_level_divisions WHERE Division_ID = ?";
@@ -93,6 +116,12 @@ public class FirstLevelDivisionsQuery {
         return inputDivisionName;
     }
 
+    /**
+     * This function gets Country ID by Division ID.
+     * @param inputDivisionID
+     * @return
+     * @throws SQLException
+     */
     public static int getCountryIDbyDivisionID(int inputDivisionID) throws SQLException {
         int outputCountryID = 0;
         String sql = "SELECT * FROM first_level_divisions WHERE Division_ID = ?";
@@ -112,6 +141,4 @@ public class FirstLevelDivisionsQuery {
         }
         return outputCountryID;
     }
-
-
 }
