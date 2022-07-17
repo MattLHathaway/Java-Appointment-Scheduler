@@ -50,6 +50,8 @@ public class CustomersMenuController implements Initializable {
     public Button logoutButton;
     public Button appointmentsNavButton;
     public Button reportsNavButton;
+    public Button applyCountryButton;
+    public Label customMessageLabel;
 
 
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -60,6 +62,8 @@ public class CustomersMenuController implements Initializable {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+        
+        customMessageLabel.setText("");
     }
 
     public void populateCustomersTable() throws SQLException {
@@ -122,6 +126,8 @@ public class CustomersMenuController implements Initializable {
                 allDivisionsObjects.forEach(FirstLevelDivisions -> allDivisions.add(FirstLevelDivisions.getDivision()));
                 customerStateProvincePicker.setItems(allDivisions);
                 customerStateProvincePicker.setValue(divisionName);
+
+                customMessageLabel.setText("");
 
             } catch (SQLException e) {
                 throw new RuntimeException(e);
@@ -239,6 +245,7 @@ public class CustomersMenuController implements Initializable {
         //Check for selected customer from table
         if (customerTable.getSelectionModel() != null) {
             //Make sure the Customer didn't have any Appointments
+            String name = String.valueOf(customerTable.getSelectionModel().getSelectedItem().getCustomerName());
             int selectedCustomerID = customerTable.getSelectionModel().getSelectedItem().getCustomerID();
             ObservableList<Appointment> apptList = AppointmentQuery.getAppointmentListByCustomerID(selectedCustomerID);
             if (apptList.size() == 0) {
@@ -255,6 +262,7 @@ public class CustomersMenuController implements Initializable {
                 if (result.orElse(cancel) == delete) {
                     int customerFromTable = customerTable.getSelectionModel().getSelectedItem().getCustomerID();
                     CustomerQuery.deleteCustomerByID(customerFromTable);
+                    customMessageLabel.setText(name + " was deleted from the database!");
                 }
             } else {
                 AlertMessageController.partError(3, null);

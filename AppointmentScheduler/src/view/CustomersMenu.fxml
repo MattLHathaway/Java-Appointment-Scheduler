@@ -72,5 +72,6 @@
       </Button>
       <Button fx:id="applyCountryButton" layoutX="700.0" layoutY="395.0" mnemonicParsing="false" onAction="#onCountryChosen" text="Apply Country" />
       <Line endX="45.0" endY="-23.0" layoutX="700.0" layoutY="451.0" startX="-4.0" startY="-3.0" />
+      <Label fx:id="customMessageLabel" layoutX="875.0" layoutY="360.0" text="Custome Messages go here" />
    </children>
 </AnchorPane>

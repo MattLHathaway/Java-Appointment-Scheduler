@@ -66,9 +66,11 @@ public class MainMenu implements Initializable {
     public ChoiceBox apptCustomerIDChoicebox;
     public ChoiceBox startTimeChoiceBox;
     public ChoiceBox endTimeChoicebox;
+    public Label customMessageLabel;
 
     public void initialize(URL url, ResourceBundle resourceBundle) {
         System.out.println("We are at the Main Menu!");
+        customMessageLabel.setText("");
         setTimeZoneText();
         try {
             populateTable();
@@ -159,6 +161,8 @@ public class MainMenu implements Initializable {
 
     public void onDeleteButtonPressed(ActionEvent event) throws Exception {
         //Check for selected appointment from appt table
+        String appointmentID = String.valueOf(table.getSelectionModel().getSelectedItem().getApptID());
+        String appointmentType = table.getSelectionModel().getSelectedItem().getType();
         if (table.getSelectionModel() != null) {
             //Create "ARE YOU SURE?" Alert Box
             ButtonType delete = new ButtonType("Delete", ButtonBar.ButtonData.OK_DONE);
@@ -173,6 +177,7 @@ public class MainMenu implements Initializable {
             if (result.orElse(cancel) == delete) {
                 int deleteApptID = table.getSelectionModel().getSelectedItem().getApptID();
                 AppointmentQuery.deleteByID(deleteApptID);
+                customMessageLabel.setText("Deleted Appointment: ID: " + appointmentID + " Type: " + appointmentType);
             }
         }
         //Refresh the Table
@@ -345,6 +350,7 @@ public class MainMenu implements Initializable {
                 startTimeChoiceBox.setValue(startTimeFormatted.substring(0,5));
                 endTimeChoicebox.setValue(endTimeFormatted.substring(0,5));
 
+                customMessageLabel.setText("");
             }
         });
     }

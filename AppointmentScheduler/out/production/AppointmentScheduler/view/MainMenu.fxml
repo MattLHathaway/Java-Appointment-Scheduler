@@ -97,5 +97,6 @@
       <ChoiceBox fx:id="apptCustomerIDChoicebox" layoutX="398.0" layoutY="449.0" prefWidth="150.0" />
       <ChoiceBox fx:id="startTimeChoiceBox" layoutX="398.0" layoutY="373.0" prefWidth="150.0" />
       <ChoiceBox fx:id="endTimeChoicebox" layoutX="669.0" layoutY="373.0" prefWidth="150.0" />
+      <Label fx:id="customMessageLabel" layoutX="978.0" layoutY="346.0" text="Custom Message is displayed here" />
    </children>
 </AnchorPane>
