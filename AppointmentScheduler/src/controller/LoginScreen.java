@@ -21,9 +21,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
+import java.time.*;
 import java.util.Locale;
 import java.util.Objects;
 import java.util.ResourceBundle;
@@ -60,7 +58,9 @@ public class LoginScreen implements Initializable {
         applyTimeZone();
         ResourceBundle rb = ResourceBundle.getBundle("en_lang");
 
-//        System.out.println(TimeUtility.convertToUTC("2022-07-15 15:00:00"));
+        System.out.println(TimeUtility.getTimeOffset());
+
+//        System.out.println(TimeUtility.convertToEST("2022-07-18 15:00:00"));
 
     }
 

@@ -17,6 +17,7 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import main.TimeUtility;
 import model.Appointment;
 import model.Contact;
 import model.Customer;
@@ -78,6 +79,10 @@ public class AddAppointmentScreenController implements Initializable {
         String formattedEndTime = addApptEndDatePicker.getValue() + " " + addApptEndTimeChoicebox.getValue() + ":00";
         String formattedCreateTime = java.time.LocalDate.now() + " " + java.time.LocalTime.now();
 
+        String formattedStartTimeToUTC = TimeUtility.convertToUTC(formattedStartTime);
+        String formattedEndTimeToUTC = TimeUtility.convertToUTC(formattedEndTime);
+        formattedCreateTime = TimeUtility.convertToUTC(formattedCreateTime);
+
         //Turning Names into IDs for the Table
         String customerID = (String) addApptCustomerIDChoicebox.getValue();
         int customerIdByName = CustomerQuery.getIDbyName(String.valueOf(customerID));
@@ -94,8 +99,8 @@ public class AddAppointmentScreenController implements Initializable {
                 addApptDescriptionField.getText(),
                 addApptLocationField.getText(),
                 addApptTypeField.getText(),
-                formattedStartTime,
-                formattedEndTime,
+                formattedStartTimeToUTC,
+                formattedEndTimeToUTC,
                 formattedCreateTime,
                 "script",
                 formattedCreateTime,
@@ -169,9 +174,12 @@ public class AddAppointmentScreenController implements Initializable {
         addApptContactChoicebox.setItems(allContactNames);
 
         //Adding All existing Appointment Times
+        Double offsetToUTC = TimeUtility.getTimeOffset();
+        int offsetToEST = (int) (offsetToUTC - 4);
+
         ObservableList<String> appointmentTimes = FXCollections.observableArrayList();
-        LocalTime firstAppointment = LocalTime.MIN.plusHours(8); //8am
-        LocalTime lastAppointment = LocalTime.MAX.minusHours(1).minusMinutes(45); //10pm
+        LocalTime firstAppointment = LocalTime.MIN.plusHours(8); //8am EST
+        LocalTime lastAppointment = LocalTime.MAX.minusHours(1).minusMinutes(45); //10pm EST
 
         if (!firstAppointment.equals(0) || !lastAppointment.equals(0)) {
             while (firstAppointment.isBefore(lastAppointment)) {
