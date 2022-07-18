@@ -79,9 +79,9 @@ public class AddAppointmentScreenController implements Initializable {
         String formattedEndTime = addApptEndDatePicker.getValue() + " " + addApptEndTimeChoicebox.getValue() + ":00";
         String formattedCreateTime = java.time.LocalDate.now() + " " + java.time.LocalTime.now();
 
-        String formattedStartTimeToUTC = TimeUtility.convertToUTC(formattedStartTime);
-        String formattedEndTimeToUTC = TimeUtility.convertToUTC(formattedEndTime);
-        formattedCreateTime = TimeUtility.convertToUTC(formattedCreateTime);
+        String formattedStartTimeToUTC = TimeUtility.convertToUTCfromEST(formattedStartTime);
+        String formattedEndTimeToUTC = TimeUtility.convertToUTCfromEST(formattedEndTime);
+        String formattedCreateTimeUTC = TimeUtility.convertToUTCfromEST(formattedCreateTime);
 
         //Turning Names into IDs for the Table
         String customerID = (String) addApptCustomerIDChoicebox.getValue();
@@ -101,7 +101,7 @@ public class AddAppointmentScreenController implements Initializable {
                 addApptTypeField.getText(),
                 formattedStartTimeToUTC,
                 formattedEndTimeToUTC,
-                formattedCreateTime,
+                formattedCreateTimeUTC,
                 "script",
                 formattedCreateTime,
                 "script",
@@ -175,7 +175,8 @@ public class AddAppointmentScreenController implements Initializable {
 
         //Adding All existing Appointment Times
         Double offsetToUTC = TimeUtility.getTimeOffset();
-        int offsetToEST = (int) (offsetToUTC - 4);
+        int offsetToEST = offsetToUTC.intValue();
+        offsetToEST = offsetToEST - 4;
 
         ObservableList<String> appointmentTimes = FXCollections.observableArrayList();
         LocalTime firstAppointment = LocalTime.MIN.plusHours(8); //8am EST

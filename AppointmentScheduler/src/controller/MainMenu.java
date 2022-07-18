@@ -12,6 +12,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
+import main.TimeUtility;
 import model.Appointment;
 import model.Contact;
 import model.Customer;
@@ -112,8 +113,11 @@ public class MainMenu implements Initializable {
                 Appointment selectedAppointment = table.getSelectionModel().getSelectedItem();
 
                 //Variables for formatting
-                String startFormatted = apptStartDatePicker.getValue() + " " + startTimeChoiceBox.getValue();
-                String endFormatted = apptEndDatePicker.getValue() + " " + endTimeChoicebox.getValue();
+                String startFormatted = apptStartDatePicker.getValue() + " " + startTimeChoiceBox.getValue() + ":00";
+                String endFormatted = apptEndDatePicker.getValue() + " " + endTimeChoicebox.getValue() + ":00";
+
+                String startFormattedUTC = TimeUtility.convertToUTC(startFormatted);
+                String endFormattedUTC = TimeUtility.convertToUTC(endFormatted);
 
                 //Translating the Usernames into IDs for DB storage
                 String customerID = (String) apptCustomerIDChoicebox.getValue();
@@ -131,8 +135,8 @@ public class MainMenu implements Initializable {
                 selectedAppointment.setLocation(apptLocationField.getText());
                 selectedAppointment.setType(apptTypeField.getText());
                 selectedAppointment.setCustomerID(customerIdByName);
-                selectedAppointment.setStartTime(startFormatted + ":00");
-                selectedAppointment.setEndTime(endFormatted + ":00");
+                selectedAppointment.setStartTime(startFormattedUTC);
+                selectedAppointment.setEndTime(endFormattedUTC);
                 selectedAppointment.setUserID(contactIdByName);
                 selectedAppointment.setContactID(usersIdByName);
 

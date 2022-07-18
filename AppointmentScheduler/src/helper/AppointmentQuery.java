@@ -2,6 +2,7 @@ package helper;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import main.TimeUtility;
 import model.Appointment;
 
 import java.sql.*;
@@ -130,7 +131,7 @@ public abstract class AppointmentQuery {
             int customerID = rs.getInt("Customer_ID");
             int userID = rs.getInt("User_ID");
             int contactID = rs.getInt("Contact_ID");
-            Appointment appointment = new Appointment(appointmentID, title, description, location, type, start, end, createDate, createdBy, lastUpdate, lastUpdatedBy, customerID, userID, contactID);
+            Appointment appointment = new Appointment(appointmentID, title, description, location, type, TimeUtility.convertUTCtoLocal(start), TimeUtility.convertUTCtoLocal(end), TimeUtility.convertUTCtoLocal(createDate), createdBy, TimeUtility.convertUTCtoLocal(lastUpdate), lastUpdatedBy, customerID, userID, contactID);
             AppointmentList.add(appointment);
         }
         return AppointmentList;
