@@ -118,16 +118,15 @@ public class AddAppointmentScreenController implements Initializable {
                 contactIdByName
         );
 
-//        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        //Variables used for Overlap Check
         boolean overlaps = false;
 
         String newAppointmentStartTime = newAppointment.getStartTime();
         String newAppointmentEndTime = newAppointment.getEndTime();
         int newAppointmentCustomerID = newAppointment.getCustomerID();
 
-        System.out.println("About to make Call");
+        //This is our Overlap Check
         overlaps = doesAppointmentOverlap(newAppointmentStartTime, newAppointmentEndTime, newAppointmentCustomerID);
-        System.out.println("Made the call");
 
         if (!overlaps) {
             //Add Object to DB

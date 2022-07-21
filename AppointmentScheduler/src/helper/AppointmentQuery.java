@@ -167,6 +167,32 @@ public abstract class AppointmentQuery {
         return overlaps;
     }
 
+    public static boolean doesAppointmentOverlapForModification(String possibleAppointmentStartDateTime, String possibleAppointmentEndDateTime, int inputCustID, int inputApptID) throws SQLException {
+        System.out.println("Inside doesAppointmentOverlap");
+        System.out.println(possibleAppointmentStartDateTime);
+        System.out.println(possibleAppointmentEndDateTime);
+        boolean overlaps = false;
+        String sql = "select count(*) as cnt from (\n" +
+                "select Appointment_ID FROM appointments\n" +
+                "WHERE '" + possibleAppointmentStartDateTime + "' < end\n" +
+                "  AND '" + possibleAppointmentEndDateTime + "' > start\n" +
+                "  AND Customer_ID = " + inputCustID + " \n" +
+                "  AND Appointment_ID != " + inputApptID + " \n" +
+                ") t";
+        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+        System.out.println(inputCustID);
+        System.out.println(sql);
+        ResultSet rs = ps.executeQuery();
+        while(rs.next()) {
+            int cnt = rs.getInt("cnt");
+            if (cnt >= 1) {
+                overlaps = true;
+            }
+        }
+        System.out.println(overlaps);
+        return overlaps;
+    }
+
 
     public static boolean checkAppointmentsWithinFifteenMinutes() throws SQLException {
 

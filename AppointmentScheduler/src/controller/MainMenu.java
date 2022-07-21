@@ -141,24 +141,44 @@ public class MainMenu implements Initializable {
                 selectedAppointment.setContactID(usersIdByName);
 
                 System.out.println(selectedAppointment.getStartTime());
+                //Check for overlap
+                boolean overlaps = false;
+                String modifiedAppointmentStartTime = selectedAppointment.getStartTime();
+                String modifiedAppointmentEndTime = selectedAppointment.getEndTime();
+                int modifiedAppointmentCustomerID = selectedAppointment.getCustomerID();
+                int modifiedAppointmentApptID = selectedAppointment.getApptID();
 
-                //Push updated Info to DB
-                AppointmentQuery.update(selectedAppointment.getApptID(),
-                        selectedAppointment.getTitle(),
-                        selectedAppointment.getDescription(),
-                        selectedAppointment.getLocation(),
-                        selectedAppointment.getType(),
-                        selectedAppointment.getStartTime(),
-                        selectedAppointment.getEndTime(),
-                        selectedAppointment.getCreateDate(),
-                        selectedAppointment.getCreatedBy(),
-                        selectedAppointment.getLastUpdate(),
-                        selectedAppointment.getLastUpdatedBy(),
-                        selectedAppointment.getCustomerID(),
-                        selectedAppointment.getUserID(),
-                        selectedAppointment.getContactID());
+                overlaps = AppointmentQuery.doesAppointmentOverlapForModification(modifiedAppointmentStartTime, modifiedAppointmentEndTime, modifiedAppointmentCustomerID, modifiedAppointmentApptID);
 
-                System.out.println("Appointment Modified!");
+                if (!overlaps) {
+                    //Push updated Info to DB
+                    AppointmentQuery.update(selectedAppointment.getApptID(),
+                            selectedAppointment.getTitle(),
+                            selectedAppointment.getDescription(),
+                            selectedAppointment.getLocation(),
+                            selectedAppointment.getType(),
+                            selectedAppointment.getStartTime(),
+                            selectedAppointment.getEndTime(),
+                            selectedAppointment.getCreateDate(),
+                            selectedAppointment.getCreatedBy(),
+                            selectedAppointment.getLastUpdate(),
+                            selectedAppointment.getLastUpdatedBy(),
+                            selectedAppointment.getCustomerID(),
+                            selectedAppointment.getUserID(),
+                            selectedAppointment.getContactID());
+
+                    System.out.println("Appointment Modified!");
+
+                    //Switch Screen Logic
+                    Parent root = FXMLLoader.load(getClass().getResource("/view/MainMenu.fxml"));
+                    Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                    Scene scene = new Scene(root);
+                    stage.setScene(scene);
+                    stage.show();
+                }
+                else {
+                    AlertMessageController.partError(5, null);
+                }
             }
         }
 
