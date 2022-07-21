@@ -140,6 +140,8 @@ public class MainMenu implements Initializable {
                 selectedAppointment.setUserID(contactIdByName);
                 selectedAppointment.setContactID(usersIdByName);
 
+                System.out.println(selectedAppointment.getStartTime());
+
                 //Push updated Info to DB
                 AppointmentQuery.update(selectedAppointment.getApptID(),
                         selectedAppointment.getTitle(),

@@ -28,11 +28,11 @@ public class AlertMessageController {
                 break;
             }
             case 4: {
-                alert.setContentText("Name is invalid!");
+                alert.setContentText("You have an Appointment within 15 minutes!");
                 break;
             }
             case 5: {
-                alert.setContentText("Value cannot be negative!");
+                alert.setContentText("This Appointment Time is already taken!");
                 break;
             }
 

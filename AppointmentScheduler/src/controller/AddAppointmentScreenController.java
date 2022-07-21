@@ -26,10 +26,14 @@ import model.Users;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalTime;
-import java.util.Objects;
+import java.util.Date;
 import java.util.ResourceBundle;
-import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicBoolean;
+
+import static helper.AppointmentQuery.doesAppointmentOverlap;
 
 /**
  * This class is the controller for the AddAppointmentScreen.fxml.  It's main purpose is to allow the user to add new
@@ -66,13 +70,17 @@ public class AddAppointmentScreenController implements Initializable {
 
     }
 
+    public static boolean isOverlapping(Date start1, Date end1, Date start2, Date end2) {
+        return !start1.after(end2) && !start2.after(end1);
+    }
+
     /**
      * Triggered once the save button is clicked, this function saves all user input data as a new Appointment.
      * @param event
      * @throws IOException
      * @throws SQLException
      */
-    public void saveButtonPressed(ActionEvent event) throws IOException, SQLException {
+    public void saveButtonPressed(ActionEvent event) throws IOException, SQLException, ParseException {
         //Variables and Time String Formatting
         int uniqueID = createUniqueAppointmentID();
         String formattedStartTime = addApptStartDatePicker.getValue() + " " + addApptStartTimeChoicebox.getValue() + ":00";
@@ -108,29 +116,46 @@ public class AddAppointmentScreenController implements Initializable {
                 customerIdByName,
                 usersIdByName,
                 contactIdByName
-                );
-        //Add Object to DB
-        AppointmentQuery.insert(newAppointment.getApptID(),
-                newAppointment.getTitle(),
-                newAppointment.getDescription(),
-                newAppointment.getLocation(),
-                newAppointment.getType(),
-                newAppointment.getStartTime(),
-                newAppointment.getEndTime(),
-                newAppointment.getCreateDate(),
-                newAppointment.getCreatedBy(),
-                newAppointment.getLastUpdate(),
-                newAppointment.getLastUpdatedBy(),
-                newAppointment.getCustomerID(),
-                newAppointment.getUserID(),
-                newAppointment.getContactID());
+        );
 
-        //Switch Screen Logic
-        Parent root = FXMLLoader.load(getClass().getResource("/view/MainMenu.fxml"));
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        Scene scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
+//        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        boolean overlaps = false;
+
+        String newAppointmentStartTime = newAppointment.getStartTime();
+        String newAppointmentEndTime = newAppointment.getEndTime();
+        int newAppointmentCustomerID = newAppointment.getCustomerID();
+
+        System.out.println("About to make Call");
+        overlaps = doesAppointmentOverlap(newAppointmentStartTime, newAppointmentEndTime, newAppointmentCustomerID);
+        System.out.println("Made the call");
+
+        if (!overlaps) {
+            //Add Object to DB
+            AppointmentQuery.insert(newAppointment.getApptID(),
+                    newAppointment.getTitle(),
+                    newAppointment.getDescription(),
+                    newAppointment.getLocation(),
+                    newAppointment.getType(),
+                    newAppointment.getStartTime(),
+                    newAppointment.getEndTime(),
+                    newAppointment.getCreateDate(),
+                    newAppointment.getCreatedBy(),
+                    newAppointment.getLastUpdate(),
+                    newAppointment.getLastUpdatedBy(),
+                    newAppointment.getCustomerID(),
+                    newAppointment.getUserID(),
+                    newAppointment.getContactID());
+
+            //Switch Screen Logic
+            Parent root = FXMLLoader.load(getClass().getResource("/view/MainMenu.fxml"));
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.show();
+        }
+        else {
+            AlertMessageController.partError(5, null);
+        }
     }
 
     /**

@@ -1,5 +1,6 @@
 package controller;
 
+import helper.AppointmentQuery;
 import helper.UsersQuery;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -14,6 +15,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import main.TimeUtility;
+import model.Appointment;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -22,11 +24,14 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.sql.Time;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.*;
-import java.util.Locale;
-import java.util.Objects;
-import java.util.ResourceBundle;
-import java.util.TimeZone;
+import java.util.*;
+import java.util.concurrent.atomic.AtomicBoolean;
+
+import static helper.AppointmentQuery.checkAppointmentsWithinFifteenMinutes;
+import static helper.AppointmentQuery.doesAppointmentOverlap;
 
 /**
  * The LoginScreen is used to allow or deny a user entry to the rest of the program
@@ -61,9 +66,42 @@ public class LoginScreen implements Initializable {
 
 
 
-//        System.out.println(TimeUtility.convertToUTC("2022-07-18 09:00:00"));
-//        System.out.println(TimeUtility.convertToUTCfromEST("2022-07-18 08:00:00"));
-        System.out.println(TimeUtility.convertUTCtoLocal("2022-07-18 13:00:00"));
+//        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+//        AtomicBoolean overlaps = new AtomicBoolean(false);
+//        Date start1 = null;
+//        Date end1 = null;
+//        try {
+//            start1 = format.parse("2022-07-20 08:00:00");
+//            end1 = format.parse("2022-07-20 12:00:00");
+//        } catch (ParseException e) {
+//            throw new RuntimeException(e);
+//        }
+//
+//        ObservableList<Appointment> allAppointmentsList = null;
+//        try {
+//            allAppointmentsList = AppointmentQuery.getAppointmentList();
+//        } catch (SQLException e) {
+//            throw new RuntimeException(e);
+//        }
+
+//        Date finalStart = start1;
+//        Date finalEnd = end1;
+//        allAppointmentsList.forEach(Appointment -> {
+//            try {
+//                Date start2 = format.parse(Appointment.getStartTime());
+//                Date end2 = format.parse(Appointment.getEndTime());
+//                if(TimeUtility.isOverlappingBudding(finalStart, finalEnd, start2, end2)) {
+//                    overlaps.set(true);
+//                    System.out.println("IF Triggered");
+//                } else {
+//                    System.out.println("ELSE Triggered");
+//                }
+//            } catch (ParseException e) {
+//                throw new RuntimeException(e);
+//            }
+//        });
+//        System.out.println(overlaps.get());
+
 
     }
 
@@ -167,6 +205,11 @@ public class LoginScreen implements Initializable {
             br.write("Successful Login by " + userName + " at " + currentDateTime + "\n");
             br.close();
             fr.close();
+
+            //Check for Appointments
+            if(checkAppointmentsWithinFifteenMinutes()) {
+                AlertMessageController.partError(4, null);
+            }
 
             //Switch Screen Logic
             Parent root = FXMLLoader.load(getClass().getResource("/view/MainMenu.fxml"));

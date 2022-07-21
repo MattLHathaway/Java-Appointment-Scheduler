@@ -4,6 +4,7 @@ import java.sql.Timestamp;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
+import java.util.Date;
 import java.util.TimeZone;
 
 /**
@@ -85,5 +86,15 @@ public class TimeUtility {
         double offsetHours = ((double) offsetMinutes) / 60;
 
         return offsetHours;
+    }
+
+    public static boolean isOverlapping(Date start1, Date end1, Date start2, Date end2) {
+        return !start1.after(end2) && !start2.after(end1);
+    }
+
+    public static boolean isOverlappingBudding(Date start1, Date end1, Date start2, Date end2) {
+        return
+                ((null == end2) || start1.before(end2)) &&
+                        ((null == end1) || start2.before(end1)) ;
     }
 }

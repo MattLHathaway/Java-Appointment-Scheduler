@@ -6,6 +6,9 @@ import main.TimeUtility;
 import model.Appointment;
 
 import java.sql.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * This class allows us to pull Appointment Information from our database.
@@ -135,6 +138,57 @@ public abstract class AppointmentQuery {
             AppointmentList.add(appointment);
         }
         return AppointmentList;
+    }
+    //2022-07-20 14:10:00
+    //2022-07-20 15:20:00
+
+    public static boolean doesAppointmentOverlap(String possibleAppointmentStartDateTime, String possibleAppointmentEndDateTime, int inputApptID) throws SQLException {
+        System.out.println("Inside doesAppointmentOverlap");
+        System.out.println(possibleAppointmentStartDateTime);
+        System.out.println(possibleAppointmentEndDateTime);
+        boolean overlaps = false;
+        String sql = "select count(*) as cnt from (\n" +
+                "select Appointment_ID FROM appointments\n" +
+                "WHERE '" + possibleAppointmentStartDateTime + "' < end\n" +
+                "  AND '" + possibleAppointmentEndDateTime + "' > start\n" +
+                "  AND Customer_ID = " + inputApptID + " \n" +
+                ") t";
+        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+        System.out.println(inputApptID);
+        System.out.println(sql);
+        ResultSet rs = ps.executeQuery();
+        while(rs.next()) {
+            int cnt = rs.getInt("cnt");
+            if (cnt >= 1) {
+                overlaps = true;
+            }
+        }
+        System.out.println(overlaps);
+        return overlaps;
+    }
+
+
+    public static boolean checkAppointmentsWithinFifteenMinutes() throws SQLException {
+
+        boolean withinFifteenMinutes = false;
+        String sql = "select count(*) as num_recs from (\n" +
+                "select appointment_id\n" +
+                "from appointments \n" +
+                "where start between sysdate() and (sysdate() + INTERVAL 15 MINUTE) group by Appointment_ID\n" +
+                ") t";
+        System.out.println(sql);
+        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+        ResultSet rs = ps.executeQuery();
+        while(rs.next()) {
+            int num_recs = rs.getInt("num_recs");
+            System.out.println(num_recs);
+            if (num_recs >= 1) {
+                System.out.println("num_recs >= 1");
+                withinFifteenMinutes = true;
+            }
+        }
+        System.out.println(withinFifteenMinutes);
+        return withinFifteenMinutes;
     }
 
     /**
