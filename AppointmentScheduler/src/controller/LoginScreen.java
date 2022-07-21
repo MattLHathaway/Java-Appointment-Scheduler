@@ -9,10 +9,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 import main.TimeUtility;
 import model.Appointment;
@@ -27,11 +24,11 @@ import java.sql.Time;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.*;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import static helper.AppointmentQuery.checkAppointmentsWithinFifteenMinutes;
-import static helper.AppointmentQuery.doesAppointmentOverlap;
+import static helper.AppointmentQuery.*;
 
 /**
  * The LoginScreen is used to allow or deny a user entry to the rest of the program
@@ -52,8 +49,10 @@ public class LoginScreen implements Initializable {
     public Button languageChangeButton;
     private Stage stage;
     private Scene scene;
+    private Parent root;
     private ObservableList<String> allPW;
     private ObservableList<String> allUN;
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -63,44 +62,6 @@ public class LoginScreen implements Initializable {
         setAppLanguage();
         applyTimeZone();
         ResourceBundle rb = ResourceBundle.getBundle("en_lang");
-
-
-
-//        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-//        AtomicBoolean overlaps = new AtomicBoolean(false);
-//        Date start1 = null;
-//        Date end1 = null;
-//        try {
-//            start1 = format.parse("2022-07-20 08:00:00");
-//            end1 = format.parse("2022-07-20 12:00:00");
-//        } catch (ParseException e) {
-//            throw new RuntimeException(e);
-//        }
-//
-//        ObservableList<Appointment> allAppointmentsList = null;
-//        try {
-//            allAppointmentsList = AppointmentQuery.getAppointmentList();
-//        } catch (SQLException e) {
-//            throw new RuntimeException(e);
-//        }
-
-//        Date finalStart = start1;
-//        Date finalEnd = end1;
-//        allAppointmentsList.forEach(Appointment -> {
-//            try {
-//                Date start2 = format.parse(Appointment.getStartTime());
-//                Date end2 = format.parse(Appointment.getEndTime());
-//                if(TimeUtility.isOverlappingBudding(finalStart, finalEnd, start2, end2)) {
-//                    overlaps.set(true);
-//                    System.out.println("IF Triggered");
-//                } else {
-//                    System.out.println("ELSE Triggered");
-//                }
-//            } catch (ParseException e) {
-//                throw new RuntimeException(e);
-//            }
-//        });
-//        System.out.println(overlaps.get());
 
 
     }
@@ -206,12 +167,51 @@ public class LoginScreen implements Initializable {
             br.close();
             fr.close();
 
-            //Check for Appointments
-            if(checkAppointmentsWithinFifteenMinutes()) {
-                AlertMessageController.partError(4, null);
+            //Check for Appointments within 15 minutes
+            ObservableList<Appointment> allAppointments = getAppointmentList();
+            LocalDateTime currentTimeMinus15Min = LocalDateTime.now().minusMinutes(15);
+            LocalDateTime currentTimePlus15Min = LocalDateTime.now().plusMinutes(15);
+            LocalDateTime startTime = null;
+            int getAppointmentID = 0;
+            LocalDateTime displayTime = null;
+            boolean appointmentWithin15Min = false;
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
+
+            for (Appointment appointment: allAppointments) {
+
+                startTime = LocalDateTime.parse(appointment.getStartTime(), formatter);
+                if ((startTime.isAfter(currentTimeMinus15Min) || startTime.isEqual(currentTimeMinus15Min)) && (startTime.isBefore(currentTimePlus15Min) || (startTime.isEqual(currentTimePlus15Min)))) {
+                    getAppointmentID = appointment.getApptID();
+                    displayTime = startTime;
+                    appointmentWithin15Min = true;
+                }
+            }
+            if (appointmentWithin15Min !=false) {
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Appointment Within 15 Minutes: Appointment ID: " + getAppointmentID + " and Appointment Start Time Of: " + displayTime);
+                Optional<ButtonType> confirmation = alert.showAndWait();
+                System.out.println("There is an appointment within 15 minutes");
             }
 
-            //Switch Screen Logic
+            else {
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "No upcoming appointments.");
+                Optional<ButtonType> confirmation = alert.showAndWait();
+                System.out.println("no upcoming appointments");
+
+                //Setting custom message on the MainMenu Controller and Switching Screens
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/MainMenu.fxml"));
+                root = loader.load();
+
+                MainMenu mainMenuController = loader.getController();
+                mainMenuController.customMessageLabel.setText("There are currently no appointments within 15 minutes!");
+
+                stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+                scene = new Scene(root);
+                stage.setScene(scene);
+                stage.show();
+            }
+
+            //Switching Screens
             Parent root = FXMLLoader.load(getClass().getResource("/view/MainMenu.fxml"));
             stage = (Stage)((Node)event.getSource()).getScene().getWindow();
             scene = new Scene(root);

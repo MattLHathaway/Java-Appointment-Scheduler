@@ -194,9 +194,9 @@ public abstract class AppointmentQuery {
     }
 
 
-    public static boolean checkAppointmentsWithinFifteenMinutes() throws SQLException {
+    public static int checkAppointmentsWithinFifteenMinutes() throws SQLException {
 
-        boolean withinFifteenMinutes = false;
+        int apptIDforApptFifteenMinsAway = 0;
         String sql = "select count(*) as num_recs from (\n" +
                 "select appointment_id\n" +
                 "from appointments \n" +
@@ -210,11 +210,11 @@ public abstract class AppointmentQuery {
             System.out.println(num_recs);
             if (num_recs >= 1) {
                 System.out.println("num_recs >= 1");
-                withinFifteenMinutes = true;
+                apptIDforApptFifteenMinsAway = 2;
             }
         }
-        System.out.println(withinFifteenMinutes);
-        return withinFifteenMinutes;
+        System.out.println(apptIDforApptFifteenMinsAway);
+        return apptIDforApptFifteenMinsAway;
     }
 
     /**
